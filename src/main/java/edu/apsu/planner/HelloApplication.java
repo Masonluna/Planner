@@ -1,16 +1,15 @@
 package edu.apsu.planner;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class HelloApplication extends Application {
+
     @Override
     public void start(Stage stage) {
         VBox root = new VBox();
@@ -19,7 +18,7 @@ public class HelloApplication extends Application {
         root.getChildren().add(helloLabel);
 
         Scene scene = new Scene(root, 320, 240);
-        stage.setTitle("Hello!");
+        stage.setTitle("Hello Git!!");
         stage.setScene(scene);
         stage.show();
     }

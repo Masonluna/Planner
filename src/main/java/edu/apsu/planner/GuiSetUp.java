@@ -33,6 +33,7 @@ public class GuiSetUp extends Application {
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("File");
+        MenuItem newMenuItem = new MenuItem("New");
         MenuItem openMenuItem = new MenuItem("Open");
 
 
@@ -42,7 +43,7 @@ public class GuiSetUp extends Application {
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setOnAction(e -> Platform.exit());
-        fileMenu.getItems().addAll(openMenuItem, saveMenuItem, separatorMenuItem, exitMenuItem);
+        fileMenu.getItems().addAll(newMenuItem,openMenuItem, saveMenuItem, separatorMenuItem, exitMenuItem);
         menuBar.getMenus().add(fileMenu);
 
         Menu addMenu = new Menu("Add Items");

@@ -1,0 +1,73 @@
+﻿Planner Application Requirements
+
+Team members
+Samantha Cook, Mason Luna, & April Romeo
+
+Purpose
+The purpose of the Planner Application is to create an application which is designed for any person that has a busy schedule and needs help keeping track of dates, deadlines, work, etc. This project will create an application which allows users to input any task, assignment, or schedule into their own personal weekly or monthly calendar. This will allow the user to then print or save the planner. The overall goal of the Planner Application is to help users keep track of anything that goes on in their weekly lives. 
+Requirements
+
+    1. Name: add_plannerEvent
+Type: functional
+Summary: Users will be able to add events into their planner. This will be any type of event that the user does not want to reoccur on their planner. 
+
+
+    2. Name: add_classSchedule
+Type: functional
+Summary: Users will be able to input their class schedule in one place and add it to the planner after inputting it all once. This allows for a quick set up of events that the user has multiple times per week or month. 
+
+
+    3. Name: add_workSchedule
+Type: functional
+Summary: Users will be able to input their work schedule in one place and add it to the planner after inputting it all once. This allows for a quick set up of events that the user has multiple times per week or month.
+
+
+    4. Name: add_customSchedule
+Type: functional
+Summary:  Users will be able to input their custom schedule in one place and add it to the planner after inputting it all once. This allows for a quick set up of events that the user has multiple times per week or month.This function is different from plannerEvents as this is for a recurring event, such as a weekly work meeting or church schedule. This feature is designed for any custom recurring event that is not a class or work schedule. The user will name this type of event.
+
+
+
+
+    5. Name: add_symbol
+Type: functional
+Summary: Event categories can be differentiated based on images instead of colors if the user chooses. The planner will have default colors on the calendar to represent events, the user can utilize the add_symbol feature instead if they choose. This feature will allow the user to choose from a group of preloaded symbols, choosing one that fits their planner event. 
+
+
+    6. Name: create_weekPlanner
+Type: functional
+Summary: Users will have the option of creating a planner for a period of one week. This allows users with changing schedules to plan out short periods of a time, in comparison to a month. The weekly planner will contain the events and schedules the users add, representing them with colors and symbols and have a brief description of each event. 
+
+
+    7. Name: create_monthPlanner
+Type: functional
+Summary: Users can create a month planner, this will allow for planning 4 weeks in advance compared to the weekly planner. This feature will function just like the week planner but will have an overview of one month instead of a week. The days will be displayed  in smaller squares meaning the days will only show symbols and colors that represent planner events.
+
+
+    8. Name: apply_filter
+Type: functional
+Summary: Users will have the ability to filter the view of their planner. The apply_filter function will allow users to view only one planner event or any combination of their planner events. This feature will be accessed by selecting and deselecting checkboxes.
+
+
+    9. Name: save_planner
+Type: functional
+Summary: Planner data will be saved to files on the users machine. This allows users to reopen their planner and continue editing.  
+
+
+   10. Name: platform_os
+Type: constraint
+Summary: The target platform operating system is Windows 10 or macOS, our software is being developed on Windows and macOS; therefore it will not be tested on Linux. It is possible that it will work for Linux, this is something we will not be testing. 
+
+
+   11. Name: export_to_pdf
+Type: functional
+Summary: Users will be able to export  the planner that they customized to a .pdf file. The export feature will allow users to export a week or month planner depending on what they customized in the Application. The .pdf file allows users to easily print, export, or share their planners. 
+
+   12. Name: day_detailed_view
+Type: functional
+Summary: Users that choose to create a month planner, will have access to a detailed day view. This feature will be on the right side of the user's screen when they are on the month planner. The day_detailed_view will look just like a column day from the week planner view. This feature will let users get a closer look at certain days on their month calendar. The feature will also include arrows which will allow the user to surf through the days on the calendar. 
+
+
+   13. Name:security_login
+Type: risk
+Summary: User log-in credentials will be created and stored in a file on the users machine. When logging in, the input in the log in fields will be checked against the information in the file. Users will only be able to load planners that were made under the same username.

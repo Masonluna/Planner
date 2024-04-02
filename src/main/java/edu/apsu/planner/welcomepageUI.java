@@ -43,7 +43,7 @@ public class welcomepageUI extends Application {
         root.setTop(welcomeLabel);
 
         //leftPane
-        String imageResource = getClass().getResource("UntitledDesign.png").toString();
+        String imageResource = getClass().getResource("logoImage.png").toString();
         ImageView displayImage = new ImageView(imageResource);
         Label imageView = new Label();
         BorderPane.setMargin(imageView, new Insets(10));

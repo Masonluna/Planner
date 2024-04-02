@@ -1,0 +1,28 @@
+package edu.apsu.planner.data;
+
+import java.util.ArrayList;
+
+public class WeekInfo {
+    // Instances
+    private ArrayList<DayInfo> days;
+
+    // Constructors
+    public WeekInfo() {
+        days = new ArrayList<>();
+    }
+
+    public WeekInfo(ArrayList<DayInfo> days) {
+        this.days = days;
+    }
+
+    // Methods
+    @Override
+    public String toString() {
+        return days.getFirst().toString() + " - " + days.getLast().toString();
+    }
+
+    // Accessors and Mutators
+    public ArrayList<DayInfo> getDays() {
+        return this.days;
+    }
+}

@@ -2,6 +2,7 @@ package edu.apsu.planner.view;
 
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
+import edu.apsu.planner.data.Type;
 import edu.apsu.planner.data.WeekInfo;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -146,34 +147,64 @@ public class monthViewUI extends Application {
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
+        Type classType = new Type("Class Schedule", null, true);
+        classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
+        classFilter.setOnMouseClicked(
+                e -> System.out.println(classType.getName() + " isVisible: " + classType.isVisible())
+        );
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
+        Type workType = new Type("Work Schedule", null, true);
+        workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
+        workFilter.setOnMouseClicked(
+                e -> System.out.println(workType.getName() + " isVisible: " + workType.isVisible())
+        );
 
         CheckBox customSchedFilter = new CheckBox("Custom Schedule");
         customSchedFilter.setFont(font2);
         customSchedFilter.setStyle("-fx-color: pink;");
         customSchedFilter.setSelected(true);
+        Type customSchedType= new Type("Custom Schedule", null, true);
+        customSchedFilter.selectedProperty().bindBidirectional(customSchedType.isVisibleProperty());
+        customSchedFilter.setOnMouseClicked(
+                e -> System.out.println(customSchedType.getName() + " isVisible: " + customSchedType.isVisible())
+        );
 
 
         CheckBox assignmentFilter = new CheckBox("Assignments Due");
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
+        Type assignmentType = new Type("Assignments Due", null, true);
+        assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
+        assignmentFilter.setOnMouseClicked(
+                e -> System.out.println(assignmentType.getName() + " isVisible: " + assignmentType.isVisible())
+        );
 
 
         CheckBox billFilter = new CheckBox("Bill Due");
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
+        Type billType = new Type("Bill Due", null, true);
+        billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
+        billFilter.setOnMouseClicked(
+                e -> System.out.println(billType.getName() + " isVisible: " + billType.isVisible())
+        );
 
 
         CheckBox customEventFilter = new CheckBox("Custom Events");
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
+        Type customEventType = new Type("Custom Events", null, true);
+        customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
+        customEventFilter.setOnMouseClicked(
+                e -> System.out.println(customEventType.getName() + " isVisible: " + customEventType.isVisible())
+        );
 
 
         leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, customSchedFilter, assignmentFilter, billFilter, customEventFilter);

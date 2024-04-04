@@ -1,5 +1,8 @@
 package edu.apsu.planner.data;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
 
 public class Type {
@@ -7,20 +10,19 @@ public class Type {
     // Instances
     private String name;
     private Image symbol;
-    private boolean isVisible;
+    private final BooleanProperty isVisible = new SimpleBooleanProperty();
 
 
     // Constructors
     public Type() {
         name = "";
         symbol = null;
-        isVisible = true;
     }
 
     public Type(String name, Image symbol, boolean isVisible) {
         this.name = name;
         this.symbol = symbol;
-        this.isVisible = isVisible;
+        this.isVisible.set(isVisible);
     }
 
 
@@ -43,11 +45,15 @@ public class Type {
         this.symbol = symbol;
     }
 
-    public boolean isVisible() {
+    public Property<Boolean> isVisibleProperty() {
         return isVisible;
     }
 
+    public boolean isVisible() {
+        return isVisible.get();
+    }
+
     public void setVisible(boolean visible) {
-        isVisible = visible;
+        isVisible.set(visible);
     }
 }

@@ -26,7 +26,7 @@ public class DayInfo {
     // Methods
     @Override
     public String toString() {
-        return this.monthName + ", " + dayOfMonth;
+        return this.date.getDayOfWeek() + ", " + this.monthName + " " + dayOfMonth;
     }
 
     // Accessors and Mutators

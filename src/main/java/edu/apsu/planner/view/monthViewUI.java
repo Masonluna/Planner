@@ -20,10 +20,20 @@ import java.time.LocalDate;
 
 public class monthViewUI extends Application {
 
+    // Size Constants
+    private final int GRID_PANE_NODE_HEIGHT = 100;
+    private final int GRID_PANE_NODE_WIDTH = 130;
+    private final int INSET_SIZE = 15;
+
+
+    // Data instances
     private LocalDate date = LocalDate.now();
     private MonthInfo[] months;
     private int currentMonthIndex;
+
+    // FX Node Instances
     private GridPane monthViewGridPane;
+    private Label dayLabel;
 
     public static void main(String[] args) {
         launch(args);
@@ -38,16 +48,17 @@ public class monthViewUI extends Application {
             months[i] = new MonthInfo(2024, date.getMonth().plus(i));
         }
 
-
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #B7B7B7;");
-        root.setPadding(new Insets(15));
-        root.setPrefSize(1250, 600);
+        root.setPrefSize(1375, 900);
+
 
         root.setTop(creatMenuBar());
         root.setLeft(createLeftPane());
         root.setCenter(createCenterPane());
         root.setRight(createRightPane());
+
+        BorderPane.setAlignment(root.getRight(), Pos.TOP_LEFT);
 
         Scene scene = new Scene(root);
         stage.setTitle("Planer Application");
@@ -101,7 +112,13 @@ public class monthViewUI extends Application {
         MenuItem billSymbol = new MenuItem("Bill symbol");
         MenuItem importSymbol = new MenuItem("Important symbol");
         MenuItem churchSymbol = new MenuItem("Church symbol");
-        insertSymbol.getItems().addAll(classSymbol, workSymbol, studySymbol, billSymbol, importSymbol, churchSymbol);
+        insertSymbol.getItems().addAll(
+                classSymbol,
+                workSymbol,
+                studySymbol,
+                billSymbol,
+                importSymbol,
+                churchSymbol);
         insertMenu.getItems().add(insertSymbol);
 
         menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu);
@@ -112,6 +129,7 @@ public class monthViewUI extends Application {
     public VBox createLeftPane() {
 
         VBox leftPaneVBox = new VBox();
+        leftPaneVBox.setPadding(new Insets(INSET_SIZE));
         leftPaneVBox.setSpacing(10);
 
 
@@ -166,23 +184,22 @@ public class monthViewUI extends Application {
 
     public VBox createCenterPane() {
 
+        // Initialize Layouts
         VBox centerPaneVBox = new VBox();
-        centerPaneVBox.setSpacing(10);
-
         HBox labelAndControl = new HBox();
+        monthViewGridPane = new GridPane();
+        centerPaneVBox.setPadding(new Insets(INSET_SIZE));
+        centerPaneVBox.setSpacing(10);
         labelAndControl.setSpacing(10);
+        labelAndControl.setMaxWidth(GRID_PANE_NODE_WIDTH * 7);
 
+        // Initialize Fonts
         Font font = new Font("Arial", 22);
         Font font2 = new Font("Arial", 40);
         Font font3 = new Font("Arial", 45);
 
 
-        Button leftArrowButton = new Button("<");
-        leftArrowButton.setFont(font3);
-        leftArrowButton.setPrefSize(150, 200);
-        leftArrowButton.setStyle("-fx-background-color: pink;");
-
-
+        // Instantiate monthLabel
         Label monthLabel = new Label(months[0].toString());
         currentMonthIndex = 0;
         monthLabel.setPrefSize(700, 100);
@@ -190,11 +207,12 @@ public class monthViewUI extends Application {
         monthLabel.setFont(font2);
 
 
-        Button rightArrowButton = new Button(">");
-        rightArrowButton.setStyle("-fx-background-color: pink;");
-        rightArrowButton.setFont(font3);
-        rightArrowButton.setPrefSize(150, 180);
 
+        // Instantiate Arrow Buttons
+        Button leftArrowButton = new Button("<");
+        leftArrowButton.setFont(font3);
+        leftArrowButton.setPrefSize(150, 100);
+        leftArrowButton.setStyle("-fx-background-color: pink;");
         leftArrowButton.setOnAction(
                 e -> {
                     if (currentMonthIndex == 0) {
@@ -207,6 +225,12 @@ public class monthViewUI extends Application {
                     createGridPane(months[currentMonthIndex]);
                 }
         );
+
+
+        Button rightArrowButton = new Button(">");
+        rightArrowButton.setStyle("-fx-background-color: pink;");
+        rightArrowButton.setFont(font3);
+        rightArrowButton.setPrefSize(150, 100);
         rightArrowButton.setOnAction(
                 e -> {
                     if (currentMonthIndex == months.length - 1) {
@@ -219,13 +243,12 @@ public class monthViewUI extends Application {
                 }
         );
 
+
+        // Add nodes and data to layouts
         labelAndControl.getChildren().addAll(leftArrowButton, monthLabel, rightArrowButton);
-
-        monthViewGridPane = new GridPane();
-
         createGridPane(months[0]);
-
         centerPaneVBox.getChildren().addAll(labelAndControl, monthViewGridPane);
+
 
         return centerPaneVBox;
     }
@@ -233,33 +256,38 @@ public class monthViewUI extends Application {
     private void createGridPane(MonthInfo month) {
         Font font = new Font("Arial", 22);
         monthViewGridPane.getChildren().clear();
+        monthViewGridPane.setGridLinesVisible(false);
+        monthViewGridPane.setGridLinesVisible(true);
+
+
+        // Create labels for days of the week.
         Label sundayLabel = new Label("Sunday");
-        sundayLabel.setPrefSize(130, 75);
+        sundayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         sundayLabel.setAlignment(Pos.CENTER);
         sundayLabel.setFont(font);
         Label mondayLabel = new Label("Monday");
-        mondayLabel.setPrefSize(130, 75);
+        mondayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         mondayLabel.setAlignment(Pos.CENTER);
         mondayLabel.setFont(font);
         Label tuesdayLabel = new Label("Tuesday");
-        tuesdayLabel.setPrefSize(130, 75);
+        tuesdayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         tuesdayLabel.setAlignment(Pos.CENTER);
         tuesdayLabel.setFont(font);
         Label wednesdayLabel = new Label("Wednesday");
-        wednesdayLabel.setPrefSize(130, 75);
+        wednesdayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         wednesdayLabel.setAlignment(Pos.CENTER);
         wednesdayLabel.setAlignment(Pos.CENTER);
         wednesdayLabel.setFont(font);
         Label thursdayLabel = new Label("Thursday");
-        thursdayLabel.setPrefSize(130, 75);
+        thursdayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         thursdayLabel.setAlignment(Pos.CENTER);
         thursdayLabel.setFont(font);
         Label fridayLabel = new Label("Friday");
-        fridayLabel.setPrefSize(130, 75);
+        fridayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         fridayLabel.setAlignment(Pos.CENTER);
         fridayLabel.setFont(font);
         Label saturdayLabel = new Label("Saturday");
-        saturdayLabel.setPrefSize(130, 75);
+        saturdayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
         saturdayLabel.setAlignment(Pos.CENTER);
         saturdayLabel.setFont(font);
 
@@ -270,22 +298,28 @@ public class monthViewUI extends Application {
         monthViewGridPane.add(thursdayLabel, 4, 0);
         monthViewGridPane.add(fridayLabel, 5, 0);
         monthViewGridPane.add(saturdayLabel, 6, 0);
-        monthViewGridPane.setGridLinesVisible(false);
-        monthViewGridPane.setGridLinesVisible(true);
+
+
+        // Add each day to the GridPane, and set up Event Handler
         for (int i = 0; i < month.getWeeksList().size(); i++) {
             WeekInfo week = month.getWeek(i);
             for (int j = 0; j < week.getDays().size(); j++) {
                 DayInfo day = week.getDays().get(j);
 
                 Label tmp = new Label();
-                tmp.setPrefSize(130, 75);
+                tmp.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
                 tmp.setPadding(new Insets(5));
                 tmp.setFont(font);
                 tmp.setText(String.valueOf(day.getDate().getDayOfMonth()));
                 tmp.setAlignment(Pos.TOP_LEFT);
+                tmp.setUserData(day);
 
-
-                // For day.getDate().getDayOfWeek().getValue() :
+                tmp.setOnMouseClicked(
+                        e -> {
+                            DayInfo tempDay = (DayInfo)tmp.getUserData();
+                            dayLabel.setText(tempDay.toString());
+                        }
+                );
                 // Monday == 1, Sunday == 7. To get Sunday to be at index 0, use the value % 7
                 monthViewGridPane.add(tmp, day.getDate().getDayOfWeek().getValue() % 7, i + 1);
             }
@@ -295,6 +329,7 @@ public class monthViewUI extends Application {
     public VBox createRightPane() {
 
         VBox rightPaneVBox = new VBox();
+        rightPaneVBox.setPadding(new Insets(INSET_SIZE));
         rightPaneVBox.setSpacing(10);
         rightPaneVBox.setPadding(new Insets(10));
         GridPane gridPaneDetailView = new GridPane();
@@ -307,9 +342,9 @@ public class monthViewUI extends Application {
         Font font2 = new Font("Arial", 20);
         leftArrowButton.setFont(font2);
 
-        Label dayLabel = new Label("Sunday 31st");
+        dayLabel = new Label("Sunday 31st");
         dayLabel.setAlignment(Pos.CENTER);
-        dayLabel.setPrefSize(75, 75);
+        dayLabel.setPrefHeight(GRID_PANE_NODE_HEIGHT);
         Font font = new Font("Arial", 12);
         dayLabel.setFont(font);
         Button rightArrowButton = new Button(">");

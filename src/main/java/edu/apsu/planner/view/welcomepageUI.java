@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class welcomepageUI extends Application {
     TextField usernameTextField;
@@ -43,7 +44,7 @@ public class welcomepageUI extends Application {
         root.setTop(welcomeLabel);
 
         //leftPane
-        String imageResource = getClass().getResource("logoImage.png").toString();
+        String imageResource = getClass().getResource("/edu/apsu/planner/logoImage.png").toString();
         ImageView displayImage = new ImageView(imageResource);
         Label imageView = new Label();
         BorderPane.setMargin(imageView, new Insets(10));

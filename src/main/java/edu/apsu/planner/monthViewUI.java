@@ -36,7 +36,6 @@ public class monthViewUI extends Application {
         months = new MonthInfo[12 - date.getMonthValue() + 1];
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, date.getMonth().plus(i));
-            System.out.println(months[i]);
         }
 
 
@@ -308,7 +307,6 @@ public class monthViewUI extends Application {
         dayLabel.setFont(font);
         Button rightArrowButton = new Button(">");
         rightArrowButton.setStyle("-fx-background-color: pink;");
-
         rightArrowButton.setFont(font2);
         rightArrowButton.setPrefSize(30, 60);
 

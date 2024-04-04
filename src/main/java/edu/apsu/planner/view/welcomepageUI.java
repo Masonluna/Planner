@@ -16,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Objects;
 
 public class welcomepageUI extends Application {
     TextField usernameTextField;
@@ -36,7 +35,7 @@ public class welcomepageUI extends Application {
 
 
         //topPane
-        Label welcomeLabel = new Label("Welcome to the Planner Application! Enter Creditals.");
+        Label welcomeLabel = new Label("Welcome to the Planner Application! Enter Credentials.");
         Font font = new Font("Arial", 40);
         BorderPane.setMargin(welcomeLabel, new Insets(10));
         welcomeLabel.setFont(font);
@@ -76,7 +75,7 @@ public class welcomepageUI extends Application {
 
         Label passwordLabel = new Label("Password: ");
         passwordLabel.setFont(font2);
-         passwordField = new PasswordField();
+        passwordField = new PasswordField();
         passwordField.setFont(font2);
         passwordField.setPromptText("Enter password");
         passwordContainer.getChildren().addAll(passwordLabel, passwordField);
@@ -88,8 +87,8 @@ public class welcomepageUI extends Application {
         enterButton.setOnAction(event->{
             String username = usernameTextField.getText() ;
             String password = passwordField.getText();
-                    boolean foundUsername = checkForCorrectLogin("loginCreditals.txt", username);
-                    boolean foundPassword = checkForCorrectLogin("loginCreditals.txt", password);
+                    boolean foundUsername = checkForCorrectLogin("loginCredentials.txt", username);
+                    boolean foundPassword = checkForCorrectLogin("loginCredentials.txt", password);
 
                     if (foundUsername && foundPassword){
                         Alert correctAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -109,7 +108,7 @@ public class welcomepageUI extends Application {
         Button newUserButton = new Button("New User");
         newUserButton.setOnAction(event ->
                 {
-                    saveLoginCreditals();
+                    saveLoginCredentials();
                     usernameTextField.clear();
                     passwordField.clear();
 
@@ -130,16 +129,23 @@ public class welcomepageUI extends Application {
 
     }
 
-    public void saveLoginCreditals() {
+    public void saveLoginCredentials() {
 
-        String filePath = "loginCreditals.txt";
+        String filePath = "loginCredentials.txt";
         try (FileWriter writer = new FileWriter(filePath, true)) {
-            writer.write(usernameTextField.getText()+ "\n");
-            writer.write(passwordField.getText()+ "\n\n");
-            System.out.println("Successfully wrote to the file.");
             Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
-            saveAlert.setTitle("Saved");
-            saveAlert.setHeaderText("Your login creditals have been saved.");
+            if (!usernameTextField.getText().isBlank() && !passwordField.getText().isBlank()) {
+                writer.write(usernameTextField.getText() + "\n");
+                writer.write(passwordField.getText() + "\n\n");
+                System.out.println("Successfully wrote to the file.");
+                saveAlert.setAlertType(Alert.AlertType.CONFIRMATION);
+                saveAlert.setTitle("Saved");
+                saveAlert.setHeaderText("Your login credentials have been saved.");
+            } else {
+                saveAlert.setAlertType(Alert.AlertType.WARNING);
+                saveAlert.setTitle("Failed to save");
+                saveAlert.setHeaderText("Cannot save empty login credentials.");
+            }
             saveAlert.showAndWait();
 
         } catch (IOException e) {
@@ -153,7 +159,7 @@ public class welcomepageUI extends Application {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.contains(searchText)) {
+                if (line.equals(searchText)) {
                     return true;
                 }
             }

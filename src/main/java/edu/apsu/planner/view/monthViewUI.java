@@ -1,4 +1,4 @@
-package edu.apsu.planner;
+package edu.apsu.planner.view;
 
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;

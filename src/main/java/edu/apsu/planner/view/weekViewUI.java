@@ -1,4 +1,4 @@
-package edu.apsu.planner;
+package edu.apsu.planner.view;
 
 import javafx.application.Application;
 import javafx.application.Platform;

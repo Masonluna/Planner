@@ -4,7 +4,9 @@ module edu.apsu.planner {
 
 
     opens edu.apsu.planner to javafx.fxml;
-    exports edu.apsu.planner;
+
+    exports edu.apsu.planner.view;
+    opens edu.apsu.planner.view to javafx.fxml;
 
 
 }

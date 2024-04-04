@@ -18,7 +18,7 @@ public class WeekInfo {
     // Methods
     @Override
     public String toString() {
-        return days.getFirst().toString() + " - " + days.getLast().toString();
+        return days.get(0).toString() + " - " + days.get(days.size() - 1).toString();
     }
 
     // Accessors and Mutators

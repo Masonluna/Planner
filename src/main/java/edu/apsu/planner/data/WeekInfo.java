@@ -16,10 +16,10 @@ public class WeekInfo {
     }
 
     // Methods
-    @Override
+   /* @Override
     public String toString() {
         return days.get(0).toString() + " - " + days.get(days.size() - 1).toString();
-    }
+    }*/
 
     // Accessors and Mutators
     public ArrayList<DayInfo> getDays() {

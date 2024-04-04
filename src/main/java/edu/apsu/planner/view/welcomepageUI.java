@@ -36,7 +36,7 @@ public class welcomepageUI extends Application {
 
         //topPane
         Label welcomeLabel = new Label("Welcome to the Planner Application! Enter Credentials.");
-        Font font = new Font("Arial", 40);
+        Font font = new Font("Arial", 35);
         BorderPane.setMargin(welcomeLabel, new Insets(10));
         welcomeLabel.setFont(font);
         welcomeLabel.setPrefSize(1000, 50);

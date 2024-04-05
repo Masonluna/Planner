@@ -51,7 +51,7 @@ public class monthViewUI extends Application {
 
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #B7B7B7;");
-        root.setPrefSize(1375, 900);
+        root.setPrefSize(1375, 720);
 
 
         root.setTop(creatMenuBar());

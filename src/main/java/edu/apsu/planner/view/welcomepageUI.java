@@ -12,14 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class welcomepageUI extends Application {
     TextField usernameTextField;
     PasswordField passwordField;
+    private final String LOGIN_FILE_PATH = "loginCredentials.txt";
 
     public static void main(String[] args) {
         launch(args);
@@ -87,8 +85,8 @@ public class welcomepageUI extends Application {
         enterButton.setOnAction(event->{
             String username = usernameTextField.getText() ;
             String password = passwordField.getText();
-                    boolean foundUsername = checkForCorrectLogin("loginCredentials.txt", username);
-                    boolean foundPassword = checkForCorrectLogin("loginCredentials.txt", password);
+                    boolean foundUsername = checkForCorrectLogin(username);
+                    boolean foundPassword = checkForCorrectLogin(password);
 
                     if (foundUsername && foundPassword){
                         Alert correctAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -131,20 +129,27 @@ public class welcomepageUI extends Application {
 
     public void saveLoginCredentials() {
 
-        String filePath = "loginCredentials.txt";
-        try (FileWriter writer = new FileWriter(filePath, true)) {
+
+        try (FileWriter writer = new FileWriter(LOGIN_FILE_PATH, true)) {
+            String username = usernameTextField.getText();
+            String password = passwordField.getText();
+            boolean userExists = checkIfUserExists(username);
             Alert saveAlert = new Alert(Alert.AlertType.INFORMATION);
-            if (!usernameTextField.getText().isBlank() && !passwordField.getText().isBlank()) {
-                writer.write(usernameTextField.getText() + "\n");
-                writer.write(passwordField.getText() + "\n\n");
+            if (!username.isBlank() && !password.isBlank() && !userExists) {
+                writer.write("U:" + username + "\n");
+                writer.write("P:" + password + "\n\n");
                 System.out.println("Successfully wrote to the file.");
-                saveAlert.setAlertType(Alert.AlertType.CONFIRMATION);
+                saveAlert.setAlertType(Alert.AlertType.INFORMATION);
                 saveAlert.setTitle("Saved");
                 saveAlert.setHeaderText("Your login credentials have been saved.");
             } else {
                 saveAlert.setAlertType(Alert.AlertType.WARNING);
                 saveAlert.setTitle("Failed to save");
-                saveAlert.setHeaderText("Cannot save empty login credentials.");
+                if (userExists) {
+                    saveAlert.setHeaderText("User already exists");
+                } else {
+                    saveAlert.setHeaderText("Cannot save empty login credentials.");
+                }
             }
             saveAlert.showAndWait();
 
@@ -154,13 +159,30 @@ public class welcomepageUI extends Application {
         }
     }
 
-
-    private boolean checkForCorrectLogin(String filePath, String searchText) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+    private boolean checkIfUserExists(String username) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(LOGIN_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.equals(searchText)) {
+                if (line.equals("U:" + username)) {
                     return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return false;
+    }
+
+
+    private boolean checkForCorrectLogin(String searchText) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(LOGIN_FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.isEmpty()) {
+                    if (line.substring(2).equals(searchText)) {
+                        return true;
+                    }
                 }
             }
         } catch (IOException e) {

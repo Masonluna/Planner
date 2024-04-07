@@ -87,17 +87,20 @@ public class monthViewUI extends Application {
 
         Menu addMenu = new Menu("Add");
 
-        MenuItem addClassSchedule = new MenuItem("Add Class Schedule");
-        MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
-        MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
+        MenuItem addSchedule = new MenuItem("Add  Schedule");
+        addSchedule.setOnAction(event->{
+            choiceBoxDemo.popUp();
+        });
+       // MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
+       // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
         MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Custom Event");
         addMenu.getItems().addAll(
-                addClassSchedule,
-                addWorkSchedule,
-                addCustomSchedule,
+                addSchedule,
+                //addWorkSchedule,
+               // addCustomSchedule,
                 separatorMenuItem2,
                 addAssignmentDueDate,
                 addBillDueDate,

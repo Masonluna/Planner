@@ -1,4 +1,4 @@
-package edu.apsu.planner;
+package edu.apsu.planner.view;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -17,23 +18,17 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.util.concurrent.TimeUnit;
 
-public class choiceBoxDemo extends Application {
+public class choiceBoxDemo {
 
     public static void main(String[] args) {
-        launch(args);
+
     }
 
-    @Override
-    public void start(Stage primaryStage) {
+
+    public static void popUp(){
+        Stage primaryStage = new Stage();
         Popup popup = new Popup();
 
-        VBox rootMain = new VBox();
-        rootMain.setPrefSize(500,500);
-        Button testButton = new Button("Add Schedule");
-        rootMain.getChildren().add(testButton);
-        testButton.setOnAction(event -> {
-            popup.show(primaryStage);
-        });
 
         BorderPane root = new BorderPane();
         root.setPrefSize(500,300);
@@ -149,14 +144,6 @@ public class choiceBoxDemo extends Application {
         endTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
 
 
-
-
-
-
-
-
-
-
         rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
         popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox);
@@ -166,14 +153,22 @@ public class choiceBoxDemo extends Application {
 
         primaryStage.setTitle("Add Schedule");
 
-        popup.getContent().add(root);
+      //  popup.getContent().add(root);
         popup.setAutoHide(true);
 
 
-        Scene scene = new Scene(rootMain);
+        //Scene scene = new Scene(rootMain);
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+       // primaryStage.setScene(scene);
+       //
+        // primaryStage.show();
+
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setScene(new Scene(root));
+
+        // Show the popup
+        popupStage.show();
 
     }
 }

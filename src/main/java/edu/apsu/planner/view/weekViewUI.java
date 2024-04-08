@@ -57,15 +57,21 @@ public class weekViewUI extends Application {
 
         Menu addMenu = new Menu("Add");
 
-        MenuItem addClassSchedule = new MenuItem("Add Class Schedule");
-        MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
-        MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
+        MenuItem addSchedule = new MenuItem("Add Custom Schedule");
+        addSchedule.setOnAction(event->{
+            choiceBoxDemo.popUp();
+        });
+        //MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
+       // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
-        MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
-        MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
-        MenuItem addCustomEvent = new MenuItem("Add Custom Event");
-        addMenu.getItems().addAll(addClassSchedule,addWorkSchedule,addCustomSchedule, separatorMenuItem2,addAssignmentDueDate,addBillDueDate, addCustomEvent);
-
+        //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
+        //MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
+        MenuItem addCustomEvent = new MenuItem("Add Event");
+        addCustomEvent.setOnAction(event->{
+            choiceBoxDemo2.popUp();
+        });
+        addMenu.getItems().addAll(addSchedule, separatorMenuItem2, addCustomEvent);
+        //addWorkSchedule,addCustomSchedule, addAssignmentDueDate,addBillDueDate,
         Menu insertMenu = new Menu( "Insert");
 
         Menu insertSymbol = new Menu("Insert Symbol");

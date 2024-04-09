@@ -1,8 +1,7 @@
 package edu.apsu.planner.view;
 
 import edu.apsu.planner.AddEventHandler;
-import edu.apsu.planner.PrototypeController;
-import edu.apsu.planner.PrototypeDayHBox;
+import edu.apsu.planner.DayHBox;
 import edu.apsu.planner.data.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,9 +22,6 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashSet;
-
-import static edu.apsu.planner.view.MonthView.GRID_PANE_NODE_HEIGHT;
-import static edu.apsu.planner.view.MonthView.GRID_PANE_NODE_WIDTH;
 
 public class monthViewUI extends Application {
 
@@ -355,7 +351,7 @@ public class monthViewUI extends Application {
             for (int j = 0; j < week.getDays().size(); j++) {
                 DayInfo day = week.getDays().get(j);
 
-                PrototypeDayHBox dayHBox = new PrototypeDayHBox(day);
+                DayHBox dayHBox = new DayHBox(day);
                 dayHBox.setPadding(new Insets(2));
                 Label tmp = new Label();
                 tmp.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
@@ -366,7 +362,7 @@ public class monthViewUI extends Application {
                 tmp.setUserData(day);
 
                 dayHBox.setOnMouseClicked( event -> {
-                        PrototypeDayHBox tempHBox = (PrototypeDayHBox) event.getSource();
+                        DayHBox tempHBox = (DayHBox) event.getSource();
                         DayInfo tempDay = tempHBox.getDayInfo();
                         dayLabel.setText(tempDay.toString());
                 });

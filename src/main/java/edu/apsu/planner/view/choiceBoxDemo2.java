@@ -114,7 +114,7 @@ public class choiceBoxDemo2 {
         amPmChoiceBox.getItems().addAll("AM", "PM");
         amPmChoiceBox.setValue("AM");
         startTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
-/*
+
         Label endTimeLbl = new Label("End time:");
         endTimeLbl.setFont(font);
         HBox endTimeContainer = new HBox();
@@ -138,10 +138,10 @@ public class choiceBoxDemo2 {
         endAmPmChoiceBox.setValue("AM");
         startTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
         endTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
-*/
 
 
-        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer);// endTimeLbl, endTimeContainer);
+
+        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
         popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox);
         root.setCenter(popUpContainerHBox);

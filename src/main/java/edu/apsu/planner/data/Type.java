@@ -4,24 +4,27 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 public class Type {
 
     // Instances
-    private String name;
+    private Tag tag;
     private Image symbol;
+    private Rectangle defaultSymbol;
     private final BooleanProperty isVisible = new SimpleBooleanProperty();
 
 
     // Constructors
     public Type() {
-        name = "";
+        tag = Tag.CUSTOM;
         symbol = null;
     }
 
-    public Type(String name, Image symbol, boolean isVisible) {
-        this.name = name;
+    public Type(Tag tag, Image symbol, Rectangle defaultSymbol, boolean isVisible) {
+        this.tag = tag;
         this.symbol = symbol;
+        this.defaultSymbol = defaultSymbol;
         this.isVisible.set(isVisible);
     }
 
@@ -29,12 +32,13 @@ public class Type {
     // Methods
 
     // Accessors and Mutators
-    public String getName() {
-        return name;
+    public Tag getTag() {
+        return tag;
     }
+    public String getName() {return tag.name();}
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     public Image getSymbol() {
@@ -43,6 +47,10 @@ public class Type {
 
     public void setSymbol(Image symbol) {
         this.symbol = symbol;
+    }
+
+    public Rectangle getDefaultSymbol() {
+        return defaultSymbol;
     }
 
     public Property<Boolean> isVisibleProperty() {

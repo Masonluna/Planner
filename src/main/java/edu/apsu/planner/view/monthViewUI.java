@@ -1,23 +1,31 @@
 package edu.apsu.planner.view;
 
-import edu.apsu.planner.data.DayInfo;
-import edu.apsu.planner.data.MonthInfo;
-import edu.apsu.planner.data.Type;
-import edu.apsu.planner.data.WeekInfo;
+import edu.apsu.planner.AddEventHandler;
+import edu.apsu.planner.PrototypeController;
+import edu.apsu.planner.PrototypeDayHBox;
+import edu.apsu.planner.data.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.util.HashSet;
+
+import static edu.apsu.planner.view.MonthView.GRID_PANE_NODE_HEIGHT;
+import static edu.apsu.planner.view.MonthView.GRID_PANE_NODE_WIDTH;
 
 public class monthViewUI extends Application {
 
@@ -28,13 +36,15 @@ public class monthViewUI extends Application {
 
 
     // Data instances
-    private LocalDate date = LocalDate.now();
+    private final LocalDate date = LocalDate.now();
     private MonthInfo[] months;
     private int currentMonthIndex;
 
     // FX Node Instances
     private GridPane monthViewGridPane;
     private Label dayLabel;
+
+    private Type[] types = new Type[5];
 
     public static void main(String[] args) {
         launch(args);
@@ -44,9 +54,9 @@ public class monthViewUI extends Application {
     public void start(Stage stage) {
 
         // Set up MonthInfo data
-        months = new MonthInfo[12 - date.getMonthValue() + 1];
+        months = new MonthInfo[12];
         for (int i = 0; i < months.length; i++) {
-            months[i] = new MonthInfo(2024, date.getMonth().plus(i));
+            months[i] = new MonthInfo(2024, Month.of(i + 1));
         }
 
         BorderPane root = new BorderPane();
@@ -59,7 +69,6 @@ public class monthViewUI extends Application {
         root.setCenter(createCenterPane());
         root.setRight(createRightPane());
 
-        BorderPane.setAlignment(root.getRight(), Pos.TOP_LEFT);
 
         Scene scene = new Scene(root);
         stage.setTitle("Planer Application");
@@ -95,11 +104,10 @@ public class monthViewUI extends Application {
        // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
-       // MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
+        // MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Event");
-        addCustomEvent.setOnAction(event->{
-            choiceBoxDemo2.popUp();
-        });
+        AddEventHandler addEventHandler = new AddEventHandler(months, types, this);
+        addCustomEvent.setOnAction(addEventHandler);
         addMenu.getItems().addAll(
                 addSchedule,
                 //addWorkSchedule,
@@ -149,11 +157,14 @@ public class monthViewUI extends Application {
         Font font2 = new Font("Arial", 14);
 
 
+
         CheckBox classFilter = new CheckBox("Class Schedule");
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
-        Type classType = new Type("Class Schedule", null, true);
+        Rectangle defaultClassSymbol = new Rectangle(10, 10, Color.BLUE);
+        Type classType = new Type(Tag.CLASS, null, defaultClassSymbol, true);
+        types[0] = classType;
         classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
         classFilter.setOnMouseClicked(
                 e -> System.out.println(classType.getName() + " isVisible: " + classType.isVisible())
@@ -163,20 +174,12 @@ public class monthViewUI extends Application {
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
-        Type workType = new Type("Work Schedule", null, true);
+        Rectangle defaultWorkSymbol = new Rectangle(10, 10, Color.FORESTGREEN);
+        Type workType = new Type(Tag.WORK, null, defaultWorkSymbol, true);
+        types[1] = workType;
         workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
         workFilter.setOnMouseClicked(
                 e -> System.out.println(workType.getName() + " isVisible: " + workType.isVisible())
-        );
-
-        CheckBox customSchedFilter = new CheckBox("Custom Schedule");
-        customSchedFilter.setFont(font2);
-        customSchedFilter.setStyle("-fx-color: pink;");
-        customSchedFilter.setSelected(true);
-        Type customSchedType= new Type("Custom Schedule", null, true);
-        customSchedFilter.selectedProperty().bindBidirectional(customSchedType.isVisibleProperty());
-        customSchedFilter.setOnMouseClicked(
-                e -> System.out.println(customSchedType.getName() + " isVisible: " + customSchedType.isVisible())
         );
 
 
@@ -184,7 +187,9 @@ public class monthViewUI extends Application {
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
-        Type assignmentType = new Type("Assignments Due", null, true);
+        Rectangle defaultAssignmentSymbol = new Rectangle(10, 10, Color.PURPLE);
+        Type assignmentType = new Type(Tag.ASSIGNMENT, null, defaultAssignmentSymbol,true);
+        types[2] = assignmentType;
         assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
         assignmentFilter.setOnMouseClicked(
                 e -> System.out.println(assignmentType.getName() + " isVisible: " + assignmentType.isVisible())
@@ -195,7 +200,9 @@ public class monthViewUI extends Application {
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
-        Type billType = new Type("Bill Due", null, true);
+        Rectangle defaultBillSymbol = new Rectangle(10, 10, Color.RED);
+        Type billType = new Type(Tag.BILL, null, defaultBillSymbol,true);
+        types[3] = billType;
         billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
         billFilter.setOnMouseClicked(
                 e -> System.out.println(billType.getName() + " isVisible: " + billType.isVisible())
@@ -206,14 +213,18 @@ public class monthViewUI extends Application {
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
-        Type customEventType = new Type("Custom Events", null, true);
+        Rectangle defaultCustomEventSymbol = new Rectangle(10, 10, Color.AQUA);
+        Type customEventType = new Type(Tag.CUSTOM, null, defaultCustomEventSymbol, true);
+        types[4] = customEventType;
         customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
         customEventFilter.setOnMouseClicked(
                 e -> System.out.println(customEventType.getName() + " isVisible: " + customEventType.isVisible())
         );
 
 
-        leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, customSchedFilter, assignmentFilter, billFilter, customEventFilter);
+
+
+        leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, assignmentFilter, billFilter, customEventFilter);
 
         return leftPaneVBox;
 
@@ -237,8 +248,8 @@ public class monthViewUI extends Application {
 
 
         // Instantiate monthLabel
-        Label monthLabel = new Label(months[0].toString());
-        currentMonthIndex = 0;
+        Label monthLabel = new Label(months[date.getMonthValue() - 1].toString());
+        currentMonthIndex = date.getMonthValue() - 1;
         monthLabel.setPrefSize(700, 100);
         monthLabel.setAlignment(Pos.CENTER);
         monthLabel.setFont(font2);
@@ -283,14 +294,15 @@ public class monthViewUI extends Application {
 
         // Add nodes and data to layouts
         labelAndControl.getChildren().addAll(leftArrowButton, monthLabel, rightArrowButton);
-        createGridPane(months[0]);
+        createGridPane(months[currentMonthIndex]);
         centerPaneVBox.getChildren().addAll(labelAndControl, monthViewGridPane);
 
 
         return centerPaneVBox;
     }
 
-    private void createGridPane(MonthInfo month) {
+    public void createGridPane(MonthInfo month) {
+
         Font font = new Font("Arial", 22);
         monthViewGridPane.getChildren().clear();
         monthViewGridPane.setGridLinesVisible(false);
@@ -343,6 +355,8 @@ public class monthViewUI extends Application {
             for (int j = 0; j < week.getDays().size(); j++) {
                 DayInfo day = week.getDays().get(j);
 
+                PrototypeDayHBox dayHBox = new PrototypeDayHBox(day);
+                dayHBox.setPadding(new Insets(2));
                 Label tmp = new Label();
                 tmp.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
                 tmp.setPadding(new Insets(5));
@@ -351,16 +365,43 @@ public class monthViewUI extends Application {
                 tmp.setAlignment(Pos.TOP_LEFT);
                 tmp.setUserData(day);
 
-                tmp.setOnMouseClicked(
-                        e -> {
-                            DayInfo tempDay = (DayInfo)tmp.getUserData();
-                            dayLabel.setText(tempDay.toString());
-                        }
-                );
+                dayHBox.setOnMouseClicked( event -> {
+                        PrototypeDayHBox tempHBox = (PrototypeDayHBox) event.getSource();
+                        DayInfo tempDay = tempHBox.getDayInfo();
+                        dayLabel.setText(tempDay.toString());
+                });
+                dayHBox.getChildren().add(tmp);
+                HashSet<Type> typesToAdd = findTagsToAdd(day);
+                dayHBox.setAlignment(Pos.TOP_LEFT);
+
+                for (Type type : typesToAdd) {
+                    if (type.getSymbol() != null) {
+                        dayHBox.getChildren().add(new ImageView(type.getSymbol()));
+                    } else {
+                        dayHBox.getChildren().add(type.getDefaultSymbol());
+                    }
+                }
+
                 // Monday == 1, Sunday == 7. To get Sunday to be at index 0, use the value % 7
-                monthViewGridPane.add(tmp, day.getDate().getDayOfWeek().getValue() % 7, i + 1);
+                monthViewGridPane.add(dayHBox, day.getDate().getDayOfWeek().getValue() % 7, i + 1);
             }
         }
+    }
+
+    /**
+     * Takes a day and returns a set of Types whose symbols/default rectangles should be drawn on the given day
+     * @param day a given DayInfo instance representing a day of the month
+     * @return A HashSet of Tags that have a corresponding event in day and are visible.
+     */
+    private HashSet<Type> findTagsToAdd(DayInfo day) {
+        HashSet<Type> typeHashSet = new HashSet<>();
+        for (PlannerEvent event : day.getEvents()) {
+            if (event.getType().isVisible())
+                typeHashSet.add(event.getType());
+        }
+
+
+        return typeHashSet;
     }
 
     public VBox createRightPane() {
@@ -380,7 +421,7 @@ public class monthViewUI extends Application {
         Font font2 = new Font("Arial", 20);
         leftArrowButton.setFont(font2);
 
-        dayLabel = new Label("Sunday 31st");
+        dayLabel = new Label();
         dayLabel.setAlignment(Pos.CENTER);
         dayLabel.setPrefHeight(GRID_PANE_NODE_HEIGHT);
         Font font = new Font("Arial", 12);
@@ -397,5 +438,13 @@ public class monthViewUI extends Application {
         rightPaneVBox.getChildren().add(gridPaneDetailView);
 
         return rightPaneVBox;
+    }
+
+    public MonthInfo[] getMonths() {
+        return months;
+    }
+
+    public int getCurrentMonthIndex() {
+        return currentMonthIndex;
     }
 }

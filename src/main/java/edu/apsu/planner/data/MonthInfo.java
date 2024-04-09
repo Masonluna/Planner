@@ -25,7 +25,7 @@ public class MonthInfo {
      * @param year the year in which the given month takes place.
      * @throws NullPointerException if month is null
      */
-    public MonthInfo(int year ,Month month) {
+    public MonthInfo(int year, Month month) {
 
 
         this.weeks = new ArrayList<>();
@@ -67,5 +67,24 @@ public class MonthInfo {
 
     public WeekInfo getWeek(int index) {
         return this.weeks.get(index);
+    }
+
+    /**
+     * Takes an int and returns the DayInfo object that corresponds to the given day of the month
+     *
+     * @param dayOfMonth the day of Month to be searched for.
+     * @return The DayInfo instance corresponding to the day of month if the day is found,
+     * or null if the day is not in range.
+     */
+    public DayInfo getDayOf(int dayOfMonth) {
+        for (WeekInfo weekInfo : weeks) {
+            for (DayInfo dayInfo : weekInfo.getDays()) {
+                if  (dayInfo.getDate().getDayOfMonth() == dayOfMonth) {
+                    return dayInfo;
+                }
+            }
+        }
+
+        return null;
     }
 }

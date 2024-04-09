@@ -4,25 +4,31 @@ public class PlannerEvent {
 
     //Instances
     private String name;
+    private String description;
     private String time;
     private Type type;
 
     // Constructors
     public PlannerEvent() {
         name = "";
+        description = "";
         time = "";
         type = null;
     }
 
-    public PlannerEvent(String name, String time, Type type) {
+    public PlannerEvent(String name, String description, String time, Type type) {
         this.name = name;
+        this.description = description;
         this.time = time;
         this.type = type;
     }
 
 
     // Methods
-
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
     // Accessors and Mutators
     public String getName() {

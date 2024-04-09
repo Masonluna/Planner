@@ -372,6 +372,7 @@ public class monthViewUI extends Application {
         GridPane gridPaneDetailView = new GridPane();
         gridPaneDetailView.setGridLinesVisible(true);
         HBox controlHBox = new HBox();
+        controlHBox.setAlignment(Pos.CENTER);
         controlHBox.setSpacing(10);
         Button leftArrowButton = new Button("<");
         leftArrowButton.setStyle("-fx-background-color: pink;");

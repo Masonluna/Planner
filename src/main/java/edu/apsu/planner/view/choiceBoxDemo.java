@@ -31,7 +31,7 @@ public class choiceBoxDemo {
 
 
         BorderPane root = new BorderPane();
-        root.setPrefSize(500,300);
+        root.setPrefSize(650,300);
         root.setStyle("-fx-background-color: #B7B7B7;");
 
         HBox popUpContainerHBox = new HBox();
@@ -44,7 +44,7 @@ public class choiceBoxDemo {
         titleOfEventTF.setStyle("-fx-control-inner-background: pink;");
         titleOfEventTF.setPrefSize(125, 50);
         Font font = new Font("Arial", 18);
-        titleOfEventTF.setFont(font);
+        titleOfEventTF.setFont(Font.font("Arial", 16));
         titleOfEventTF.setPromptText("Enter title of your event");
 
         TextArea descriptionOfEventTA = new TextArea();
@@ -143,10 +143,51 @@ public class choiceBoxDemo {
 
         endTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
 
+        VBox rightMostVBox = new VBox();
+        rightMostVBox.setPadding(new Insets(10));
+        rightMostVBox.setSpacing(10);
+        rightMostVBox.setPrefSize(250,200);
+        Label dayOFWeekLbl = new Label("Select days which Schedule occurs on:");
+        dayOFWeekLbl.setFont(font);
+        dayOFWeekLbl.setWrapText(true);
+
+        CheckBox sundayCheckBox = new CheckBox("Sunday");
+        sundayCheckBox.setFont(font);
+        sundayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox mondayCheckBox = new CheckBox("Monday");
+        mondayCheckBox.setFont(font);
+        mondayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox tuesdayCheckBox = new CheckBox("Tuesday");
+        tuesdayCheckBox.setFont(font);
+        tuesdayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox wednesdayCheckBox = new CheckBox("Wednesday");
+        wednesdayCheckBox.setFont(font);
+        wednesdayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox thursdayCheckBox = new CheckBox("Thursday");
+        thursdayCheckBox.setFont(font);
+        thursdayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox fridayCheckBox = new CheckBox("Friday");
+        fridayCheckBox.setFont(font);
+        fridayCheckBox.setStyle("-fx-color: pink;");
+
+        CheckBox saturdayCheckBox = new CheckBox("Saturday");
+        saturdayCheckBox.setFont(font);
+        saturdayCheckBox.setStyle("-fx-color: pink;");
+
+
+
+        rightMostVBox.getChildren().addAll(dayOFWeekLbl, sundayCheckBox,mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckBox, saturdayCheckBox);
+
+
 
         rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
-        popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox);
+        popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox, rightMostVBox);
         root.setCenter(popUpContainerHBox);
 
 

@@ -39,6 +39,9 @@ public class monthViewUI extends Application {
     // FX Node Instances
     private GridPane monthViewGridPane;
     private Label dayLabel;
+    private DayHBox selectedDayHBox;
+    private DayInfo selectedDayInfo;
+    private GridPane gridPaneDetailView;
 
     private Type[] types = new Type[5];
 
@@ -362,9 +365,9 @@ public class monthViewUI extends Application {
                 tmp.setUserData(day);
 
                 dayHBox.setOnMouseClicked( event -> {
-                        DayHBox tempHBox = (DayHBox) event.getSource();
-                        DayInfo tempDay = tempHBox.getDayInfo();
-                        dayLabel.setText(tempDay.toString());
+                        selectedDayHBox = (DayHBox) event.getSource();
+                        selectedDayInfo = selectedDayHBox.getDayInfo();
+                        dayLabel.setText(selectedDayInfo.toString());
                 });
                 dayHBox.getChildren().add(tmp);
                 HashSet<Type> typesToAdd = findTagsToAdd(day);
@@ -406,7 +409,7 @@ public class monthViewUI extends Application {
         rightPaneVBox.setPadding(new Insets(INSET_SIZE));
         rightPaneVBox.setSpacing(10);
         rightPaneVBox.setPadding(new Insets(10));
-        GridPane gridPaneDetailView = new GridPane();
+        gridPaneDetailView = new GridPane();
         gridPaneDetailView.setGridLinesVisible(true);
         HBox controlHBox = new HBox();
         controlHBox.setAlignment(Pos.CENTER);

@@ -434,6 +434,85 @@ public class monthViewUI extends Application {
         controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
         gridPaneDetailView.add(controlHBox, 0, 0);
 
+
+        HBox sixAmHBox = new HBox();
+        sixAmHBox.setPrefSize(200,50);
+        Label sixAmLbl = new Label("6AM");
+        sixAmHBox.getChildren().addAll(sixAmLbl);
+        gridPaneDetailView.add(sixAmHBox, 0,1);
+
+        HBox sevenAmHBox = new HBox();
+        sevenAmHBox.setPrefSize(200,50);
+        Label sevenAmLbl = new Label("7AM");
+        sevenAmHBox.getChildren().addAll(sevenAmLbl);
+        gridPaneDetailView.add( sevenAmHBox, 0,2);
+
+        HBox eightAmHBox = new HBox();
+        eightAmHBox.setPrefSize(200,50);
+        Label eightAmLbl = new Label("8AM");
+        eightAmHBox.getChildren().addAll(eightAmLbl);
+        gridPaneDetailView.add(eightAmHBox, 0,3);
+
+        HBox nineAmHBox = new HBox();
+        nineAmHBox.setPrefSize(200,50);
+        Label nineAmLbl = new Label("9AM");
+        nineAmHBox.getChildren().addAll(nineAmLbl);
+        gridPaneDetailView.add(nineAmHBox, 0,4);
+
+        HBox tenAmHBox = new HBox();
+        tenAmHBox.setPrefSize(200,50);
+        Label tenAmLbl = new Label("10AM");
+        tenAmHBox.getChildren().addAll(tenAmLbl);
+        gridPaneDetailView.add(tenAmHBox, 0,5);
+
+        HBox elevenAmHBox = new HBox();
+        elevenAmHBox.setPrefSize(200,50);
+        Label elevenAmLbl = new Label("11AM");
+        elevenAmHBox.getChildren().addAll(elevenAmLbl);
+        gridPaneDetailView.add(elevenAmHBox, 0,6);
+
+        HBox  twelvePmHBox = new HBox();
+        twelvePmHBox.setPrefSize(200,50);
+        Label twelvePmLbl = new Label("12PM");
+        twelvePmHBox.getChildren().addAll(twelvePmLbl);
+        gridPaneDetailView.add(twelvePmHBox, 0,7);
+
+        HBox onePmHBox = new HBox();
+        onePmHBox.setPrefSize(200,50);
+        Label onePmLbl = new Label("1PM");
+        onePmHBox.getChildren().addAll(onePmLbl);
+        gridPaneDetailView.add(onePmHBox, 0,8);
+
+        HBox twoPmHBox = new HBox();
+        twoPmHBox.setPrefSize(200,50);
+        Label twoPmLbl = new Label("2PM");
+        twoPmHBox.getChildren().addAll(twoPmLbl);
+        gridPaneDetailView.add(twoPmHBox, 0,9);
+
+        HBox threePmHBox = new HBox();
+        threePmHBox.setPrefSize(200,50);
+        Label threePmLbl = new Label("3PM");
+        threePmHBox.getChildren().addAll(threePmLbl);
+        gridPaneDetailView.add(threePmHBox, 0,10);
+
+        HBox fourPmHBox = new HBox();
+        fourPmHBox.setPrefSize(200,50);
+        Label fourPmLbl = new Label("4PM");
+        fourPmHBox.getChildren().addAll(fourPmLbl);
+        gridPaneDetailView.add(fourPmHBox, 0,11);
+
+        HBox fivePmHBox = new HBox();
+        fivePmHBox.setPrefSize(200,50);
+        Label fivePmLbl = new Label("5PM");
+        fivePmHBox.getChildren().addAll(fivePmLbl);
+        gridPaneDetailView.add(fivePmHBox, 0,12);
+
+        HBox sixPmHBox = new HBox();
+        sixPmHBox.setPrefSize(200,50);
+        Label sixPmLbl = new Label("6PM");
+        sixPmHBox.getChildren().addAll(sixPmLbl);
+        gridPaneDetailView.add(sixPmHBox, 0,13);
+
         rightPaneVBox.getChildren().add(gridPaneDetailView);
 
         return rightPaneVBox;

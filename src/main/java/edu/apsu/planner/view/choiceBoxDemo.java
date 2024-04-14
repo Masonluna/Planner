@@ -75,6 +75,9 @@ public class choiceBoxDemo {
 
         Label dateLbl = new Label("Date and Category: ");
         dateLbl.setFont(font);
+        VBox endStartContainer = new VBox();
+        Label startDateLbl = new Label("Date when schedule starts:");
+        startDateLbl.setFont(Font.font("Arial",16));
         HBox dayContainer = new HBox();
         dayContainer.setPadding(new Insets(10));
         dayContainer.setSpacing(10);
@@ -96,6 +99,34 @@ public class choiceBoxDemo {
         dayChoiceBox.setValue(1);
         dayChoiceBox.setStyle("-fx-color: pink;");
         dayContainer.getChildren().addAll(monthChoiceBox, dayChoiceBox);
+        endStartContainer.getChildren().addAll(startDateLbl, dayContainer);
+
+        VBox endDayContainer1 = new VBox();
+        HBox endDayContainer = new HBox();
+        Label endDateLbl = new Label("Date when schedule ends:");
+        endDateLbl.setFont(Font.font("Arial",16));
+        endDayContainer.setPadding(new Insets(10));
+        endDayContainer.setSpacing(10);
+        ChoiceBox<Month> monthEndChoiceBox = new ChoiceBox<>();
+        monthEndChoiceBox.getItems().addAll(Month.values());
+        monthEndChoiceBox.setValue(Month.APRIL);
+        monthEndChoiceBox.setStyle("-fx-color: pink;");
+        ChoiceBox<Integer> dayEndChoiceBox = new ChoiceBox<>();
+        monthChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                int daysInMonth = YearMonth.of(YearMonth.now().getYear(), newValue).lengthOfMonth();
+                dayEndChoiceBox.getItems().clear();
+                for (int i = 1; i <= daysInMonth; i++) {
+                    dayEndChoiceBox.getItems().add(i);
+                }
+                dayEndChoiceBox.setValue(1); // Set default day value
+            }
+        });
+        dayEndChoiceBox.setValue(1);
+        dayEndChoiceBox.setStyle("-fx-color: pink;");
+        endDayContainer.getChildren().addAll(monthEndChoiceBox, dayEndChoiceBox);
+        endDayContainer1.getChildren().addAll(endDateLbl, endDayContainer);
+
 
         Label startTimeLbl = new Label("Start time:");
         startTimeLbl.setFont(font);
@@ -185,7 +216,7 @@ public class choiceBoxDemo {
 
 
 
-        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
+        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer , endStartContainer, endDayContainer1, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
         popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox, rightMostVBox);
         root.setCenter(popUpContainerHBox);

@@ -10,10 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -166,7 +163,7 @@ public class monthViewUI extends Application {
         types[0] = classType;
         classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
         classFilter.setOnMouseClicked(
-                e -> System.out.println(classType.getName() + " isVisible: " + classType.isVisible())
+                e -> createGridPane(months[currentMonthIndex])
         );
 
         CheckBox workFilter = new CheckBox("Work Schedule");
@@ -178,7 +175,7 @@ public class monthViewUI extends Application {
         types[1] = workType;
         workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
         workFilter.setOnMouseClicked(
-                e -> System.out.println(workType.getName() + " isVisible: " + workType.isVisible())
+                e -> createGridPane(months[currentMonthIndex])
         );
 
 
@@ -191,7 +188,7 @@ public class monthViewUI extends Application {
         types[2] = assignmentType;
         assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
         assignmentFilter.setOnMouseClicked(
-                e -> System.out.println(assignmentType.getName() + " isVisible: " + assignmentType.isVisible())
+                e -> createGridPane(months[currentMonthIndex])
         );
 
 
@@ -204,7 +201,7 @@ public class monthViewUI extends Application {
         types[3] = billType;
         billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
         billFilter.setOnMouseClicked(
-                e -> System.out.println(billType.getName() + " isVisible: " + billType.isVisible())
+                e -> createGridPane(months[currentMonthIndex])
         );
 
 
@@ -217,7 +214,7 @@ public class monthViewUI extends Application {
         types[4] = customEventType;
         customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
         customEventFilter.setOnMouseClicked(
-                e -> System.out.println(customEventType.getName() + " isVisible: " + customEventType.isVisible())
+                e -> createGridPane(months[currentMonthIndex])
         );
 
 
@@ -419,6 +416,11 @@ public class monthViewUI extends Application {
         leftArrowButton.setPrefSize(30, 60);
         Font font2 = new Font("Arial", 20);
         leftArrowButton.setFont(font2);
+        leftArrowButton.setOnAction( e -> {
+            selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                    monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+            selectedDayInfo = selectedDayHBox.getDayInfo();
+        });
 
         dayLabel = new Label();
         dayLabel.setAlignment(Pos.CENTER);
@@ -429,6 +431,7 @@ public class monthViewUI extends Application {
         rightArrowButton.setStyle("-fx-background-color: pink;");
         rightArrowButton.setFont(font2);
         rightArrowButton.setPrefSize(30, 60);
+
 
 
         controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
@@ -512,6 +515,7 @@ public class monthViewUI extends Application {
         Label sixPmLbl = new Label("6PM");
         sixPmHBox.getChildren().addAll(sixPmLbl);
         gridPaneDetailView.add(sixPmHBox, 0,13);
+
 
         rightPaneVBox.getChildren().add(gridPaneDetailView);
 

@@ -135,7 +135,13 @@ public class monthViewUI extends Application {
                 churchSymbol);
         insertMenu.getItems().add(insertSymbol);
 
-        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu);
+        Menu viewMenu = new Menu("View");
+        MenuItem weekViewMenu = new MenuItem("Week View");
+        MenuItem monthViewMenu = new MenuItem("Month View");
+        viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
+
+
+        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu);
 
         return menuBar;
     }

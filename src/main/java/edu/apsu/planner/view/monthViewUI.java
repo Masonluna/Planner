@@ -34,6 +34,7 @@ public class monthViewUI extends Application {
     private int currentMonthIndex;
 
     // FX Node Instances
+    private Label monthLabel;
     private GridPane monthViewGridPane;
     private Label dayLabel;
     private DayHBox selectedDayHBox;
@@ -250,7 +251,7 @@ public class monthViewUI extends Application {
 
 
         // Instantiate monthLabel
-        Label monthLabel = new Label(months[date.getMonthValue() - 1].toString());
+        monthLabel = new Label(months[date.getMonthValue() - 1].toString());
         currentMonthIndex = date.getMonthValue() - 1;
         monthLabel.setPrefSize(700, 100);
         monthLabel.setAlignment(Pos.CENTER);
@@ -423,9 +424,21 @@ public class monthViewUI extends Application {
         Font font2 = new Font("Arial", 20);
         leftArrowButton.setFont(font2);
         leftArrowButton.setOnAction( e -> {
-            selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                    monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+            if (selectedDayInfo.getDate().getDayOfMonth() == 1)
+            {
+                createGridPane(months[--currentMonthIndex]);
+                monthLabel.setText(months[currentMonthIndex].toString());
+                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().getLast();
+                while (selectedDayHBox == null) {
+                    selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                            monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+                }
+            } else {
+                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                        monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+            }
             selectedDayInfo = selectedDayHBox.getDayInfo();
+            dayLabel.setText(selectedDayInfo.toString());
         });
 
         dayLabel = new Label();
@@ -437,6 +450,25 @@ public class monthViewUI extends Application {
         rightArrowButton.setStyle("-fx-background-color: pink;");
         rightArrowButton.setFont(font2);
         rightArrowButton.setPrefSize(30, 60);
+        rightArrowButton.setOnAction( e -> {
+            if (selectedDayInfo.getDate().getDayOfMonth() == selectedDayInfo.getDate().lengthOfMonth())
+            {
+                createGridPane(months[++currentMonthIndex]);
+                monthLabel.setText(months[currentMonthIndex].toString());
+                // 8 is the first child node that could possibly be a DayHBox
+
+                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(8);
+                while (selectedDayHBox == null) {
+                    selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                            monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+                }
+            } else {
+                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                        monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+            }
+            selectedDayInfo = selectedDayHBox.getDayInfo();
+            dayLabel.setText(selectedDayInfo.toString());
+        });
 
 
 

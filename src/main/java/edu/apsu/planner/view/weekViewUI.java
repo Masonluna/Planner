@@ -46,7 +46,7 @@ public class weekViewUI extends Application {
 
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-       // MenuItem openMenuItem = new MenuItem("Open");
+        // MenuItem openMenuItem = new MenuItem("Open");
         MenuItem savePDFMenuItem = new MenuItem("Save to PDF");
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem exitMenuItem = new MenuItem("Exit");

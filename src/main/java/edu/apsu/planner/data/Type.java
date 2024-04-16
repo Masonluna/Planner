@@ -14,6 +14,9 @@ public class Type {
     private Tag tag;
     private Image symbol;
     private Rectangle defaultSymbol;
+
+
+    private boolean symbolIsVisable;
     private final BooleanProperty isVisible = new SimpleBooleanProperty();
 
 
@@ -28,6 +31,7 @@ public class Type {
         this.symbol = symbol;
         this.defaultSymbol = defaultSymbol;
         this.isVisible.set(isVisible);
+        this.symbolIsVisable = false;
     }
 
 
@@ -72,6 +76,15 @@ public class Type {
         // Load the image
         Image image = new Image(Type.class.getResource(imagePath).toString());
        return image;
+    }
+
+
+    public boolean isSymbolIsVisable() {
+        return symbolIsVisable;
+    }
+
+    public void setSymbolIsVisable(boolean symbolIsVisable) {
+        this.symbolIsVisable = symbolIsVisable;
     }
 
 }

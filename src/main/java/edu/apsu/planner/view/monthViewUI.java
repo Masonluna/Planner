@@ -42,6 +42,7 @@ public class monthViewUI extends Application {
     private DayInfo selectedDayInfo;
     private GridPane gridPaneDetailView;
 
+    private BorderPane root;
     private Type[] types = new Type[5];
 
     public static void main(String[] args) {
@@ -50,14 +51,13 @@ public class monthViewUI extends Application {
 
     @Override
     public void start(Stage stage) {
-
+         root = new BorderPane();
         // Set up MonthInfo data
         months = new MonthInfo[12];
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, Month.of(i + 1));
         }
 
-        BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #B7B7B7;");
         root.setPrefSize(1375, 720);
 
@@ -83,6 +83,13 @@ public class monthViewUI extends Application {
 
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
+        newMenuItem.setOnAction(e->{
+            months = new MonthInfo[12];
+            for (int i = 0; i < months.length; i++) {
+                months[i] = new MonthInfo(2024, Month.of(i + 1));
+            }
+            root.setCenter(createCenterPane());
+        });
         //MenuItem openMenuItem = new MenuItem("Open");
         MenuItem savePDFMenuItem = new MenuItem("Save to PDF");
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();

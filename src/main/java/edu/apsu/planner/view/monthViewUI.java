@@ -1,7 +1,6 @@
 package edu.apsu.planner.view;
 
 import edu.apsu.planner.handler.AddEventHandler;
-import edu.apsu.planner.DayHBox;
 import edu.apsu.planner.data.*;
 import javafx.application.Application;
 import javafx.application.Platform;

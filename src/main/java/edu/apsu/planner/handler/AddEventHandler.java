@@ -205,30 +205,18 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         DayInfo dayInfo = months[chosenMonth.getValue() - 1].getDayOf(chosenDay);
         dayInfo.getEvents().add(plannerEvent);
 
-
-        System.out.println("Added Planner Event:");
-        for (PlannerEvent ev : dayInfo.getEvents()) {
-            System.out.println(ev.toString());
-            System.out.println(ev.getTime());
-        }
         popupStage.close();
         app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);
     }
 
     private PlannerEvent getPlannerEvent(String eventName, String eventDescription, String time) {
         String tagChoice = tagChoiceBox.getSelectionModel().getSelectedItem();
-        Type type = null;
-        switch(tagChoice){
-            case "Assignment Due Date":
-                type = types[2];
-                break;
-            case "Bill Due Date":
-                type = types[3];
-                break;
-            case "Custom Event":
-                type = types[4];
-                break;
-        }
+        Type type = switch (tagChoice) {
+            case "Assignment Due Date" -> types[2];
+            case "Bill Due Date" -> types[3];
+            case "Custom Event" -> types[4];
+            default -> null;
+        };
         return new PlannerEvent(eventName, eventDescription, time, type);
     }
 

@@ -42,6 +42,7 @@ public class monthViewUI extends Application {
     private DayInfo selectedDayInfo;
     private GridPane gridPaneDetailView;
 
+    private Stage stage;
     private BorderPane root;
     private Type[] types = new Type[5];
 
@@ -50,7 +51,8 @@ public class monthViewUI extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
+        stage = new Stage();
         root = new BorderPane();
         // Set up MonthInfo data
         months = new MonthInfo[12];
@@ -90,10 +92,16 @@ public class monthViewUI extends Application {
         openMenuItem.setOnAction(fileEventHandler);
         MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
         savePDFMenuItem.setOnAction(fileEventHandler);
-        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setOnAction(fileEventHandler);
-        fileMenu.getItems().addAll(newMenuItem, savePDFMenuItem, separatorMenuItem, exitMenuItem);
+        fileMenu.getItems().addAll(
+                newMenuItem,
+                new SeparatorMenuItem(),
+                saveMenuItem,
+                openMenuItem,
+                savePDFMenuItem,
+                new SeparatorMenuItem(),
+                exitMenuItem);
 
         Menu addMenu = new Menu("Add");
 
@@ -531,5 +539,9 @@ public class monthViewUI extends Application {
 
     public BorderPane getRoot() {
         return root;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

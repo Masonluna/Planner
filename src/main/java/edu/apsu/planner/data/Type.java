@@ -41,7 +41,10 @@ public class Type {
     public Tag getTag() {
         return tag;
     }
-    public String getName() {return tag.name();}
+
+    public String getName() {
+        return tag.name();
+    }
 
     public void setTag(Tag tag) {
         this.tag = tag;
@@ -59,6 +62,12 @@ public class Type {
         return defaultSymbol;
     }
 
+    public Rectangle copyDefaultSymbol() {
+        Rectangle temp;
+        temp = new Rectangle(defaultSymbol.getWidth(), defaultSymbol.getHeight(), defaultSymbol.getFill());
+        return temp;
+    }
+
     public Property<Boolean> isVisibleProperty() {
         return isVisible;
     }
@@ -72,10 +81,10 @@ public class Type {
     }
 
 
-    public static Image loadImageIntoLabel( String imagePath) {
+    public static Image loadImageIntoLabel(String imagePath) {
         // Load the image
         Image image = new Image(Type.class.getResource(imagePath).toString());
-       return image;
+        return image;
     }
 
 

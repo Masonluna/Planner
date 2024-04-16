@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -127,9 +126,6 @@ public class monthViewUI extends Application {
         Menu insertSymbol = new Menu("Insert Symbol");
 
         MenuItem classSymbol = new MenuItem("Class symbol");
-        classSymbol.setOnAction(e->{
-
-        });
         MenuItem workSymbol = new MenuItem("Work symbol");
         MenuItem studySymbol = new MenuItem("Study symbol");
         MenuItem billSymbol = new MenuItem("Bill symbol");
@@ -177,8 +173,7 @@ public class monthViewUI extends Application {
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
         Rectangle defaultClassSymbol = new Rectangle(10, 10, Color.BLUE);
-       Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
-        Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
+        Type classType = new Type(Tag.CLASS, null, defaultClassSymbol, true);
         types[0] = classType;
         classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
         classFilter.setOnMouseClicked(
@@ -190,8 +185,7 @@ public class monthViewUI extends Application {
         workFilter.setFont(font2);
         workFilter.setSelected(true);
         Rectangle defaultWorkSymbol = new Rectangle(10, 10, Color.FORESTGREEN);
-        Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
-        Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
+        Type workType = new Type(Tag.WORK, null, defaultWorkSymbol, true);
         types[1] = workType;
         workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
         workFilter.setOnMouseClicked(
@@ -204,8 +198,7 @@ public class monthViewUI extends Application {
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
         Rectangle defaultAssignmentSymbol = new Rectangle(10, 10, Color.PURPLE);
-        Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
-        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);
+        Type assignmentType = new Type(Tag.ASSIGNMENT, null, defaultAssignmentSymbol,true);
         types[2] = assignmentType;
         assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
         assignmentFilter.setOnMouseClicked(
@@ -218,8 +211,7 @@ public class monthViewUI extends Application {
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
         Rectangle defaultBillSymbol = new Rectangle(10, 10, Color.RED);
-        Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
-        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
+        Type billType = new Type(Tag.BILL, null, defaultBillSymbol,true);
         types[3] = billType;
         billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
         billFilter.setOnMouseClicked(
@@ -232,8 +224,7 @@ public class monthViewUI extends Application {
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
         Rectangle defaultCustomEventSymbol = new Rectangle(10, 10, Color.AQUA);
-        Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
-        Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
+        Type customEventType = new Type(Tag.CUSTOM, null, defaultCustomEventSymbol, true);
         types[4] = customEventType;
         customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
         customEventFilter.setOnMouseClicked(
@@ -394,14 +385,14 @@ public class monthViewUI extends Application {
                 dayHBox.setAlignment(Pos.TOP_LEFT);
 
                 for (Type type : typesToAdd) {
-                    if (type.getSymbol() != null) {
+                    if (type.isSymbolIsVisable()) {
                         ImageView imageView = new ImageView(type.getSymbol());
                         // Resize the image (adjust the dimensions as needed)
                         imageView.setFitWidth(40); // Set the width to 50 pixels
                         imageView.setFitHeight(40); // Set the height to 50 pixels
                         dayHBox.getChildren().add(imageView);
                     } else {
-                        dayHBox.getChildren().add(type.getDefaultSymbol());
+                        dayHBox.getChildren().add(type.copyDefaultSymbol());
                     }
                 }
 

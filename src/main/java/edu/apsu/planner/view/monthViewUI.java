@@ -2,6 +2,7 @@ package edu.apsu.planner.view;
 
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
+import edu.apsu.planner.handler.FileEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -50,7 +51,7 @@ public class monthViewUI extends Application {
 
     @Override
     public void start(Stage stage) {
-         root = new BorderPane();
+        root = new BorderPane();
         // Set up MonthInfo data
         months = new MonthInfo[12];
         for (int i = 0; i < months.length; i++) {
@@ -79,23 +80,19 @@ public class monthViewUI extends Application {
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
-
+        FileEventHandler fileEventHandler = new FileEventHandler(this, months);
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-        newMenuItem.setOnAction(e->{
-            months = new MonthInfo[12];
-            for (int i = 0; i < months.length; i++) {
-                months[i] = new MonthInfo(2024, Month.of(i + 1));
-            }
-            root.setCenter(createCenterPane());
-        });
-        //MenuItem openMenuItem = new MenuItem("Open");
-        MenuItem savePDFMenuItem = new MenuItem("Save to PDF");
+        newMenuItem.setOnAction(fileEventHandler);
+        MenuItem saveMenuItem = new MenuItem("Save");
+        saveMenuItem.setOnAction(fileEventHandler);
+        MenuItem openMenuItem = new MenuItem("Open");
+        openMenuItem.setOnAction(fileEventHandler);
+        MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
+        savePDFMenuItem.setOnAction(fileEventHandler);
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.setOnAction(actionEvent ->
-                Platform.exit()
-        );
+        exitMenuItem.setOnAction(fileEventHandler);
         fileMenu.getItems().addAll(newMenuItem, savePDFMenuItem, separatorMenuItem, exitMenuItem);
 
         Menu addMenu = new Menu("Add");
@@ -104,27 +101,18 @@ public class monthViewUI extends Application {
         addSchedule.setOnAction(event->{
             choiceBoxDemo.popUp();
         });
-       // MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
-       // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
-        //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
-        // MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Event");
         AddEventHandler addEventHandler = new AddEventHandler(months, types, this);
         addCustomEvent.setOnAction(addEventHandler);
         addMenu.getItems().addAll(
                 addSchedule,
-                //addWorkSchedule,
-               // addCustomSchedule,
                 separatorMenuItem2,
-               // addAssignmentDueDate,
-                //addBillDueDate,
                 addCustomEvent);
 
+
         Menu insertMenu = new Menu("Insert");
-
         Menu insertSymbol = new Menu("Insert Symbol");
-
         MenuItem classSymbol = new MenuItem("Class symbol");
         classSymbol.setOnAction(e->{
             types[0].setSymbolIsVisable(true);
@@ -444,6 +432,14 @@ public class monthViewUI extends Application {
     }
 
     public VBox createRightPane() {
+        selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(8);
+        while (selectedDayHBox == null) {
+            selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                    monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+        }
+        selectedDayInfo = selectedDayHBox.getDayInfo();
+
+
 
         VBox rightPaneVBox = new VBox();
         rightPaneVBox.setPadding(new Insets(INSET_SIZE));
@@ -479,7 +475,8 @@ public class monthViewUI extends Application {
             dayLabel.setText(selectedDayInfo.toString());
         });
 
-        dayLabel = new Label();
+
+        dayLabel = new Label(selectedDayInfo.toString());
         dayLabel.setAlignment(Pos.CENTER);
         dayLabel.setPrefHeight(GRID_PANE_NODE_HEIGHT);
         Font font = new Font("Arial", 12);
@@ -524,7 +521,15 @@ public class monthViewUI extends Application {
         return months;
     }
 
+    public void setMonths(MonthInfo[] months) {
+        this.months = months;
+    }
+
     public int getCurrentMonthIndex() {
         return currentMonthIndex;
+    }
+
+    public BorderPane getRoot() {
+        return root;
     }
 }

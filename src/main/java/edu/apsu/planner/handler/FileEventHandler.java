@@ -46,7 +46,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
 
     private void newPlanner() {
         System.out.println("Calling newPlanner()");
-        app.setMonths( new MonthInfo[12]);
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, Month.of(i + 1));
         }
@@ -63,7 +62,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
             if (selectedFile != null) {
                 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
                 out.writeObject(months);
-                System.out.println("Save successful");
                 out.close();
             }
         } catch (IOException e) {
@@ -79,9 +77,11 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         try {
             if (selectedFile != null) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(selectedFile));
-                app.setMonths((MonthInfo[]) in.readObject());
+                months = (MonthInfo[]) in.readObject();
+                app.setMonths(months);
                 app.getRoot().setCenter(app.createCenterPane());
                 app.getRoot().setRight(app.createRightPane());
+                in.close();
             }
         } catch (FileNotFoundException e) {
             displayAlert("Open Error", "The File was not found");

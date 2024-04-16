@@ -22,9 +22,6 @@ import java.time.YearMonth;
 
 public class AddEventHandler implements EventHandler<ActionEvent> {
 
-    private MonthInfo[] months;
-    private Type[] types;
-
     private TextField titleOfEventTF;
     private TextArea descriptionOfEventTA;
     private ChoiceBox<String> tagChoiceBox;
@@ -36,8 +33,6 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     private monthViewUI app;
     public AddEventHandler(MonthInfo[] months, Type[] types, monthViewUI app) {
         super();
-        this.months = months;
-        this.types = types;
         this.app = app;
     }
     @Override
@@ -199,7 +194,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, time);
 
-        DayInfo dayInfo = months[chosenMonth.getValue() - 1].getDayOf(chosenDay);
+        DayInfo dayInfo = app.getMonths()[chosenMonth.getValue() - 1].getDayOf(chosenDay);
         dayInfo.getEvents().add(plannerEvent);
 
         popupStage.close();

@@ -44,7 +44,6 @@ public class monthViewUI extends Application {
 
     private Stage stage;
     private BorderPane root;
-    private Stage stage;
     private Type[] types = new Type[5];
 
     public static void main(String[] args) {

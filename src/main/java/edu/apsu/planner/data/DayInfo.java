@@ -1,9 +1,10 @@
 package edu.apsu.planner.data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class DayInfo {
+public class DayInfo implements Serializable {
     // Instances
     private ArrayList<PlannerEvent> events;
     private LocalDate date;

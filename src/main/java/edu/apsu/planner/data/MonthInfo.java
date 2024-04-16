@@ -1,11 +1,12 @@
 package edu.apsu.planner.data;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 
-public class MonthInfo {
+public class MonthInfo implements Serializable {
 
     // Instances
     String name;

@@ -1,8 +1,9 @@
 package edu.apsu.planner.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class WeekInfo {
+public class WeekInfo implements Serializable {
     // Instances
     private ArrayList<DayInfo> days;
 

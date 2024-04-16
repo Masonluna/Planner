@@ -1,6 +1,8 @@
 package edu.apsu.planner.data;
 
-public enum Tag {
+import java.io.Serializable;
+
+public enum Tag implements Serializable {
     CLASS,
     WORK,
     CUSTOM,

@@ -5,9 +5,12 @@ import edu.apsu.planner.view.monthViewUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
+import java.io.*;
 import java.time.Month;
 
 public class FileEventHandler implements EventHandler<ActionEvent> {
@@ -50,19 +53,40 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         app.getRoot().setCenter(app.createCenterPane());
     }
 
-    public void save() {
+    private void save() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Planner");
+        fileChooser.setInitialFileName("Untitled.pln");
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Planner Files", "*.pln"));
+        File selectedFile = fileChooser.showSaveDialog(app.getStage());
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
+            out.writeObject(months);
+            System.out.println("Save successful");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            displayAlert("File Save Error", "File could not be saved");
+        }
+    }
+
+    private void loadPlanner() {
 
     }
 
-    public void loadPlanner() {
+    private void displayAlert(String title, String description) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(description);
+        alert.showAndWait();
+    }
+
+
+    private void export() {
 
     }
 
-    public void export() {
-
-    }
-
-    public void exit() {
+    private void exit() {
         Platform.exit();
     }
 

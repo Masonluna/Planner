@@ -1,6 +1,8 @@
 package edu.apsu.planner.data;
 
-public class PlannerEvent {
+import java.io.Serializable;
+
+public class PlannerEvent implements Serializable {
 
     //Instances
     private String name;

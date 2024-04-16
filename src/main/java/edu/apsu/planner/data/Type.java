@@ -8,7 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-public class Type {
+import java.io.Serializable;
+
+public class Type implements Serializable {
 
     // Instances
     private Tag tag;

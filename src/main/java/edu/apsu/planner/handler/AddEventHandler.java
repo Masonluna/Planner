@@ -1,9 +1,6 @@
 package edu.apsu.planner.handler;
 
-import edu.apsu.planner.data.DayInfo;
-import edu.apsu.planner.data.MonthInfo;
-import edu.apsu.planner.data.PlannerEvent;
-import edu.apsu.planner.data.Type;
+import edu.apsu.planner.data.*;
 import edu.apsu.planner.view.monthViewUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -211,13 +208,13 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
     private PlannerEvent getPlannerEvent(String eventName, String eventDescription, String time) {
         String tagChoice = tagChoiceBox.getSelectionModel().getSelectedItem();
-        Type type = switch (tagChoice) {
-            case "Assignment Due Date" -> types[2];
-            case "Bill Due Date" -> types[3];
-            case "Custom Event" -> types[4];
+        Tag tag = switch (tagChoice) {
+            case "Assignment Due Date" -> Tag.ASSIGNMENT;
+            case "Bill Due Date" -> Tag.BILL;
+            case "Custom Event" -> Tag.CUSTOM;
             default -> null;
         };
-        return new PlannerEvent(eventName, eventDescription, time, type);
+        return new PlannerEvent(eventName, eventDescription, time, tag);
     }
 
 

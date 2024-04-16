@@ -1,11 +1,28 @@
 package edu.apsu.planner.data;
 
-import java.io.Serializable;
+public enum Tag {
+    CLASS(0),
+    WORK(1),
+    ASSIGNMENT(2),
+    BILL(3),
+    CUSTOM(4);
 
-public enum Tag implements Serializable {
-    CLASS,
-    WORK,
-    CUSTOM,
-    ASSIGNMENT,
-    BILL
+    private final int value;
+
+    Tag (int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public static Tag valueOf(int value) {
+        for (Tag tag : Tag.values()) {
+            if (tag.value == value)
+                return tag;
+        }
+
+        throw new IllegalArgumentException();
+    }
 }

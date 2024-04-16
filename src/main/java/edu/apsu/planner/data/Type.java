@@ -3,9 +3,7 @@ package edu.apsu.planner.data;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serializable;
@@ -18,7 +16,7 @@ public class Type implements Serializable {
     private Rectangle defaultSymbol;
 
 
-    private boolean symbolIsVisable;
+    private boolean symbolIsVisible;
     private final BooleanProperty isVisible = new SimpleBooleanProperty();
 
 
@@ -33,7 +31,7 @@ public class Type implements Serializable {
         this.symbol = symbol;
         this.defaultSymbol = defaultSymbol;
         this.isVisible.set(isVisible);
-        this.symbolIsVisable = false;
+        this.symbolIsVisible = false;
     }
 
 
@@ -90,12 +88,12 @@ public class Type implements Serializable {
     }
 
 
-    public boolean isSymbolIsVisable() {
-        return symbolIsVisable;
+    public boolean isSymbolIsVisible() {
+        return symbolIsVisible;
     }
 
-    public void setSymbolIsVisable(boolean symbolIsVisable) {
-        this.symbolIsVisable = symbolIsVisable;
+    public void setSymbolIsVisible(boolean symbolIsVisible) {
+        this.symbolIsVisible = symbolIsVisible;
     }
 
 }

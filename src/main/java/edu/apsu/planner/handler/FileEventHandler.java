@@ -7,10 +7,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseEvent;
+
 import javafx.stage.FileChooser;
 
 import java.io.*;
+
 import java.time.Month;
 
 public class FileEventHandler implements EventHandler<ActionEvent> {
@@ -43,7 +44,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         }
     }
 
-    public void newPlanner() {
+    private void newPlanner() {
         System.out.println("Calling newPlanner()");
         app.setMonths( new MonthInfo[12]);
         for (int i = 0; i < months.length; i++) {
@@ -54,16 +55,17 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void save() {
-        FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = setupFileChooser();
         fileChooser.setTitle("Save Planner");
         fileChooser.setInitialFileName("Untitled.pln");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Planner Files", "*.pln"));
         File selectedFile = fileChooser.showSaveDialog(app.getStage());
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
-            out.writeObject(months);
-            System.out.println("Save successful");
-            out.close();
+            if (selectedFile != null) {
+                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
+                out.writeObject(months);
+                System.out.println("Save successful");
+                out.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             displayAlert("File Save Error", "File could not be saved");
@@ -71,16 +73,37 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void loadPlanner() {
-
+        FileChooser fileChooser = setupFileChooser();
+        fileChooser.setTitle("Load Planner");
+        File selectedFile = fileChooser.showOpenDialog(app.getStage());
+        try {
+            if (selectedFile != null) {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(selectedFile));
+                app.setMonths((MonthInfo[]) in.readObject());
+                app.getRoot().setCenter(app.createCenterPane());
+                app.getRoot().setRight(app.createRightPane());
+            }
+        } catch (FileNotFoundException e) {
+            displayAlert("Open Error", "The File was not found");
+        } catch (IOException e) {
+            displayAlert("Open Error", "File could not be opened");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    private FileChooser setupFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Planner Files", "*.pln"));
+        return fileChooser;
+    }
     private void displayAlert(String title, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(description);
         alert.showAndWait();
     }
-
 
     private void export() {
 

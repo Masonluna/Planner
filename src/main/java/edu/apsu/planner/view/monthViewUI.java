@@ -4,7 +4,6 @@ import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
 import edu.apsu.planner.handler.FileEventHandler;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class monthViewUI extends Application {
@@ -38,12 +38,13 @@ public class monthViewUI extends Application {
     private Label monthLabel;
     private GridPane monthViewGridPane;
     private Label dayLabel;
-    private DayHBox selectedDayHBox;
+    private DayFlowPane selectedDayFlowPane;
     private DayInfo selectedDayInfo;
     private GridPane gridPaneDetailView;
 
     private Stage stage;
     private BorderPane root;
+    private Stage stage;
     private Type[] types = new Type[5];
 
     public static void main(String[] args) {
@@ -116,34 +117,34 @@ public class monthViewUI extends Application {
         addMenu.getItems().addAll(
                 addSchedule,
                 separatorMenuItem2,
-                addCustomEvent);
-
+                addCustomEvent
+        );
 
         Menu insertMenu = new Menu("Insert");
         Menu insertSymbol = new Menu("Insert Symbol");
         MenuItem classSymbol = new MenuItem("Class symbol");
         classSymbol.setOnAction(e->{
-            types[0].setSymbolIsVisable(true);
+            types[0].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem workSymbol = new MenuItem("Work symbol");
         workSymbol.setOnAction(e->{
-            types[1].setSymbolIsVisable(true);
+            types[1].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
         assignmentSymbol.setOnAction(e->{
-            types[2].setSymbolIsVisable(true);
+            types[2].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem billSymbol = new MenuItem("Bill symbol");
         billSymbol.setOnAction(e->{
-            types[3].setSymbolIsVisable(true);
+            types[3].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem customSymbol = new MenuItem("Custom symbol");
         customSymbol.setOnAction(e->{
-            types[4].setSymbolIsVisable(true);
+            types[4].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
        // MenuItem churchSymbol = new MenuItem("Church symbol");
@@ -188,7 +189,7 @@ public class monthViewUI extends Application {
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
-        Rectangle defaultClassSymbol = new Rectangle(10, 10, Color.BLUE);
+        Rectangle defaultClassSymbol = new Rectangle(20, 20, Color.BLUE);
         Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
         Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
         types[0] = classType;
@@ -201,7 +202,7 @@ public class monthViewUI extends Application {
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
-        Rectangle defaultWorkSymbol = new Rectangle(10, 10, Color.FORESTGREEN);
+        Rectangle defaultWorkSymbol = new Rectangle(20, 20, Color.FORESTGREEN);
         Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
         Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
         types[1] = workType;
@@ -215,7 +216,7 @@ public class monthViewUI extends Application {
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
-        Rectangle defaultAssignmentSymbol = new Rectangle(10, 10, Color.PURPLE);
+        Rectangle defaultAssignmentSymbol = new Rectangle(20, 20, Color.PURPLE);
         Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
         Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);        types[2] = assignmentType;
         assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
@@ -228,7 +229,7 @@ public class monthViewUI extends Application {
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
-        Rectangle defaultBillSymbol = new Rectangle(10, 10, Color.RED);
+        Rectangle defaultBillSymbol = new Rectangle(20, 20, Color.RED);
         Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
         Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
         types[3] = billType;
@@ -242,7 +243,7 @@ public class monthViewUI extends Application {
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
-        Rectangle defaultCustomEventSymbol = new Rectangle(10, 10, Color.AQUA);
+        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
         Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
         Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
 
@@ -267,6 +268,12 @@ public class monthViewUI extends Application {
         VBox centerPaneVBox = new VBox();
         HBox labelAndControl = new HBox();
         monthViewGridPane = new GridPane();
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setPercentWidth(100.0 / 7);
+        monthViewGridPane.getColumnConstraints().addAll(
+                columnConstraints, columnConstraints, columnConstraints,
+                columnConstraints, columnConstraints, columnConstraints, columnConstraints);
+
         centerPaneVBox.setPadding(new Insets(INSET_SIZE));
         centerPaneVBox.setSpacing(10);
         labelAndControl.setSpacing(10);
@@ -339,7 +346,6 @@ public class monthViewUI extends Application {
         monthViewGridPane.setGridLinesVisible(false);
         monthViewGridPane.setGridLinesVisible(true);
 
-
         // Create labels for days of the week.
         Label sundayLabel = new Label("Sunday");
         sundayLabel.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
@@ -386,39 +392,51 @@ public class monthViewUI extends Application {
             for (int j = 0; j < week.getDays().size(); j++) {
                 DayInfo day = week.getDays().get(j);
 
-                DayHBox dayHBox = new DayHBox(day);
-                dayHBox.setPadding(new Insets(2));
+                DayFlowPane dayFlowPane = new DayFlowPane(day);
+                dayFlowPane.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
+                dayFlowPane.setAlignment(Pos.TOP_RIGHT);
+                dayFlowPane.setPadding(new Insets(2));
+                dayFlowPane.setHgap(5);
+                dayFlowPane.setVgap(2);
                 Label tmp = new Label();
-                tmp.setPrefSize(GRID_PANE_NODE_WIDTH, GRID_PANE_NODE_HEIGHT);
+                tmp.setPrefSize(40, 10);
                 tmp.setPadding(new Insets(5));
                 tmp.setFont(font);
                 tmp.setText(String.valueOf(day.getDate().getDayOfMonth()));
                 tmp.setAlignment(Pos.TOP_LEFT);
                 tmp.setUserData(day);
 
-                dayHBox.setOnMouseClicked( event -> {
-                        selectedDayHBox = (DayHBox) event.getSource();
-                        selectedDayInfo = selectedDayHBox.getDayInfo();
+                dayFlowPane.setOnMouseClicked(event -> {
+                        selectedDayFlowPane = (DayFlowPane) event.getSource();
+                        selectedDayInfo = selectedDayFlowPane.getDayInfo();
                         dayLabel.setText(selectedDayInfo.toString());
                 });
-                dayHBox.getChildren().add(tmp);
-                HashSet<Type> typesToAdd = findTagsToAdd(day);
-                dayHBox.setAlignment(Pos.TOP_LEFT);
+                dayFlowPane.getChildren().add(tmp);
+                HashSet<Tag> tagsToAdd = findTagsToAdd(day);
+                ArrayList<Type> typesToAdd = new ArrayList<>();
+                for (Type type : types)
+                {
+                    if (tagsToAdd.contains(type.getTag()) && type.isVisible())
+                    {
+                        typesToAdd.add(type);
+                    }
+                }
+                dayFlowPane.setAlignment(Pos.TOP_LEFT);
 
                 for (Type type : typesToAdd) {
-                    if (type.isSymbolIsVisable()) {
+                    if (type.isSymbolIsVisible()) {
                         ImageView imageView = new ImageView(type.getSymbol());
                         // Resize the image (adjust the dimensions as needed)
-                        imageView.setFitWidth(40); // Set the width to 50 pixels
-                        imageView.setFitHeight(40); // Set the height to 50 pixels
-                        dayHBox.getChildren().add(imageView);
+                        imageView.setFitWidth(40); // Set the width to 40 pixels
+                        imageView.setFitHeight(40); // Set the height to 40 pixels
+                        dayFlowPane.getChildren().add(imageView);
                     } else {
-                        dayHBox.getChildren().add(type.copyDefaultSymbol());
+                        dayFlowPane.getChildren().add(type.copyDefaultSymbol());
                     }
                 }
 
                 // Monday == 1, Sunday == 7. To get Sunday to be at index 0, use the value % 7
-                monthViewGridPane.add(dayHBox, day.getDate().getDayOfWeek().getValue() % 7, i + 1);
+                monthViewGridPane.add(dayFlowPane, day.getDate().getDayOfWeek().getValue() % 7, i + 1);
             }
         }
     }
@@ -428,11 +446,10 @@ public class monthViewUI extends Application {
      * @param day a given DayInfo instance representing a day of the month
      * @return A HashSet of Tags that have a corresponding event in day and are visible.
      */
-    private HashSet<Type> findTagsToAdd(DayInfo day) {
-        HashSet<Type> typeHashSet = new HashSet<>();
+    private HashSet<Tag> findTagsToAdd(DayInfo day) {
+        HashSet<Tag> typeHashSet = new HashSet<>();
         for (PlannerEvent event : day.getEvents()) {
-            if (event.getType().isVisible())
-                typeHashSet.add(event.getType());
+            typeHashSet.add(event.getTag());
         }
 
 
@@ -440,12 +457,12 @@ public class monthViewUI extends Application {
     }
 
     public VBox createRightPane() {
-        selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(8);
-        while (selectedDayHBox == null) {
-            selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                    monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+        selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
+        while (selectedDayFlowPane == null) {
+            selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                    monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
         }
-        selectedDayInfo = selectedDayHBox.getDayInfo();
+        selectedDayInfo = selectedDayFlowPane.getDayInfo();
 
 
 
@@ -468,18 +485,18 @@ public class monthViewUI extends Application {
             {
                 createGridPane(months[--currentMonthIndex]);
                 monthLabel.setText(months[currentMonthIndex].toString());
-                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
+                selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
                         monthViewGridPane.getChildren().size() - 1
                 );
-                while (selectedDayHBox == null) {
-                    selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                            monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+                while (selectedDayFlowPane == null) {
+                    selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                            monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) - 1);
                 }
             } else {
-                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                        monthViewGridPane.getChildren().indexOf(selectedDayHBox) - 1);
+                selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                        monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) - 1);
             }
-            selectedDayInfo = selectedDayHBox.getDayInfo();
+            selectedDayInfo = selectedDayFlowPane.getDayInfo();
             dayLabel.setText(selectedDayInfo.toString());
         });
 
@@ -498,18 +515,18 @@ public class monthViewUI extends Application {
             {
                 createGridPane(months[++currentMonthIndex]);
                 monthLabel.setText(months[currentMonthIndex].toString());
-                // 8 is the first child node that could possibly be a DayHBox
+                // 8 is the first child node that could possibly be a DayFlowPane
 
-                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(8);
-                while (selectedDayHBox == null) {
-                    selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                            monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+                selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
+                while (selectedDayFlowPane == null) {
+                    selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                            monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
                 }
             } else {
-                selectedDayHBox = (DayHBox) monthViewGridPane.getChildren().get(
-                        monthViewGridPane.getChildren().indexOf(selectedDayHBox) + 1);
+                selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                        monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
             }
-            selectedDayInfo = selectedDayHBox.getDayInfo();
+            selectedDayInfo = selectedDayFlowPane.getDayInfo();
             dayLabel.setText(selectedDayInfo.toString());
         });
 

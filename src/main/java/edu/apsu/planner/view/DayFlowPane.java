@@ -1,12 +1,12 @@
 package edu.apsu.planner.view;
 
 import edu.apsu.planner.data.DayInfo;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
 
-public class DayHBox extends HBox {
+public class DayFlowPane extends FlowPane {
 
 
-    public DayHBox(DayInfo dayInfo) {
+    public DayFlowPane(DayInfo dayInfo) {
         super();
         setUserData(dayInfo);
     }

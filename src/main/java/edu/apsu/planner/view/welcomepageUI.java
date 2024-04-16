@@ -93,6 +93,7 @@ public class welcomepageUI extends Application {
                         correctAlert.setTitle("Successful login in");
                         correctAlert.setHeaderText("Welcome");
                         correctAlert.showAndWait();
+
                     } else {
                         Alert incorrectAlert = new Alert(Alert.AlertType.ERROR);
                         incorrectAlert.setTitle("Failed login in attempt");

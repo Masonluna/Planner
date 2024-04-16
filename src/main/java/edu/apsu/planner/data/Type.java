@@ -3,7 +3,9 @@ package edu.apsu.planner.data;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
 public class Type {
@@ -64,4 +66,12 @@ public class Type {
     public void setVisible(boolean visible) {
         isVisible.set(visible);
     }
+
+
+    public static Image loadImageIntoLabel( String imagePath) {
+        // Load the image
+        Image image = new Image(Type.class.getResource(imagePath).toString());
+       return image;
+    }
+
 }

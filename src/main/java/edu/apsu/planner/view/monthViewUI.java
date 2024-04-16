@@ -126,18 +126,38 @@ public class monthViewUI extends Application {
         Menu insertSymbol = new Menu("Insert Symbol");
 
         MenuItem classSymbol = new MenuItem("Class symbol");
+        classSymbol.setOnAction(e->{
+            types[0].setSymbolIsVisable(true);
+            createGridPane(months[currentMonthIndex]);
+        });
         MenuItem workSymbol = new MenuItem("Work symbol");
-        MenuItem studySymbol = new MenuItem("Study symbol");
+        workSymbol.setOnAction(e->{
+            types[1].setSymbolIsVisable(true);
+            createGridPane(months[currentMonthIndex]);
+        });
+        MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
+        assignmentSymbol.setOnAction(e->{
+            types[2].setSymbolIsVisable(true);
+            createGridPane(months[currentMonthIndex]);
+        });
         MenuItem billSymbol = new MenuItem("Bill symbol");
-        MenuItem importSymbol = new MenuItem("Important symbol");
-        MenuItem churchSymbol = new MenuItem("Church symbol");
+        billSymbol.setOnAction(e->{
+            types[3].setSymbolIsVisable(true);
+            createGridPane(months[currentMonthIndex]);
+        });
+        MenuItem customSymbol = new MenuItem("Custom symbol");
+        customSymbol.setOnAction(e->{
+            types[4].setSymbolIsVisable(true);
+            createGridPane(months[currentMonthIndex]);
+        });
+       // MenuItem churchSymbol = new MenuItem("Church symbol");
         insertSymbol.getItems().addAll(
                 classSymbol,
                 workSymbol,
-                studySymbol,
+                assignmentSymbol,
                 billSymbol,
-                importSymbol,
-                churchSymbol);
+                customSymbol);
+                //churchSymbol);
         insertMenu.getItems().add(insertSymbol);
 
         Menu viewMenu = new Menu("View");

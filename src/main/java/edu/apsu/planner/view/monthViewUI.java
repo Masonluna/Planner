@@ -82,14 +82,14 @@ public class monthViewUI extends Application {
 
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-        MenuItem openMenuItem = new MenuItem("Open");
-        MenuItem saveMenuItem = new MenuItem("Save");
+        //MenuItem openMenuItem = new MenuItem("Open");
+        MenuItem savePDFMenuItem = new MenuItem("Save to PDF");
         SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setOnAction(actionEvent ->
                 Platform.exit()
         );
-        fileMenu.getItems().addAll(newMenuItem, openMenuItem, saveMenuItem, separatorMenuItem, exitMenuItem);
+        fileMenu.getItems().addAll(newMenuItem, savePDFMenuItem, separatorMenuItem, exitMenuItem);
 
         Menu addMenu = new Menu("Add");
 

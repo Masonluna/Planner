@@ -111,7 +111,7 @@ public class monthViewUI extends Application {
         });
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         MenuItem addCustomEvent = new MenuItem("Add Event");
-        AddEventHandler addEventHandler = new AddEventHandler(months, types, this);
+        AddEventHandler addEventHandler = new AddEventHandler(this);
         addCustomEvent.setOnAction(addEventHandler);
         addMenu.getItems().addAll(
                 addSchedule,

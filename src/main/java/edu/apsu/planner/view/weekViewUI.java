@@ -18,6 +18,7 @@ public class weekViewUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    private Stage stage;
 
     @Override
     public void start(Stage stage) {
@@ -87,7 +88,11 @@ public class weekViewUI extends Application {
 
         Menu viewMenu = new Menu("View");
         MenuItem weekViewMenu = new MenuItem("Week View");
+
         MenuItem monthViewMenu = new MenuItem("Month View");
+        monthViewMenu.setOnAction(e->{
+           //stage.setScene(monthViewUI.getScene());
+        });
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
         menuBar.getMenus().addAll(fileMenu,addMenu, insertMenu, viewMenu);

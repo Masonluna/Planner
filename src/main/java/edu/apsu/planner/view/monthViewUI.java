@@ -44,6 +44,10 @@ public class monthViewUI extends Application {
 
     private Stage stage;
     private BorderPane root;
+    private  Scene scene;
+    public Scene getScene(){
+        return scene;
+    }
     private Type[] types = new Type[5];
 
     public static void main(String[] args) {
@@ -70,7 +74,7 @@ public class monthViewUI extends Application {
         root.setRight(createRightPane());
 
 
-        Scene scene = new Scene(root);
+         scene = new Scene(root);
         stage.setTitle("Planer Application");
         stage.setScene(scene);
         stage.show();

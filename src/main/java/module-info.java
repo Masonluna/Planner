@@ -1,6 +1,9 @@
 module edu.apsu.planner {
     requires javafx.controls;
     requires javafx.fxml;
+    requires itextpdf;
+    requires org.apache.commons.text;
+
 
 
     opens edu.apsu.planner to javafx.fxml;

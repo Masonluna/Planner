@@ -1,5 +1,6 @@
 package edu.apsu.planner.view;
 
+import com.itextpdf.text.pdf.PdfDocument;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
 import edu.apsu.planner.handler.FileEventHandler;
@@ -7,19 +8,26 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 public class monthViewUI extends Application {
 
@@ -643,4 +651,24 @@ public class monthViewUI extends Application {
     public Stage getStage() {
         return stage;
     }
+
+
+   /* public void saveAsPDF(GridPane gridPane) {
+        // Take a snapshot of the GridPane
+        WritableImage image = gridPane.snapshot(new SnapshotParameters(), null);
+
+        // Create a PDF document
+        try {
+           Document document = new Document();
+
+            // Close the document
+            document.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    */
+
+
 }

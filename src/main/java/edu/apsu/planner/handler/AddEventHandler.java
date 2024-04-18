@@ -29,16 +29,16 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<Integer> dayChoiceBox;
     private ChoiceBox<Integer> hoursChoiceBox;
     private ChoiceBox<Integer> minChoiceBox;
+    private ChoiceBox<String> amPmChoiceBox;
     public Stage popupStage;
     private monthViewUI app;
-    public AddEventHandler(MonthInfo[] months, Type[] types, monthViewUI app) {
+    public AddEventHandler(monthViewUI app) {
         super();
         this.app = app;
     }
     @Override
     public void handle(ActionEvent event) {
         Stage primaryStage = new Stage();
-        Popup popup = new Popup();
 
 
         BorderPane root = new BorderPane();
@@ -61,7 +61,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         descriptionOfEventTA = new TextArea();
         descriptionOfEventTA.setFont(font);
         descriptionOfEventTA.setStyle("-fx-control-inner-background: pink;");
-        descriptionOfEventTA.setPromptText("Enter a decription of event here");
+        descriptionOfEventTA.setPromptText("Enter a description of event here");
         Button okayButton = new Button("Add to Planner");
         okayButton.setStyle("-fx-color: pink;");
         okayButton.setFont(Font.font("Arial", 18));
@@ -123,7 +123,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         minChoiceBox.setStyle("-fx-color: pink;");
         minChoiceBox.getItems().addAll(00,05,10,15,20,25,30,35,40,45,50,55);
         minChoiceBox.setValue(00);
-        ChoiceBox<String> amPmChoiceBox = new ChoiceBox<>();
+        amPmChoiceBox = new ChoiceBox<>();
         amPmChoiceBox.setStyle("-fx-color: pink;");
         amPmChoiceBox.getItems().addAll("AM", "PM");
         amPmChoiceBox.setValue("AM");
@@ -163,16 +163,6 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
 
         primaryStage.setTitle("Add Event");
-
-        //  popup.getContent().add(root);
-        popup.setAutoHide(true);
-
-
-        //Scene scene = new Scene(rootMain);
-
-        // primaryStage.setScene(scene);
-        //
-        // primaryStage.show();
 
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);

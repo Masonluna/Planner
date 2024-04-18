@@ -1,15 +1,20 @@
 package edu.apsu.planner.view;
 
+import edu.apsu.planner.data.Tag;
+import edu.apsu.planner.data.Type;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -19,6 +24,9 @@ public class weekViewUI extends Application {
         launch(args);
     }
     private Stage stage;
+    private final int INSET_SIZE = 15;
+    private Type[] types = new Type[5];
+
 
     @Override
     public void start(Stage stage) {
@@ -47,14 +55,23 @@ public class weekViewUI extends Application {
 
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-        // MenuItem openMenuItem = new MenuItem("Open");
-        MenuItem savePDFMenuItem = new MenuItem("Save to PDF");
-        SeparatorMenuItem separatorMenuItem = new SeparatorMenuItem();
+       // newMenuItem.setOnAction(fileEventHandler);
+        MenuItem saveMenuItem = new MenuItem("Save");
+        // saveMenuItem.setOnAction(fileEventHandler);
+        MenuItem openMenuItem = new MenuItem("Open");
+       // openMenuItem.setOnAction(fileEventHandler);
+        MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
+        // savePDFMenuItem.setOnAction(fileEventHandler);
         MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.setOnAction(actionEvent ->
-                Platform.exit()
-        );
-        fileMenu.getItems().addAll(newMenuItem,savePDFMenuItem, separatorMenuItem,exitMenuItem);
+        // exitMenuItem.setOnAction(fileEventHandler);
+        fileMenu.getItems().addAll(
+                newMenuItem,
+                new SeparatorMenuItem(),
+                saveMenuItem,
+                openMenuItem,
+                savePDFMenuItem,
+                new SeparatorMenuItem(),
+                exitMenuItem);
 
         Menu addMenu = new Menu("Add");
 
@@ -79,11 +96,10 @@ public class weekViewUI extends Application {
 
         MenuItem classSymbol = new MenuItem("Class symbol");
         MenuItem workSymbol = new MenuItem("Work symbol");
-        MenuItem studySymbol = new MenuItem("Study symbol");
+        MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
         MenuItem billSymbol = new MenuItem("Bill symbol");
-        MenuItem importSymbol = new MenuItem("Important symbol");
-        MenuItem churchSymbol = new MenuItem("Church symbol");
-        insertSymbol.getItems().addAll(classSymbol, workSymbol,studySymbol,billSymbol,importSymbol,churchSymbol);
+        MenuItem customSymbol = new MenuItem("Custom symbol");
+        insertSymbol.getItems().addAll(classSymbol, workSymbol,assignmentSymbol,billSymbol,customSymbol);
         insertMenu.getItems().add(insertSymbol);
 
         Menu viewMenu = new Menu("View");
@@ -100,9 +116,10 @@ public class weekViewUI extends Application {
         return menuBar;
     }
 
-    public VBox createLeftPane(){
+    public VBox createLeftPane() {
 
         VBox leftPaneVBox = new VBox();
+        leftPaneVBox.setPadding(new Insets(INSET_SIZE));
         leftPaneVBox.setSpacing(10);
 
 
@@ -115,35 +132,79 @@ public class weekViewUI extends Application {
         Font font2 = new Font("Arial", 14);
 
 
+
         CheckBox classFilter = new CheckBox("Class Schedule");
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
+        classFilter.setSelected(true);
+        Rectangle defaultClassSymbol = new Rectangle(20, 20, Color.BLUE);
+        Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
+        Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
+        types[0] = classType;
+        classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
+      //  classFilter.setOnMouseClicked(
+          //      e -> createGridPane(months[currentMonthIndex])
+      //  );
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
-
-        CheckBox customSchedFilter = new CheckBox("Custom Schedule");
-        customSchedFilter.setFont(font2);
-        customSchedFilter.setStyle("-fx-color: pink;");
+        workFilter.setSelected(true);
+        Rectangle defaultWorkSymbol = new Rectangle(20, 20, Color.FORESTGREEN);
+        Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
+        Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
+        types[1] = workType;
+        workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
+      //  workFilter.setOnMouseClicked(
+      //          e -> createGridPane(months[currentMonthIndex])
+      //  );
 
 
         CheckBox assignmentFilter = new CheckBox("Assignments Due");
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
+        assignmentFilter.setSelected(true);
+        Rectangle defaultAssignmentSymbol = new Rectangle(20, 20, Color.PURPLE);
+        Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
+        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);        types[2] = assignmentType;
+        assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
+       // assignmentFilter.setOnMouseClicked(
+       //         e -> createGridPane(months[currentMonthIndex])
+      //  );
 
 
         CheckBox billFilter = new CheckBox("Bill Due");
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
+        billFilter.setSelected(true);
+        Rectangle defaultBillSymbol = new Rectangle(20, 20, Color.RED);
+        Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
+        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
+        types[3] = billType;
+        billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
+       // billFilter.setOnMouseClicked(
+       //         e -> createGridPane(months[currentMonthIndex])
+       // );
 
 
         CheckBox customEventFilter = new CheckBox("Custom Events");
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
+        customEventFilter.setSelected(true);
+        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
+        Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
+        Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
+
+        types[4] = customEventType;
+        customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
+      //  customEventFilter.setOnMouseClicked(
+       //         e -> createGridPane(months[currentMonthIndex])
+      //  );
 
 
-        leftPaneVBox.getChildren().addAll(filterLabel,classFilter,workFilter,customSchedFilter,assignmentFilter,billFilter,customEventFilter);
+
+
+        leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, assignmentFilter, billFilter, customEventFilter);
 
         return leftPaneVBox;
 
@@ -228,4 +289,5 @@ public class weekViewUI extends Application {
 
         return centerPaneVBox;
     }
+
 }

@@ -122,7 +122,7 @@ public class choiceBoxDemo {
                 dayEndChoiceBox.setValue(1); // Set default day value
             }
         });
-        dayEndChoiceBox.setValue(1);
+        dayEndChoiceBox.setValue(30);
         dayEndChoiceBox.setStyle("-fx-color: pink;");
         endDayContainer.getChildren().addAll(monthEndChoiceBox, dayEndChoiceBox);
         endDayContainer1.getChildren().addAll(endDateLbl, endDayContainer);

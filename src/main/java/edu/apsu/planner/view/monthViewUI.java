@@ -3,6 +3,7 @@ package edu.apsu.planner.view;
 import com.itextpdf.text.pdf.PdfDocument;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
+import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -82,7 +83,7 @@ public class monthViewUI extends Application {
         root.setRight(createRightPane());
 
 
-         scene = new Scene(root);
+        scene = new Scene(root);
         stage.setTitle("Planer Application");
         stage.setScene(scene);
         stage.show();
@@ -118,9 +119,8 @@ public class monthViewUI extends Application {
         Menu addMenu = new Menu("Add");
 
         MenuItem addSchedule = new MenuItem("Add  Schedule");
-        addSchedule.setOnAction(event->{
-            choiceBoxDemo.popUp();
-        });
+        AddScheduleHandler addScheduleHandler = new AddScheduleHandler(this);
+        addSchedule.setOnAction(addScheduleHandler);
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         MenuItem addCustomEvent = new MenuItem("Add Event");
         AddEventHandler addEventHandler = new AddEventHandler(this);
@@ -462,8 +462,6 @@ public class monthViewUI extends Application {
         for (PlannerEvent event : day.getEvents()) {
             typeHashSet.add(event.getTag());
         }
-
-
         return typeHashSet;
     }
 

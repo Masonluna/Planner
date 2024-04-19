@@ -633,7 +633,7 @@ public class monthViewUI extends BorderPane {
     }
 
     public Stage getStage() {
-        return app.stage;
+        return app.getStage();
     }
 
 

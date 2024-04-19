@@ -27,7 +27,12 @@ public class DayInfo implements Serializable {
     // Methods
 
     public void sortEvents() {
+        //for each event in events
+        //find the event that starts first
+        //make that the first event
+        //repeat until there are no more events
 
+        //need: hour start, minute start, am or pm.
     }
     @Override
     public String toString() {

@@ -15,7 +15,7 @@ public class PlannerApplication extends Application {
     MonthInfo[] months;
 
     // JavaFX Instances
-    public Stage stage;
+    private Stage stage;
     public Scene welcomeScene;
     public Scene weekViewScene;
     public Scene monthViewScene;

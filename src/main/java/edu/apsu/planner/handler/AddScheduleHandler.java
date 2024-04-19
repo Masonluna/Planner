@@ -259,8 +259,14 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
 
         String eventName = titleOfEventTF.getText().trim();
         String eventDescription = descriptionOfEventTA.getText().trim();
-        String time = hoursChoiceBox.getSelectionModel().getSelectedItem().toString() + ":" +
-                minChoiceBox.getSelectionModel().getSelectedItem().toString();
+
+        int startingHour = hoursChoiceBox.getValue();
+        int startingMin = minChoiceBox.getValue();
+        String startingAmOrPm = amPmChoiceBox.getValue();
+
+        int endingHour = endHoursChoiceBox.getValue();
+        int endingMin = endMinChoiceBox.getValue();
+        String endingAmOrPm = endAmPmChoiceBox.getValue();
         Month startMonth = monthChoiceBox.getSelectionModel().getSelectedItem();
         int startDay = dayChoiceBox.getSelectionModel().getSelectedItem();
         Month endMonth = monthEndChoiceBox.getSelectionModel().getSelectedItem();
@@ -275,7 +281,8 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
             int dayOfWeekValue = currentDayInfo.getDate().getDayOfWeek().getValue() % 7;
             System.out.println("In while loop");
             if (dayOfWeekCheckBoxes[dayOfWeekValue].isSelected()) {
-                PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, time);
+                PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
+                        startingAmOrPm, endingHour, endingMin, endingAmOrPm);
                 currentDayInfo.getEvents().add(plannerEvent);
                 System.out.println("Added Planner Event: " + plannerEvent + " to Day: " + currentDayInfo);
             }
@@ -295,7 +302,9 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         System.out.println("Finished running");
     }
 
-    private PlannerEvent getPlannerEvent(String eventName, String eventDescription, String time) {
+
+    private PlannerEvent getPlannerEvent(String eventName, String eventDescription, int startingHour, int startingMinute, String startingAmOrPm,
+                                         int endingHour, int endingMinute, String endingAmOrPm) {
         String tagChoice = tagChoiceBox.getSelectionModel().getSelectedItem();
         Tag tag = switch (tagChoice) {
             case "Class Schedule" -> Tag.CLASS;
@@ -303,7 +312,8 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
             case "Custom Schedule" -> Tag.CUSTOM;
             default -> null;
         };
-        return new PlannerEvent(eventName, eventDescription, time, tag);
+        return new PlannerEvent(eventName, eventDescription, startingHour, startingMinute, startingAmOrPm,
+                endingHour, endingMinute, endingAmOrPm, tag);
     }
 
 }

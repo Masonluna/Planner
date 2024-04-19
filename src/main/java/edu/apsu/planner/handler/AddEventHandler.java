@@ -30,6 +30,9 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<Integer> hoursChoiceBox;
     private ChoiceBox<Integer> minChoiceBox;
     private ChoiceBox<String> amPmChoiceBox;
+    private ChoiceBox<Integer> endHoursChoiceBox;
+    private ChoiceBox<Integer> endMinChoiceBox;
+    private ChoiceBox<String> endAmPmChoiceBox;
     public Stage popupStage;
     private final monthViewUI app;
     public AddEventHandler(monthViewUI app) {
@@ -136,17 +139,17 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         endTimeContainer.setSpacing(10);
         startTimeContainer.setSpacing(10);
 
-        ChoiceBox<Integer> endHoursChoiceBox = new ChoiceBox<>();
+        endHoursChoiceBox = new ChoiceBox<>();
         endHoursChoiceBox.setStyle("-fx-color: pink;");
         endHoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
         endHoursChoiceBox.setValue(12);
         Label endColonLbl = new Label(" : ");
         endColonLbl.setFont(Font.font("Arial",24));
-        ChoiceBox<Integer> endMinChoiceBox = new ChoiceBox<>();
+        endMinChoiceBox = new ChoiceBox<>();
         endMinChoiceBox.setStyle("-fx-color: pink;");
         endMinChoiceBox.getItems().addAll(0, 5,10,15,20,25,30,35,40,45,50,55);
         endMinChoiceBox.setValue(0);
-        ChoiceBox<String> endAmPmChoiceBox = new ChoiceBox<>();
+        endAmPmChoiceBox = new ChoiceBox<>();
         endAmPmChoiceBox.setStyle("-fx-color: pink;");
         endAmPmChoiceBox.getItems().addAll("AM", "PM");
         endAmPmChoiceBox.setValue("AM");
@@ -177,12 +180,18 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         String eventName = titleOfEventTF.getText().trim();
         String eventDescription = descriptionOfEventTA.getText().trim();
-        String time = hoursChoiceBox.getSelectionModel().getSelectedItem().toString() + ":" +
-                minChoiceBox.getSelectionModel().getSelectedItem().toString();
+        int startingHour = hoursChoiceBox.getValue();
+        int startingMin = minChoiceBox.getValue();
+        String startingAmOrPm = amPmChoiceBox.getValue();
+
+        int endingHour = endHoursChoiceBox.getValue();
+        int endingMin = endMinChoiceBox.getValue();
+        String endingAmOrPm = endAmPmChoiceBox.getValue();
         Month chosenMonth = monthChoiceBox.getSelectionModel().getSelectedItem();
         int chosenDay = dayChoiceBox.getSelectionModel().getSelectedItem();
 
-        PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, time);
+        PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
+                startingAmOrPm, endingHour, endingMin, endingAmOrPm);
 
         DayInfo dayInfo = app.getMonths()[chosenMonth.getValue() - 1].getDayOf(chosenDay);
         dayInfo.getEvents().add(plannerEvent);
@@ -191,7 +200,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);
     }
 
-    private PlannerEvent getPlannerEvent(String eventName, String eventDescription, String time) {
+    private PlannerEvent getPlannerEvent(String eventName, String eventDescription, int startingHour, int startingMinute, String startingAmOrPm,
+                                         int endingHour, int endingMinute, String endingAmOrPm) {
         String tagChoice = tagChoiceBox.getSelectionModel().getSelectedItem();
         Tag tag = switch (tagChoice) {
             case "Assignment Due Date" -> Tag.ASSIGNMENT;
@@ -199,7 +209,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
             case "Custom Event" -> Tag.CUSTOM;
             default -> null;
         };
-        return new PlannerEvent(eventName, eventDescription, time, tag);
+        return new PlannerEvent(eventName, eventDescription, startingHour, startingMinute, startingAmOrPm,
+                endingHour, endingMinute, endingAmOrPm, tag);
     }
 
 

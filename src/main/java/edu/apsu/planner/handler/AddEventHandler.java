@@ -31,7 +31,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<Integer> minChoiceBox;
     private ChoiceBox<String> amPmChoiceBox;
     public Stage popupStage;
-    private monthViewUI app;
+    private final monthViewUI app;
     public AddEventHandler(monthViewUI app) {
         super();
         this.app = app;

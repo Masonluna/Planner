@@ -39,7 +39,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<String> endAmPmChoiceBox;
     private CheckBox[] dayOfWeekCheckBoxes;
     private Stage popupStage;
-    private monthViewUI app;
+    private final monthViewUI app;
     public AddScheduleHandler(monthViewUI app) {
         super();
         this.app = app;
@@ -128,7 +128,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         monthEndChoiceBox.setValue(Month.APRIL);
         monthEndChoiceBox.setStyle("-fx-color: pink;");
         dayEndChoiceBox = new ChoiceBox<>();
-        monthChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        monthEndChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 int daysInMonth = YearMonth.of(YearMonth.now().getYear(), newValue).lengthOfMonth();
                 dayEndChoiceBox.getItems().clear();

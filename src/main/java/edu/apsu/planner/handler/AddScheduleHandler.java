@@ -270,7 +270,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         MonthInfo currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
         DayInfo endDayInfo = app.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
 
-        while (currentDayInfo.getDate().getDayOfYear() != endDayInfo.getDate().getDayOfYear())
+        while (currentDayInfo.getDate().getDayOfYear() != endDayInfo.getDate().getDayOfYear() + 1)
         {
             int dayOfWeekValue = currentDayInfo.getDate().getDayOfWeek().getValue() % 7;
             System.out.println("In while loop");

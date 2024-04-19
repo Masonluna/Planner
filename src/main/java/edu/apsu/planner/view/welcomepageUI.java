@@ -1,5 +1,6 @@
 package edu.apsu.planner.view;
 
+import edu.apsu.planner.app.PlannerApplication;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,22 +15,17 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-public class welcomepageUI extends Application {
+public class welcomepageUI extends BorderPane {
     TextField usernameTextField;
     PasswordField passwordField;
     private final String LOGIN_FILE_PATH = "loginCredentials.txt";
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    public welcomepageUI(PlannerApplication app) {
+        super();
 
-    @Override
-    public void start(Stage stage) {
-
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: #B7B7B7;");
-        root.setPadding(new Insets(10));
-        root.setPrefSize(1000, 600);
+        this.setStyle("-fx-background-color: #B7B7B7;");
+        this.setPadding(new Insets(10));
+        this.setPrefSize(1000, 600);
 
 
         //topPane
@@ -38,7 +34,7 @@ public class welcomepageUI extends Application {
         BorderPane.setMargin(welcomeLabel, new Insets(10));
         welcomeLabel.setFont(font);
         welcomeLabel.setPrefSize(1000, 50);
-        root.setTop(welcomeLabel);
+        this.setTop(welcomeLabel);
 
         //leftPane
         String imageResource = getClass().getResource("/edu/apsu/planner/logoImage.png").toString();
@@ -47,7 +43,7 @@ public class welcomepageUI extends Application {
         BorderPane.setMargin(imageView, new Insets(10));
         imageView.setPrefSize(200, 200);
         imageView.setGraphic(displayImage);
-        root.setLeft(imageView);
+        this.setLeft(imageView);
         displayImage.getImage();
 
         //centerPane
@@ -92,8 +88,9 @@ public class welcomepageUI extends Application {
                         Alert correctAlert = new Alert(Alert.AlertType.INFORMATION);
                         correctAlert.setTitle("Successful login in");
                         correctAlert.setHeaderText("Welcome");
+                        correctAlert.setOnCloseRequest(e ->
+                            app.switchScene(app.monthViewScene));
                         correctAlert.showAndWait();
-
                     } else {
                         Alert incorrectAlert = new Alert(Alert.AlertType.ERROR);
                         incorrectAlert.setTitle("Failed login in attempt");
@@ -118,13 +115,7 @@ public class welcomepageUI extends Application {
 
 
         centerPane.getChildren().addAll(usernameContainer, passwordContainer, buttonContainer);
-        root.setCenter(centerPane);
-
-        Scene scene = new Scene(root);
-        stage.setTitle("Planer Application");
-        stage.setScene(scene);
-        stage.show();
-
+        this.setCenter(centerPane);
 
     }
 

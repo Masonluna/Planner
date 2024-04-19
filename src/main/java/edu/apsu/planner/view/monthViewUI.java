@@ -1,6 +1,7 @@
 package edu.apsu.planner.view;
 
 import com.itextpdf.text.pdf.PdfDocument;
+import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
 import edu.apsu.planner.handler.AddScheduleHandler;
@@ -34,7 +35,7 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
-public class monthViewUI extends Application {
+public class monthViewUI extends BorderPane {
 
     // Size Constants
     private final int GRID_PANE_NODE_HEIGHT = 100;
@@ -55,44 +56,25 @@ public class monthViewUI extends Application {
     private DayInfo selectedDayInfo;
     private GridPane gridPaneDetailView;
 
-    private Stage stage;
-    private BorderPane root;
+    private PlannerApplication app;
+
     private  Scene scene;
-    public Scene getScene(){
-        return scene;
-    }
     private final Type[] types = new Type[5];
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
-    @Override
-    public void start(Stage primaryStage) {
-        stage = new Stage();
-        root = new BorderPane();
+    public monthViewUI(PlannerApplication app, MonthInfo[] months) {
         // Set up MonthInfo data
-        months = new MonthInfo[12];
-        for (int i = 0; i < months.length; i++) {
-            months[i] = new MonthInfo(2024, Month.of(i + 1));
-        }
+        this.app = app;
+        this.months = months;
 
-        root.setStyle("-fx-background-color: #B7B7B7;");
-        root.setPrefSize(1375, 720);
+        this.setStyle("-fx-background-color: #B7B7B7;");
+        this.setPrefSize(1375, 720);
 
 
-        root.setTop(creatMenuBar());
-        root.setLeft(createLeftPane());
-        root.setCenter(createCenterPane());
-        root.setRight(createRightPane());
-
-
-        scene = new Scene(root);
-        stage.setTitle("Planer Application");
-        stage.setScene(scene);
-        stage.show();
-
-
+        this.setTop(creatMenuBar());
+        this.setLeft(createLeftPane());
+        this.setCenter(createCenterPane());
+        this.setRight(createRightPane());
     }
 
     public MenuBar creatMenuBar() {
@@ -177,6 +159,7 @@ public class monthViewUI extends Application {
 
         Menu viewMenu = new Menu("View");
         MenuItem weekViewMenu = new MenuItem("Week View");
+        weekViewMenu.setOnAction(e-> app.switchScene(app.weekViewScene));
         MenuItem monthViewMenu = new MenuItem("Month View");
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
@@ -649,12 +632,8 @@ public class monthViewUI extends Application {
         return currentMonthIndex;
     }
 
-    public BorderPane getRoot() {
-        return root;
-    }
-
     public Stage getStage() {
-        return stage;
+        return app.stage;
     }
 
 

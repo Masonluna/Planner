@@ -1,12 +1,11 @@
 package edu.apsu.planner.view;
 
+import edu.apsu.planner.app.PlannerApplication;
+import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.Tag;
 import edu.apsu.planner.data.Type;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -16,35 +15,27 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
-public class weekViewUI extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-    private Stage stage;
+public class weekViewUI extends BorderPane {
     private final int INSET_SIZE = 15;
     private Type[] types = new Type[5];
+    private MonthInfo[] months;
+    PlannerApplication app;
 
 
-    @Override
-    public void start(Stage stage) {
+    
+    public weekViewUI(PlannerApplication app, MonthInfo[] months) {
+        super();
+        this.months = months;
+        this.app = app;
 
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: #B7B7B7;");
-        root.setPadding(new Insets(15));
-        root.setPrefSize(1250, 600);
+        this.setStyle("-fx-background-color: #B7B7B7;");
+        this.setPadding(new Insets(15));
+        this.setPrefSize(1250, 600);
 
-        root.setTop(creatMenuBar());
-        root.setLeft(createLeftPane());
-        root.setCenter(createCenterPane());
-
-        Scene scene = new Scene(root);
-        stage.setTitle("Planer Application");
-        stage.setScene(scene);
-        stage.show();
-
+        this.setTop(creatMenuBar());
+        this.setLeft(createLeftPane());
+        this.setCenter(createCenterPane());
     }
 
 
@@ -106,8 +97,8 @@ public class weekViewUI extends Application {
         MenuItem weekViewMenu = new MenuItem("Week View");
 
         MenuItem monthViewMenu = new MenuItem("Month View");
-        monthViewMenu.setOnAction(e->{
-           //stage.setScene(monthViewUI.getScene());
+        monthViewMenu.setOnAction(e -> {
+            app.switchScene(app.monthViewScene);
         });
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 

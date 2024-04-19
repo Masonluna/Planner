@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -16,11 +17,11 @@ import java.time.Month;
 
 public class FileEventHandler implements EventHandler<ActionEvent> {
     private MonthInfo[] months;
-    private monthViewUI app;
+    private monthViewUI ui;
 
-    public FileEventHandler(monthViewUI app, MonthInfo[] months) {
+    public FileEventHandler(monthViewUI ui, MonthInfo[] months) {
         this.months = months;
-        this.app = app;
+        this.ui = ui;
     }
     @Override
     public void handle(ActionEvent event) {
@@ -49,15 +50,15 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, Month.of(i + 1));
         }
-        app.setMonths(months);
-        app.getRoot().setCenter(app.createCenterPane());
+        ui.setMonths(months);
+        ui.setCenter(ui.createCenterPane());
     }
 
     private void save() {
         FileChooser fileChooser = setupFileChooser();
         fileChooser.setTitle("Save Planner");
         fileChooser.setInitialFileName("Untitled.pln");
-        File selectedFile = fileChooser.showSaveDialog(app.getStage());
+        File selectedFile = fileChooser.showSaveDialog(ui.getStage());
         try {
             if (selectedFile != null) {
                 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
@@ -73,14 +74,14 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     private void loadPlanner() {
         FileChooser fileChooser = setupFileChooser();
         fileChooser.setTitle("Load Planner");
-        File selectedFile = fileChooser.showOpenDialog(app.getStage());
+        File selectedFile = fileChooser.showOpenDialog(ui.getStage());
         try {
             if (selectedFile != null) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(selectedFile));
                 months = (MonthInfo[]) in.readObject();
-                app.setMonths(months);
-                app.getRoot().setCenter(app.createCenterPane());
-                app.getRoot().setRight(app.createRightPane());
+                ui.setMonths(months);
+                ui.setCenter(ui.createCenterPane());
+                ui.setRight(ui.createRightPane());
                 in.close();
             }
         } catch (FileNotFoundException e) {

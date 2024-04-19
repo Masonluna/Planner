@@ -279,12 +279,11 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         while (currentDayInfo.getDate().getDayOfYear() != endDayInfo.getDate().getDayOfYear() + 1)
         {
             int dayOfWeekValue = currentDayInfo.getDate().getDayOfWeek().getValue() % 7;
-            System.out.println("In while loop");
             if (dayOfWeekCheckBoxes[dayOfWeekValue].isSelected()) {
                 PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
                         startingAmOrPm, endingHour, endingMin, endingAmOrPm);
                 currentDayInfo.getEvents().add(plannerEvent);
-                System.out.println("Added Planner Event: " + plannerEvent + " to Day: " + currentDayInfo);
+                currentDayInfo.sortEvents();
             }
 
             //If we're NOT at the end of the month
@@ -299,7 +298,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         }
         popupStage.close();
         app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);
-        System.out.println("Finished running");
+
     }
 
 

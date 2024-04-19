@@ -195,6 +195,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         DayInfo dayInfo = app.getMonths()[chosenMonth.getValue() - 1].getDayOf(chosenDay);
         dayInfo.getEvents().add(plannerEvent);
+        dayInfo.sortEvents();
 
         popupStage.close();
         app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);

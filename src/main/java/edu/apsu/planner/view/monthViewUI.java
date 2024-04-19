@@ -20,11 +20,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -57,7 +61,7 @@ public class monthViewUI extends Application {
     public Scene getScene(){
         return scene;
     }
-    private Type[] types = new Type[5];
+    private final Type[] types = new Type[5];
 
     public static void main(String[] args) {
         launch(args);
@@ -104,7 +108,10 @@ public class monthViewUI extends Application {
         MenuItem openMenuItem = new MenuItem("Open");
         openMenuItem.setOnAction(fileEventHandler);
         MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
-        savePDFMenuItem.setOnAction(fileEventHandler);
+        savePDFMenuItem.setOnAction(e->{
+            saveAsPDF();
+        });
+        //savePDFMenuItem.setOnAction(fileEventHandler);
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setOnAction(fileEventHandler);
         fileMenu.getItems().addAll(
@@ -651,22 +658,31 @@ public class monthViewUI extends Application {
     }
 
 
-   /* public void saveAsPDF(GridPane gridPane) {
-        // Take a snapshot of the GridPane
-        WritableImage image = gridPane.snapshot(new SnapshotParameters(), null);
+   public void saveAsPDF(){//GridPane gridPane) {
+       // Take a snapshot of the GridPane
+     // WritableImage image = gridPane.snapshot(new SnapshotParameters(), null);
 
-        // Create a PDF document
-        try {
-           Document document = new Document();
+       String fileName = "planner.pdf";
+       Document document = new Document();
+       try {
+           PdfWriter.getInstance(document, new FileOutputStream(fileName));
+           document.open();
+           Paragraph content = new Paragraph("test");
+           document.add(content);
+           document.close();
+           System.out.println("done");
+       } catch (DocumentException e) {
+           throw new RuntimeException(e);
+       } catch (FileNotFoundException e) {
+           throw new RuntimeException(e);
+       }
 
-            // Close the document
-            document.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    */
+   }
+
+
+
+
 
 
 }

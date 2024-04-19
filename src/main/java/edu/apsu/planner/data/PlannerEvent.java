@@ -47,6 +47,35 @@ public class PlannerEvent implements Serializable {
     }
 
     // Accessors and Mutators
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getStartingHour() {
+        return startingHour;
+    }
+
+    public int getStartingMinute() {
+        return startingMinute;
+    }
+
+    public String getStartingAmOrPm() {
+        return startingAmOrPm;
+    }
+
+    public int getEndingHour() {
+        return endingHour;
+    }
+
+    public int getEndingMinute() {
+        return endingMinute;
+    }
+
+    public String getEndingAmOrPm() {
+        return endingAmOrPm;
+    }
+
     public String getName() {
         return name;
     }

@@ -3,6 +3,7 @@ package edu.apsu.planner.data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class DayInfo implements Serializable {
     // Instances
@@ -27,13 +28,31 @@ public class DayInfo implements Serializable {
     // Methods
 
     public void sortEvents() {
-        //for each event in events
-        //find the event that starts first
-        //make that the first event
-        //repeat until there are no more events
+        events.sort(new Comparator<PlannerEvent>() {
+            @Override
+            public int compare(PlannerEvent o1, PlannerEvent o2) {
+                if (!o1.getStartingAmOrPm().equals(o2.getStartingAmOrPm())) {
+                    if (o1.getStartingAmOrPm().equals("AM")) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                } else if (o1.getStartingHour() < o2.getStartingHour()) {
+                    return -1;
+                } else if (o2.getStartingHour() < o1.getStartingHour()) {
+                    return 1;
+                } else if (o1.getStartingMinute() < o2.getStartingMinute()) {
+                    return -1;
+                } else if (o2.getStartingMinute() < o1.getStartingMinute()) {
+                    return 1;
+                }
 
-        //need: hour start, minute start, am or pm.
+                return 0;
+            }
+        });
     }
+
+
     @Override
     public String toString() {
         return this.date.getDayOfWeek() + ", " + this.monthName + " " + dayOfMonth;
@@ -55,4 +74,5 @@ public class DayInfo implements Serializable {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
 }

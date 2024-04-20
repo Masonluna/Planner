@@ -97,7 +97,6 @@ public class PlannerApplication extends Application {
             Integer ri = GridPane.getRowIndex(node);
             Integer ci = GridPane.getColumnIndex(node);
             if (node != null && row.equals(ri) && col.equals(ci)) {
-
                 dayFlowPane = (DayFlowPane) node;
             }
         }

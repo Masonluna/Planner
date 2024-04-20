@@ -43,7 +43,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void newPlanner() {
-        System.out.println("Calling newPlanner()");
         MonthInfo[] months = new MonthInfo[12];
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, Month.of(i + 1));

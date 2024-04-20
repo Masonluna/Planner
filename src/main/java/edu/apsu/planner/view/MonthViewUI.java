@@ -433,7 +433,7 @@ public class MonthViewUI extends BorderPane {
     }
 
     public VBox createRightPane() {
-
+        selectedDayInfo = selectedDayFlowPane.getDayInfo();
         VBox rightPaneVBox = new VBox();
         rightPaneVBox.setPadding(new Insets(INSET_SIZE));
         rightPaneVBox.setSpacing(10);

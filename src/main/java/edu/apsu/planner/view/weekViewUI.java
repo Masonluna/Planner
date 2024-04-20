@@ -24,6 +24,7 @@ public class weekViewUI extends BorderPane {
     private int currentMonthIndex;
     private final DayInfo[] currentWeek = new DayInfo[7];
     private GridPane weekViewGridPane;
+    private Label weekLabel;
 
 
     public weekViewUI(PlannerApplication app, MonthInfo[] months) {
@@ -210,9 +211,13 @@ public class weekViewUI extends BorderPane {
         leftArrowButton.setFont(font3);
         leftArrowButton.setPrefSize(150,200);
         leftArrowButton.setStyle("-fx-background-color: pink;");
+        leftArrowButton.setOnAction(e -> {
+            currentSunday = currentSunday.minusDays(7);
+            currentMonthIndex = currentSunday.getMonthValue() - 1;
+            this.setCenter(createCenterPane());
+        });
 
-
-        Label weekLabel = new Label("March 31st - April 6th");
+        weekLabel = new Label();
         weekLabel.setPrefSize(700,100);
         weekLabel.setAlignment(Pos.CENTER);
         weekLabel.setFont(font2);
@@ -221,6 +226,10 @@ public class weekViewUI extends BorderPane {
 
         rightArrowButton.setFont(font3);
         rightArrowButton.setPrefSize(150,180);
+        rightArrowButton.setOnAction(e -> {
+            currentSunday = currentSunday.plusDays(7);
+            this.setCenter(createCenterPane());
+        });
 
         labelAndControl.getChildren().addAll(leftArrowButton,weekLabel,rightArrowButton);
         createGridPane();
@@ -273,8 +282,8 @@ public class weekViewUI extends BorderPane {
         weekViewGridPane.add(thursdayLabel, 4, 0);
         weekViewGridPane.add(fridayLabel, 5, 0);
         weekViewGridPane.add(saturdayLabel, 6, 0);
-
         drawDetailViews();
+
     }
 
     public void drawDetailViews() {
@@ -285,10 +294,12 @@ public class weekViewUI extends BorderPane {
             currentWeek[i] = currentDay;
             weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
             if (currentDate.getDayOfMonth() == currentDate.lengthOfMonth()) {
-                currentMonthIndex++;
+                currentMonthIndex = (currentMonthIndex + 1) % 12;
             }
             currentDate = currentDate.plusDays(1);
         }
+        weekLabel.setText(currentWeek[0].getWeekViewString() + " - " + currentWeek[6].getWeekViewString());
+
     }
 
 }

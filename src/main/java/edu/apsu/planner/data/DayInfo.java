@@ -75,4 +75,7 @@ public class DayInfo implements Serializable {
         this.date = date;
     }
 
+    public String getWeekViewString() {
+        return this.monthName + " " + this.dayOfMonth;
+    }
 }

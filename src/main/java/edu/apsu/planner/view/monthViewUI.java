@@ -1,39 +1,31 @@
 package edu.apsu.planner.view;
 
-import com.itextpdf.text.pdf.PdfDocument;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
 import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
 
 public class monthViewUI extends BorderPane {
 
@@ -57,6 +49,7 @@ public class monthViewUI extends BorderPane {
     private GridPane gridPaneDetailView;
 
     private PlannerApplication app;
+    private DetailViewTimeGridPane detailView;
 
     private  Scene scene;
     private final Type[] types = new Type[5];
@@ -74,6 +67,12 @@ public class monthViewUI extends BorderPane {
         this.setTop(creatMenuBar());
         this.setLeft(createLeftPane());
         this.setCenter(createCenterPane());
+        selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
+        while (selectedDayFlowPane == null) {
+            selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                    monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
+        }
+        selectedDayInfo = selectedDayFlowPane.getDayInfo();
         this.setRight(createRightPane());
     }
 
@@ -411,6 +410,7 @@ public class monthViewUI extends BorderPane {
                         selectedDayFlowPane = (DayFlowPane) event.getSource();
                         selectedDayInfo = selectedDayFlowPane.getDayInfo();
                         dayLabel.setText(selectedDayInfo.toString());
+                        this.setRight(createRightPane());
                 });
                 dayFlowPane.getChildren().add(tmp);
                 HashSet<Tag> tagsToAdd = findTagsToAdd(day);
@@ -456,12 +456,7 @@ public class monthViewUI extends BorderPane {
     }
 
     public VBox createRightPane() {
-        selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
-        while (selectedDayFlowPane == null) {
-            selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
-                    monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
-        }
-        selectedDayInfo = selectedDayFlowPane.getDayInfo();
+
 
 
 
@@ -613,9 +608,9 @@ public class monthViewUI extends BorderPane {
         gridPaneDetailView.add(sixPmHBox, 0,13);
 
 
-
-
-        rightPaneVBox.getChildren().add(gridPaneDetailView);
+        detailView = new DetailViewTimeGridPane(selectedDayInfo);
+        detailView.add(controlHBox, 0,0);
+        rightPaneVBox.getChildren().add(detailView);
 
         return rightPaneVBox;
     }

@@ -30,7 +30,7 @@ public class weekViewUI extends BorderPane {
         this.app = app;
 
         this.setStyle("-fx-background-color: #B7B7B7;");
-        this.setPadding(new Insets(15));
+        //this.setPadding(new Insets(15));
         this.setPrefSize(1250, 600);
 
         this.setTop(creatMenuBar());
@@ -112,7 +112,7 @@ public class weekViewUI extends BorderPane {
         VBox leftPaneVBox = new VBox();
         leftPaneVBox.setPadding(new Insets(INSET_SIZE));
         leftPaneVBox.setSpacing(10);
-
+        leftPaneVBox.setPadding(new Insets(15));
 
         Label filterLabel = new Label("Filter");
         Font filterFont = new Font("Arial", 40);

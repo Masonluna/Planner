@@ -120,8 +120,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         hoursChoiceBox.setStyle("-fx-color: pink;");
         hoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
         hoursChoiceBox.setValue(12);
-        Label colonLbl = new Label(" : ");
-        colonLbl.setFont(Font.font("Arial",24));
+        Label startColonLbl = new Label(" : ");
+        startColonLbl.setFont(Font.font("Arial",24));
         minChoiceBox = new ChoiceBox<>();
         minChoiceBox.setStyle("-fx-color: pink;");
         minChoiceBox.getItems().addAll(00,05,10,15,20,25,30,35,40,45,50,55);
@@ -130,7 +130,6 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         amPmChoiceBox.setStyle("-fx-color: pink;");
         amPmChoiceBox.getItems().addAll("AM", "PM");
         amPmChoiceBox.setValue("AM");
-        startTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
 
         Label endTimeLbl = new Label("End time:");
         endTimeLbl.setFont(font);
@@ -153,8 +152,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         endAmPmChoiceBox.setStyle("-fx-color: pink;");
         endAmPmChoiceBox.getItems().addAll("AM", "PM");
         endAmPmChoiceBox.setValue("AM");
-        startTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
-        endTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
+        startTimeContainer.getChildren().addAll(hoursChoiceBox, startColonLbl, minChoiceBox, amPmChoiceBox);
+        endTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
 
 
 

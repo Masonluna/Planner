@@ -37,7 +37,7 @@ public class PlannerApplication extends Application {
         weekViewScene = new Scene(new weekViewUI(this, months));
         monthViewScene = new Scene(new monthViewUI(this, months));
 
-        stage.setScene(welcomeScene);
+        stage.setScene(monthViewScene);
         stage.show();
     }
 

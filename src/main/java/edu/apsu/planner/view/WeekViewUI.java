@@ -5,6 +5,7 @@ import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.handler.AddScheduleHandler;
+import edu.apsu.planner.handler.FileEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -57,17 +58,18 @@ public class WeekViewUI extends BorderPane {
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
 
+        FileEventHandler fileEventHandler = new FileEventHandler(this.app);
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-       // newMenuItem.setOnAction(fileEventHandler);
+        newMenuItem.setOnAction(fileEventHandler);
         MenuItem saveMenuItem = new MenuItem("Save");
-        // saveMenuItem.setOnAction(fileEventHandler);
+        saveMenuItem.setOnAction(fileEventHandler);
         MenuItem openMenuItem = new MenuItem("Open");
-       // openMenuItem.setOnAction(fileEventHandler);
+        openMenuItem.setOnAction(fileEventHandler);
         MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
-        // savePDFMenuItem.setOnAction(fileEventHandler);
+        savePDFMenuItem.setOnAction(fileEventHandler);
         MenuItem exitMenuItem = new MenuItem("Exit");
-        // exitMenuItem.setOnAction(fileEventHandler);
+        exitMenuItem.setOnAction(fileEventHandler);
         fileMenu.getItems().addAll(
                 newMenuItem,
                 new SeparatorMenuItem(),
@@ -81,15 +83,10 @@ public class WeekViewUI extends BorderPane {
 
         MenuItem addSchedule = new MenuItem("Add Schedule");
         addSchedule.setOnAction(new AddScheduleHandler(this.app));
-        //MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
-       // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
-        //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
-        //MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Event");
         addCustomEvent.setOnAction(new AddEventHandler(this.app));
         addMenu.getItems().addAll(addSchedule, separatorMenuItem2, addCustomEvent);
-        //addWorkSchedule,addCustomSchedule, addAssignmentDueDate,addBillDueDate,
         Menu insertMenu = new Menu( "Insert");
 
         Menu insertSymbol = new Menu("Insert Symbol");

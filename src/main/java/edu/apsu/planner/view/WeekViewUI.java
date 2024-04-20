@@ -3,6 +3,8 @@ package edu.apsu.planner.view;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
+import edu.apsu.planner.handler.AddEventHandler;
+import edu.apsu.planner.handler.AddScheduleHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -20,7 +22,7 @@ public class WeekViewUI extends BorderPane {
     private final int INSET_SIZE = 15;
     private LocalDate date = LocalDate.now();
     LocalDate currentSunday;
-    private MonthInfo[] months;
+
     private PlannerApplication app;
     private int currentMonthIndex;
     private final DayInfo[] currentWeek = new DayInfo[7];
@@ -28,9 +30,8 @@ public class WeekViewUI extends BorderPane {
     private Label weekLabel;
 
 
-    public WeekViewUI(PlannerApplication app, MonthInfo[] months) {
+    public WeekViewUI(PlannerApplication app) {
         super();
-        this.months = months;
         this.app = app;
 
         currentSunday = date;
@@ -78,19 +79,15 @@ public class WeekViewUI extends BorderPane {
 
         Menu addMenu = new Menu("Add");
 
-        MenuItem addSchedule = new MenuItem("Add Custom Schedule");
-        addSchedule.setOnAction(event->{
-            choiceBoxDemo.popUp();
-        });
+        MenuItem addSchedule = new MenuItem("Add Schedule");
+        addSchedule.setOnAction(new AddScheduleHandler(this.app));
         //MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
        // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
         //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
         //MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Event");
-        addCustomEvent.setOnAction(event->{
-            choiceBoxDemo2.popUp();
-        });
+        addCustomEvent.setOnAction(new AddEventHandler(this.app));
         addMenu.getItems().addAll(addSchedule, separatorMenuItem2, addCustomEvent);
         //addWorkSchedule,addCustomSchedule, addAssignmentDueDate,addBillDueDate,
         Menu insertMenu = new Menu( "Insert");
@@ -293,7 +290,7 @@ public class WeekViewUI extends BorderPane {
     public void drawDetailViews() {
         LocalDate currentDate = currentSunday;
         for (int i = 0; i < 7; i++) {
-            DayInfo currentDay = this.months[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
+            DayInfo currentDay = app.getMonths()[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
             currentWeek[i] = currentDay;
             if (currentDate.getDayOfMonth() == currentDate.lengthOfMonth()) {
                 currentMonthIndex = (currentMonthIndex + 1) % 12;

@@ -101,7 +101,7 @@ public class MonthViewUI extends BorderPane {
 
         Menu addMenu = new Menu("Add");
 
-        MenuItem addSchedule = new MenuItem("Add  Schedule");
+        MenuItem addSchedule = new MenuItem("Add Schedule");
         AddScheduleHandler addScheduleHandler = new AddScheduleHandler(app);
         addSchedule.setOnAction(addScheduleHandler);
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();

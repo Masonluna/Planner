@@ -70,7 +70,7 @@ public class PlannerApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = new Stage();
         monthViewUI = new MonthViewUI(this);
-        weekViewUI = new WeekViewUI(this, months);
+        weekViewUI = new WeekViewUI(this);
         welcomeScene = new Scene(new welcomepageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);

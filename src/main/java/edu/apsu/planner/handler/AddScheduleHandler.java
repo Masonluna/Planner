@@ -39,12 +39,10 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<String> endAmPmChoiceBox;
     private CheckBox[] dayOfWeekCheckBoxes;
     private Stage popupStage;
-    private final monthViewUI monthViewUI;
     private final PlannerApplication app;
-    public AddScheduleHandler(PlannerApplication app, monthViewUI monthViewUI) {
+    public AddScheduleHandler(PlannerApplication app) {
         super();
         this.app = app;
-        this.monthViewUI = monthViewUI;
     }
     @Override
     public void handle(ActionEvent actionEvent) {
@@ -272,10 +270,10 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         int startDay = dayChoiceBox.getSelectionModel().getSelectedItem();
         Month endMonth = monthEndChoiceBox.getSelectionModel().getSelectedItem();
         int endDay = dayEndChoiceBox.getSelectionModel().getSelectedItem();
-        DayInfo currentDayInfo = monthViewUI.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);
+        DayInfo currentDayInfo = app.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);
         Month currentMonth = startMonth;
-        MonthInfo currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
-        DayInfo endDayInfo = monthViewUI.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
+        MonthInfo currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
+        DayInfo endDayInfo = app.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
         do {
             System.out.println("in while loop");
             int dayOfWeekValue = currentDayInfo.getDate().getDayOfWeek().getValue() % 7;
@@ -292,7 +290,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 currentDayInfo = currentMonthInfo.getDayOf(currentDayInfo.getDate().getDayOfMonth() + 1);
             } else {
                 currentMonth = currentMonth.plus(1);
-                currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
+                currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
                 currentDayInfo = currentMonthInfo.getDayOf(1);
             }
         } while (currentDayInfo.getDate().getDayOfYear() !=

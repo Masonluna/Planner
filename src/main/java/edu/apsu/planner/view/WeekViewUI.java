@@ -16,7 +16,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class weekViewUI extends BorderPane {
+public class WeekViewUI extends BorderPane {
     private final int INSET_SIZE = 15;
     private LocalDate date = LocalDate.now();
     LocalDate currentSunday;
@@ -28,7 +28,7 @@ public class weekViewUI extends BorderPane {
     private Label weekLabel;
 
 
-    public weekViewUI(PlannerApplication app, MonthInfo[] months) {
+    public WeekViewUI(PlannerApplication app, MonthInfo[] months) {
         super();
         this.months = months;
         this.app = app;

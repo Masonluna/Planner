@@ -5,7 +5,6 @@ import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.PlannerEvent;
 import edu.apsu.planner.data.Tag;
-import edu.apsu.planner.view.monthViewUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

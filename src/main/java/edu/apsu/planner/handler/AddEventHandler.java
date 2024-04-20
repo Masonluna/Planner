@@ -2,7 +2,6 @@ package edu.apsu.planner.handler;
 
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.*;
-import edu.apsu.planner.view.monthViewUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -198,7 +197,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         popupStage.close();
         app.updateUI();
-        //monthViewUI.createGridPane(monthViewUI.getMonths()[monthViewUI.getCurrentMonthIndex()]);
+        //MonthViewUI.createGridPane(MonthViewUI.getMonths()[MonthViewUI.getCurrentMonthIndex()]);
     }
 
     private PlannerEvent getPlannerEvent(String eventName, String eventDescription, int startingHour, int startingMinute, String startingAmOrPm,

@@ -7,13 +7,9 @@ import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -27,7 +23,7 @@ import java.util.HashSet;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class monthViewUI extends BorderPane {
+public class MonthViewUI extends BorderPane {
 
     // Size Constants
     private final int GRID_PANE_NODE_HEIGHT = 100;
@@ -51,7 +47,7 @@ public class monthViewUI extends BorderPane {
     private PlannerApplication app;
     private DetailViewTimeGridPane detailView;
 
-    public monthViewUI(PlannerApplication app) {
+    public MonthViewUI(PlannerApplication app) {
         // Set up MonthInfo data
         this.app = app;
 

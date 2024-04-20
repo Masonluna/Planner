@@ -4,8 +4,8 @@ import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.Tag;
 import edu.apsu.planner.data.Type;
 import edu.apsu.planner.view.DayFlowPane;
-import edu.apsu.planner.view.monthViewUI;
-import edu.apsu.planner.view.weekViewUI;
+import edu.apsu.planner.view.MonthViewUI;
+import edu.apsu.planner.view.WeekViewUI;
 import edu.apsu.planner.view.welcomepageUI;
 import javafx.application.Application;
 import javafx.scene.Node;
@@ -28,8 +28,8 @@ public class PlannerApplication extends Application {
     public Scene welcomeScene;
     public Scene weekViewScene;
     public Scene monthViewScene;
-    private monthViewUI monthViewUI;
-    private weekViewUI weekViewUI;
+    private MonthViewUI monthViewUI;
+    private WeekViewUI weekViewUI;
 
 
     @Override
@@ -69,8 +69,8 @@ public class PlannerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = new Stage();
-        monthViewUI = new monthViewUI(this);
-        weekViewUI = new weekViewUI(this, months);
+        monthViewUI = new MonthViewUI(this);
+        weekViewUI = new WeekViewUI(this, months);
         welcomeScene = new Scene(new welcomepageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);
@@ -97,7 +97,7 @@ public class PlannerApplication extends Application {
             Integer ri = GridPane.getRowIndex(node);
             Integer ci = GridPane.getColumnIndex(node);
             if (node != null && row.equals(ri) && col.equals(ci)) {
-                System.out.println("We Found the spot!!");
+
                 dayFlowPane = (DayFlowPane) node;
             }
         }

@@ -31,9 +31,10 @@ public class DetailViewVBox extends VBox {
             BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
                     new CornerRadii(5), BorderWidths.DEFAULT);
             int heightMultiplier = getHeightMultiplier(event);
-            BackgroundFill backgroundFill = new BackgroundFill(paint, new CornerRadii(5), null);
+            //BackgroundFill backgroundFill = new BackgroundFill(paint, new CornerRadii(5), null);
             Label eventLabel = new Label(event.toString());
             eventLabel.setPrefWidth(130);
+            eventLabel.setPadding(new Insets(5, 0, 5, 0));
             //eventLabel.setBackground(new Background(backgroundFill));
             eventLabel.setBorder(new Border(borderStroke));
             if (heightMultiplier > 0)

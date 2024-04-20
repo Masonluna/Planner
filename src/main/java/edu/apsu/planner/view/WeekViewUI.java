@@ -3,6 +3,9 @@ package edu.apsu.planner.view;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
+import edu.apsu.planner.handler.AddEventHandler;
+import edu.apsu.planner.handler.AddScheduleHandler;
+import edu.apsu.planner.handler.FileEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,12 +17,13 @@ import javafx.scene.text.Font;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 
-public class weekViewUI extends BorderPane {
+public class WeekViewUI extends BorderPane {
     private final int INSET_SIZE = 15;
     private LocalDate date = LocalDate.now();
     LocalDate currentSunday;
-    private MonthInfo[] months;
+
     private PlannerApplication app;
     private int currentMonthIndex;
     private final DayInfo[] currentWeek = new DayInfo[7];
@@ -27,9 +31,8 @@ public class weekViewUI extends BorderPane {
     private Label weekLabel;
 
 
-    public weekViewUI(PlannerApplication app, MonthInfo[] months) {
+    public WeekViewUI(PlannerApplication app) {
         super();
-        this.months = months;
         this.app = app;
 
         currentSunday = date;
@@ -55,17 +58,18 @@ public class weekViewUI extends BorderPane {
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
 
+        FileEventHandler fileEventHandler = new FileEventHandler(this.app);
         Menu fileMenu = new Menu("File");
         MenuItem newMenuItem = new MenuItem("New");
-       // newMenuItem.setOnAction(fileEventHandler);
+        newMenuItem.setOnAction(fileEventHandler);
         MenuItem saveMenuItem = new MenuItem("Save");
-        // saveMenuItem.setOnAction(fileEventHandler);
+        saveMenuItem.setOnAction(fileEventHandler);
         MenuItem openMenuItem = new MenuItem("Open");
-       // openMenuItem.setOnAction(fileEventHandler);
+        openMenuItem.setOnAction(fileEventHandler);
         MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
-        // savePDFMenuItem.setOnAction(fileEventHandler);
+        savePDFMenuItem.setOnAction(fileEventHandler);
         MenuItem exitMenuItem = new MenuItem("Exit");
-        // exitMenuItem.setOnAction(fileEventHandler);
+        exitMenuItem.setOnAction(fileEventHandler);
         fileMenu.getItems().addAll(
                 newMenuItem,
                 new SeparatorMenuItem(),
@@ -77,21 +81,12 @@ public class weekViewUI extends BorderPane {
 
         Menu addMenu = new Menu("Add");
 
-        MenuItem addSchedule = new MenuItem("Add Custom Schedule");
-        addSchedule.setOnAction(event->{
-            choiceBoxDemo.popUp();
-        });
-        //MenuItem addWorkSchedule = new MenuItem("Add Work Schedule");
-       // MenuItem addCustomSchedule = new MenuItem("Add Custom Schedule");
+        MenuItem addSchedule = new MenuItem("Add Schedule");
+        addSchedule.setOnAction(new AddScheduleHandler(this.app));
         SeparatorMenuItem separatorMenuItem2 = new SeparatorMenuItem();
-        //MenuItem addAssignmentDueDate = new MenuItem("Add Assignment Due Date");
-        //MenuItem addBillDueDate = new MenuItem("Add Bill Due Date");
         MenuItem addCustomEvent = new MenuItem("Add Event");
-        addCustomEvent.setOnAction(event->{
-            choiceBoxDemo2.popUp();
-        });
+        addCustomEvent.setOnAction(new AddEventHandler(this.app));
         addMenu.getItems().addAll(addSchedule, separatorMenuItem2, addCustomEvent);
-        //addWorkSchedule,addCustomSchedule, addAssignmentDueDate,addBillDueDate,
         Menu insertMenu = new Menu( "Insert");
 
         Menu insertSymbol = new Menu("Insert Symbol");
@@ -213,6 +208,7 @@ public class weekViewUI extends BorderPane {
         leftArrowButton.setStyle("-fx-background-color: pink;");
         leftArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.minusDays(7);
+            currentSunday = LocalDate.of(2024, currentSunday.getMonth(), currentSunday.getDayOfMonth());
             currentMonthIndex = currentSunday.getMonthValue() - 1;
             this.setCenter(createCenterPane());
         });
@@ -228,6 +224,8 @@ public class weekViewUI extends BorderPane {
         rightArrowButton.setPrefSize(150,180);
         rightArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.plusDays(7);
+            currentSunday = LocalDate.of(2024, currentSunday.getMonth(), currentSunday.getDayOfMonth());
+            currentMonthIndex = currentSunday.getMonthValue() - 1;
             this.setCenter(createCenterPane());
         });
 
@@ -287,16 +285,20 @@ public class weekViewUI extends BorderPane {
     }
 
     public void drawDetailViews() {
-
         LocalDate currentDate = currentSunday;
         for (int i = 0; i < 7; i++) {
-            DayInfo currentDay = this.months[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
+            DayInfo currentDay = app.getMonths()[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
             currentWeek[i] = currentDay;
-            weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
             if (currentDate.getDayOfMonth() == currentDate.lengthOfMonth()) {
                 currentMonthIndex = (currentMonthIndex + 1) % 12;
             }
-            currentDate = currentDate.plusDays(1);
+            weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
+            if (currentDate.plusDays(1).getYear() > currentDate.getYear()) {
+                currentDate = LocalDate.of(2024, Month.JANUARY, 1);
+            }
+            else {
+                currentDate = currentDate.plusDays(1);
+            }
         }
         weekLabel.setText(currentWeek[0].getWeekViewString() + " - " + currentWeek[6].getWeekViewString());
 

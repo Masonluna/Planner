@@ -3,12 +3,15 @@ package edu.apsu.planner.app;
 import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.Tag;
 import edu.apsu.planner.data.Type;
-import edu.apsu.planner.view.monthViewUI;
-import edu.apsu.planner.view.weekViewUI;
+import edu.apsu.planner.view.DayFlowPane;
+import edu.apsu.planner.view.MonthViewUI;
+import edu.apsu.planner.view.WeekViewUI;
 import edu.apsu.planner.view.welcomepageUI;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -25,8 +28,8 @@ public class PlannerApplication extends Application {
     public Scene welcomeScene;
     public Scene weekViewScene;
     public Scene monthViewScene;
-    private monthViewUI monthViewUI;
-    private weekViewUI weekViewUI;
+    private MonthViewUI monthViewUI;
+    private WeekViewUI weekViewUI;
 
 
     @Override
@@ -66,8 +69,8 @@ public class PlannerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = new Stage();
-        monthViewUI = new monthViewUI(this, months);
-        weekViewUI = new weekViewUI(this, months);
+        monthViewUI = new MonthViewUI(this);
+        weekViewUI = new WeekViewUI(this);
         welcomeScene = new Scene(new welcomepageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);
@@ -83,9 +86,22 @@ public class PlannerApplication extends Application {
     }
 
     public void updateUI() {
-        monthViewUI.createGridPane(monthViewUI.getMonths()[monthViewUI.getCurrentMonthIndex()]);
+        monthViewUI.createGridPane(months[monthViewUI.getCurrentMonthIndex()]);
+        refreshSelectedDayFlowPane(monthViewUI.getSelectedDayFlowPaneRI(), monthViewUI.getSelectedDayFlowPaneCI());
         monthViewUI.setRight(monthViewUI.createRightPane());
         weekViewUI.setCenter(weekViewUI.createCenterPane());
+    }
+
+    private void refreshSelectedDayFlowPane(Integer row, Integer col) {
+        DayFlowPane dayFlowPane = null;
+        for (Node node : monthViewUI.getMonthViewGridPane().getChildren()) {
+            Integer ri = GridPane.getRowIndex(node);
+            Integer ci = GridPane.getColumnIndex(node);
+            if (node != null && row.equals(ri) && col.equals(ci)) {
+                dayFlowPane = (DayFlowPane) node;
+            }
+        }
+        monthViewUI.setSelectedDayFlowPane(dayFlowPane);
     }
 
     public Stage getStage() {
@@ -95,4 +111,13 @@ public class PlannerApplication extends Application {
     public Type[] getTypes() {
         return this.types;
     }
+
+    public void setMonths(MonthInfo[] months) {
+        this.months = months;
+    }
+
+    public MonthInfo[] getMonths() {
+        return months;
+    }
+
 }

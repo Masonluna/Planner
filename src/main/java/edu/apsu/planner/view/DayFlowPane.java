@@ -14,4 +14,8 @@ public class DayFlowPane extends FlowPane {
     public DayInfo getDayInfo() {
         return (DayInfo) getUserData();
     }
+
+    public void setDayInfo(DayInfo dayInfo) {
+        setUserData(dayInfo);
+    }
 }

@@ -1,14 +1,13 @@
 package edu.apsu.planner.handler;
 
+import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.MonthInfo;
-import edu.apsu.planner.view.monthViewUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 
-import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
 import java.io.*;
@@ -16,12 +15,10 @@ import java.io.*;
 import java.time.Month;
 
 public class FileEventHandler implements EventHandler<ActionEvent> {
-    private MonthInfo[] months;
-    private monthViewUI ui;
+    private final PlannerApplication app;
 
-    public FileEventHandler(monthViewUI ui, MonthInfo[] months) {
-        this.months = months;
-        this.ui = ui;
+    public FileEventHandler(PlannerApplication app) {
+        this.app = app;
     }
     @Override
     public void handle(ActionEvent event) {
@@ -46,23 +43,23 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void newPlanner() {
-        System.out.println("Calling newPlanner()");
+        MonthInfo[] months = new MonthInfo[12];
         for (int i = 0; i < months.length; i++) {
             months[i] = new MonthInfo(2024, Month.of(i + 1));
         }
-        ui.setMonths(months);
-        ui.setCenter(ui.createCenterPane());
+        app.setMonths(months);
+        app.updateUI();
     }
 
     private void save() {
         FileChooser fileChooser = setupFileChooser();
         fileChooser.setTitle("Save Planner");
         fileChooser.setInitialFileName("Untitled.pln");
-        File selectedFile = fileChooser.showSaveDialog(ui.getStage());
+        File selectedFile = fileChooser.showSaveDialog(app.getStage());
         try {
             if (selectedFile != null) {
                 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
-                out.writeObject(months);
+                out.writeObject(app.getMonths());
                 out.close();
             }
         } catch (IOException e) {
@@ -74,14 +71,13 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     private void loadPlanner() {
         FileChooser fileChooser = setupFileChooser();
         fileChooser.setTitle("Load Planner");
-        File selectedFile = fileChooser.showOpenDialog(ui.getStage());
+        File selectedFile = fileChooser.showOpenDialog(app.getStage());
         try {
             if (selectedFile != null) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(selectedFile));
-                months = (MonthInfo[]) in.readObject();
-                ui.setMonths(months);
-                ui.setCenter(ui.createCenterPane());
-                ui.setRight(ui.createRightPane());
+                MonthInfo[] months = (MonthInfo[]) in.readObject();
+                app.setMonths(months);
+                app.updateUI();
                 in.close();
             }
         } catch (FileNotFoundException e) {

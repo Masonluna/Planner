@@ -276,9 +276,8 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         Month currentMonth = startMonth;
         MonthInfo currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
         DayInfo endDayInfo = monthViewUI.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
-
-        while (currentDayInfo.getDate().getDayOfYear() != endDayInfo.getDate().getDayOfYear() + 1)
-        {
+        do {
+            System.out.println("in while loop");
             int dayOfWeekValue = currentDayInfo.getDate().getDayOfWeek().getValue() % 7;
             if (dayOfWeekCheckBoxes[dayOfWeekValue].isSelected()) {
                 PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
@@ -296,7 +295,8 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
                 currentDayInfo = currentMonthInfo.getDayOf(1);
             }
-        }
+        } while (currentDayInfo.getDate().getDayOfYear() !=
+                (endDayInfo.getDate().getDayOfYear() + 1) % endDayInfo.getDate().lengthOfYear());
         popupStage.close();
         app.updateUI();
 

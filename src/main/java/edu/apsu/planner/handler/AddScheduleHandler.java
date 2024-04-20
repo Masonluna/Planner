@@ -1,5 +1,6 @@
 package edu.apsu.planner.handler;
 
+import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.PlannerEvent;
@@ -18,7 +19,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 
@@ -39,10 +39,12 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<String> endAmPmChoiceBox;
     private CheckBox[] dayOfWeekCheckBoxes;
     private Stage popupStage;
-    private final monthViewUI app;
-    public AddScheduleHandler(monthViewUI app) {
+    private final monthViewUI monthViewUI;
+    private final PlannerApplication app;
+    public AddScheduleHandler(PlannerApplication app, monthViewUI monthViewUI) {
         super();
         this.app = app;
+        this.monthViewUI = monthViewUI;
     }
     @Override
     public void handle(ActionEvent actionEvent) {
@@ -271,10 +273,10 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         int startDay = dayChoiceBox.getSelectionModel().getSelectedItem();
         Month endMonth = monthEndChoiceBox.getSelectionModel().getSelectedItem();
         int endDay = dayEndChoiceBox.getSelectionModel().getSelectedItem();
-        DayInfo currentDayInfo = app.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);
+        DayInfo currentDayInfo = monthViewUI.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);
         Month currentMonth = startMonth;
-        MonthInfo currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
-        DayInfo endDayInfo = app.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
+        MonthInfo currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
+        DayInfo endDayInfo = monthViewUI.getMonths()[endMonth.getValue() - 1].getDayOf(endDay);
 
         while (currentDayInfo.getDate().getDayOfYear() != endDayInfo.getDate().getDayOfYear() + 1)
         {
@@ -292,12 +294,12 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 currentDayInfo = currentMonthInfo.getDayOf(currentDayInfo.getDate().getDayOfMonth() + 1);
             } else {
                 currentMonth = currentMonth.plus(1);
-                currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
+                currentMonthInfo = monthViewUI.getMonths()[currentMonth.getValue() - 1];
                 currentDayInfo = currentMonthInfo.getDayOf(1);
             }
         }
         popupStage.close();
-        app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);
+        app.updateUI();
 
     }
 

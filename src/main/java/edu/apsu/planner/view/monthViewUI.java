@@ -52,7 +52,7 @@ public class monthViewUI extends BorderPane {
     private DetailViewTimeGridPane detailView;
 
     private  Scene scene;
-    private final Type[] types = new Type[5];
+
 
 
     public monthViewUI(PlannerApplication app, MonthInfo[] months) {
@@ -123,27 +123,27 @@ public class monthViewUI extends BorderPane {
         Menu insertSymbol = new Menu("Insert Symbol");
         MenuItem classSymbol = new MenuItem("Class symbol");
         classSymbol.setOnAction(e->{
-            types[0].setSymbolIsVisible(true);
+            app.getTypes()[0].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem workSymbol = new MenuItem("Work symbol");
         workSymbol.setOnAction(e->{
-            types[1].setSymbolIsVisible(true);
+            app.getTypes()[1].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
         assignmentSymbol.setOnAction(e->{
-            types[2].setSymbolIsVisible(true);
+            app.getTypes()[2].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem billSymbol = new MenuItem("Bill symbol");
         billSymbol.setOnAction(e->{
-            types[3].setSymbolIsVisible(true);
+            app.getTypes()[3].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
         MenuItem customSymbol = new MenuItem("Custom symbol");
         customSymbol.setOnAction(e->{
-            types[4].setSymbolIsVisible(true);
+            app.getTypes()[4].setSymbolIsVisible(true);
             createGridPane(months[currentMonthIndex]);
         });
        // MenuItem churchSymbol = new MenuItem("Church symbol");
@@ -189,26 +189,18 @@ public class monthViewUI extends BorderPane {
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
-        Rectangle defaultClassSymbol = new Rectangle(20, 20, Color.BLUE);
-        Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
-        Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
-        types[0] = classType;
-        classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
+        classFilter.selectedProperty().bindBidirectional(app.getTypes()[0].isVisibleProperty());
         classFilter.setOnMouseClicked(
-                e -> createGridPane(months[currentMonthIndex])
+                e -> app.updateUI()
         );
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
-        Rectangle defaultWorkSymbol = new Rectangle(20, 20, Color.FORESTGREEN);
-        Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
-        Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
-        types[1] = workType;
-        workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
+        workFilter.selectedProperty().bindBidirectional(app.getTypes()[1].isVisibleProperty());
         workFilter.setOnMouseClicked(
-                e -> createGridPane(months[currentMonthIndex])
+                e -> app.updateUI()
         );
 
 
@@ -216,12 +208,9 @@ public class monthViewUI extends BorderPane {
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
-        Rectangle defaultAssignmentSymbol = new Rectangle(20, 20, Color.PURPLE);
-        Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
-        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);        types[2] = assignmentType;
-        assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
+        assignmentFilter.selectedProperty().bindBidirectional(app.getTypes()[2].isVisibleProperty());
         assignmentFilter.setOnMouseClicked(
-                e -> createGridPane(months[currentMonthIndex])
+                e -> app.updateUI()
         );
 
 
@@ -229,13 +218,9 @@ public class monthViewUI extends BorderPane {
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
-        Rectangle defaultBillSymbol = new Rectangle(20, 20, Color.RED);
-        Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
-        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
-        types[3] = billType;
-        billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
+        billFilter.selectedProperty().bindBidirectional(app.getTypes()[3].isVisibleProperty());
         billFilter.setOnMouseClicked(
-                e -> createGridPane(months[currentMonthIndex])
+                e -> app.updateUI()
         );
 
 
@@ -243,14 +228,9 @@ public class monthViewUI extends BorderPane {
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
-        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
-        Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
-        Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
-
-        types[4] = customEventType;
-        customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
+        customEventFilter.selectedProperty().bindBidirectional(app.getTypes()[4].isVisibleProperty());
         customEventFilter.setOnMouseClicked(
-                e -> createGridPane(months[currentMonthIndex])
+                e -> app.updateUI()
         );
 
 
@@ -415,7 +395,7 @@ public class monthViewUI extends BorderPane {
                 dayFlowPane.getChildren().add(tmp);
                 HashSet<Tag> tagsToAdd = findTagsToAdd(day);
                 ArrayList<Type> typesToAdd = new ArrayList<>();
-                for (Type type : types)
+                for (Type type : app.getTypes())
                 {
                     if (tagsToAdd.contains(type.getTag()) && type.isVisible())
                     {
@@ -608,7 +588,7 @@ public class monthViewUI extends BorderPane {
         gridPaneDetailView.add(sixPmHBox, 0,13);
 
 
-        detailView = new DetailViewTimeGridPane(selectedDayInfo);
+        detailView = new DetailViewTimeGridPane(app, selectedDayInfo);
         detailView.add(controlHBox, 0,0);
         rightPaneVBox.getChildren().add(detailView);
 

@@ -1,5 +1,6 @@
 package edu.apsu.planner.view;
 
+import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.PlannerEvent;
 import javafx.geometry.Insets;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class DetailViewTimeGridPane extends GridPane {
+    PlannerApplication app;
     private final DayInfo day;
     private final HBox sixAmHBox;
     private final HBox sevenAmHBox;
@@ -23,10 +25,11 @@ public class DetailViewTimeGridPane extends GridPane {
     private final HBox fourPmHBox;
     private final HBox fivePmHBox;
     private final HBox sixPmHBox;
-    public DetailViewTimeGridPane(DayInfo day) {
+    public DetailViewTimeGridPane(PlannerApplication app, DayInfo day) {
         super();
 
         this.day = day;
+        this.app = app;
         this.setGridLinesVisible(true);
 
         sixAmHBox = new HBox();
@@ -140,48 +143,52 @@ public class DetailViewTimeGridPane extends GridPane {
                 case CUSTOM -> paint = Color.AQUA;
             }
             BackgroundFill backgroundFill = new BackgroundFill(paint, new CornerRadii(5), null);
+            BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
+                    new CornerRadii(5), BorderWidths.DEFAULT);
             Label eventLabel = new Label(event.toString());
-            eventLabel.setBackground(new Background(backgroundFill));
-            int startingHour = event.getStartingHour();
-            switch (startingHour) {
-                case 1:
-                    onePmHBox.getChildren().add(eventLabel);
-                    break;
-                case 2:
-                    twoPmHBox.getChildren().add(eventLabel);
-                    break;
-                case 3:
-                    threePmHBox.getChildren().add(eventLabel);
-                    break;
-                case 4:
-                    fourPmHBox.getChildren().add(eventLabel);
-                    break;
-                case 5:
-                    fivePmHBox.getChildren().add(eventLabel);
-                    break;
-                case 6:
-                    if (event.getStartingAmOrPm().equals("AM"))
-                        sixAmHBox.getChildren().add(eventLabel);
-                    else
-                        sixPmHBox.getChildren().add(eventLabel);
-                    break;
-                case 7:
-                    sevenAmHBox.getChildren().add(eventLabel);
-                    break;
-                case 8:
-                    eightAmHBox.getChildren().add(eventLabel);
-                    break;
-                case 9:
-                    nineAmHBox.getChildren().add(eventLabel);
-                    break;
-                case 10:
-                    tenAmHBox.getChildren().add(eventLabel);
-                    break;
-                case 11:
-                    elevenAmHBox.getChildren().add(eventLabel);
-                    break;
-                case 12:
-                    twelvePmHBox.getChildren().add(eventLabel);
+            eventLabel.setBorder(new Border(borderStroke));
+            //eventLabel.setBackground(new Background(backgroundFill));
+            if (app.getTypes()[event.getTag().getValue()].isVisible()) {
+                switch (event.getStartingHour()) {
+                    case 1:
+                        onePmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 2:
+                        twoPmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 3:
+                        threePmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 4:
+                        fourPmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 5:
+                        fivePmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 6:
+                        if (event.getStartingAmOrPm().equals("AM"))
+                            sixAmHBox.getChildren().add(eventLabel);
+                        else
+                            sixPmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 7:
+                        sevenAmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 8:
+                        eightAmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 9:
+                        nineAmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 10:
+                        tenAmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 11:
+                        elevenAmHBox.getChildren().add(eventLabel);
+                        break;
+                    case 12:
+                        twelvePmHBox.getChildren().add(eventLabel);
+                }
             }
         }
     }

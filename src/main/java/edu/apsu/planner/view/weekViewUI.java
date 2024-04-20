@@ -1,45 +1,55 @@
 package edu.apsu.planner.view;
 
 import edu.apsu.planner.app.PlannerApplication;
+import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.MonthInfo;
-import edu.apsu.planner.data.Tag;
-import edu.apsu.planner.data.Type;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 public class weekViewUI extends BorderPane {
     private final int INSET_SIZE = 15;
-    private Type[] types = new Type[5];
+    private LocalDate date = LocalDate.now();
+    LocalDate currentSunday;
     private MonthInfo[] months;
-    PlannerApplication app;
+    private PlannerApplication app;
+    private int currentMonthIndex;
+    private final DayInfo[] currentWeek = new DayInfo[7];
+    private GridPane weekViewGridPane;
 
 
-    
     public weekViewUI(PlannerApplication app, MonthInfo[] months) {
         super();
         this.months = months;
         this.app = app;
 
+        currentSunday = date;
+        while (currentSunday.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            currentSunday = currentSunday.minusDays(1);
+        }
+        currentMonthIndex = currentSunday.getMonthValue() - 1;
+
+
+
         this.setStyle("-fx-background-color: #B7B7B7;");
         //this.setPadding(new Insets(15));
-        this.setPrefSize(1250, 600);
+        this.setPrefSize(1375, 720);
 
-        this.setTop(creatMenuBar());
+        this.setTop(createMenuBar());
         this.setLeft(createLeftPane());
         this.setCenter(createCenterPane());
     }
 
 
-    public MenuBar creatMenuBar(){
+    public MenuBar createMenuBar(){
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
@@ -128,69 +138,49 @@ public class weekViewUI extends BorderPane {
         classFilter.setFont(font2);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
-        Rectangle defaultClassSymbol = new Rectangle(20, 20, Color.BLUE);
-        Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
-        Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
-        types[0] = classType;
-        classFilter.selectedProperty().bindBidirectional(classType.isVisibleProperty());
-      //  classFilter.setOnMouseClicked(
-          //      e -> createGridPane(months[currentMonthIndex])
-      //  );
+        classFilter.selectedProperty().bindBidirectional(app.getTypes()[0].isVisibleProperty());
+        classFilter.setOnMouseClicked(
+                e -> app.updateUI()
+        );
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
-        Rectangle defaultWorkSymbol = new Rectangle(20, 20, Color.FORESTGREEN);
-        Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
-        Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
-        types[1] = workType;
-        workFilter.selectedProperty().bindBidirectional(workType.isVisibleProperty());
-      //  workFilter.setOnMouseClicked(
-      //          e -> createGridPane(months[currentMonthIndex])
-      //  );
+        workFilter.selectedProperty().bindBidirectional(app.getTypes()[1].isVisibleProperty());
+        workFilter.setOnMouseClicked(
+                e -> app.updateUI()
+        );
 
 
         CheckBox assignmentFilter = new CheckBox("Assignments Due");
         assignmentFilter.setFont(font2);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
-        Rectangle defaultAssignmentSymbol = new Rectangle(20, 20, Color.PURPLE);
-        Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
-        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);        types[2] = assignmentType;
-        assignmentFilter.selectedProperty().bindBidirectional(assignmentType.isVisibleProperty());
-       // assignmentFilter.setOnMouseClicked(
-       //         e -> createGridPane(months[currentMonthIndex])
-      //  );
+        assignmentFilter.selectedProperty().bindBidirectional(app.getTypes()[2].isVisibleProperty());
+        assignmentFilter.setOnMouseClicked(
+                e -> app.updateUI()
+        );
 
 
         CheckBox billFilter = new CheckBox("Bill Due");
         billFilter.setFont(font2);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
-        Rectangle defaultBillSymbol = new Rectangle(20, 20, Color.RED);
-        Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
-        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
-        types[3] = billType;
-        billFilter.selectedProperty().bindBidirectional(billType.isVisibleProperty());
-       // billFilter.setOnMouseClicked(
-       //         e -> createGridPane(months[currentMonthIndex])
-       // );
+        billFilter.selectedProperty().bindBidirectional(app.getTypes()[3].isVisibleProperty());
+        billFilter.setOnMouseClicked(
+                e -> app.updateUI()
+        );
 
 
         CheckBox customEventFilter = new CheckBox("Custom Events");
         customEventFilter.setFont(font2);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
-        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
-        Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
-        Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
-
-        types[4] = customEventType;
-        customEventFilter.selectedProperty().bindBidirectional(customEventType.isVisibleProperty());
-      //  customEventFilter.setOnMouseClicked(
-       //         e -> createGridPane(months[currentMonthIndex])
-      //  );
+        customEventFilter.selectedProperty().bindBidirectional(app.getTypes()[4].isVisibleProperty());
+        customEventFilter.setOnMouseClicked(
+                e -> app.updateUI()
+        );
 
 
 
@@ -233,11 +223,19 @@ public class weekViewUI extends BorderPane {
         rightArrowButton.setPrefSize(150,180);
 
         labelAndControl.getChildren().addAll(leftArrowButton,weekLabel,rightArrowButton);
+        createGridPane();
+        centerPaneVBox.getChildren().addAll(labelAndControl, weekViewGridPane);
 
-        GridPane monthViewGridPane = new GridPane();
-        monthViewGridPane.setGridLinesVisible(true);
-        monthViewGridPane.setPadding(new Insets(10));
-        monthViewGridPane.setPrefSize(1050,1050);
+        return centerPaneVBox;
+    }
+
+    public void createGridPane() {
+        Font font = new Font("Arial", 22);
+        weekViewGridPane = new GridPane();
+        weekViewGridPane.setGridLinesVisible(false);
+        weekViewGridPane.setGridLinesVisible(true);
+        weekViewGridPane.setPadding(new Insets(10));
+        weekViewGridPane.setPrefSize(1050,1050);
 
         Label sundayLabel = new Label("Sunday");
         sundayLabel.setPrefSize(150,75);
@@ -268,17 +266,29 @@ public class weekViewUI extends BorderPane {
         saturdayLabel.setAlignment(Pos.CENTER);
         saturdayLabel.setFont(font);
 
-        monthViewGridPane.add(sundayLabel,0, 0);
-        monthViewGridPane.add(mondayLabel, 1, 0);
-        monthViewGridPane.add(tuesdayLabel, 2, 0);
-        monthViewGridPane.add(wednesdayLabel, 3, 0);
-        monthViewGridPane.add(thursdayLabel, 4, 0);
-        monthViewGridPane.add(fridayLabel, 5, 0);
-        monthViewGridPane.add(saturdayLabel, 6, 0);
+        weekViewGridPane.add(sundayLabel,0, 0);
+        weekViewGridPane.add(mondayLabel, 1, 0);
+        weekViewGridPane.add(tuesdayLabel, 2, 0);
+        weekViewGridPane.add(wednesdayLabel, 3, 0);
+        weekViewGridPane.add(thursdayLabel, 4, 0);
+        weekViewGridPane.add(fridayLabel, 5, 0);
+        weekViewGridPane.add(saturdayLabel, 6, 0);
 
-        centerPaneVBox.getChildren().addAll(labelAndControl, monthViewGridPane);
+        drawDetailViews();
+    }
 
-        return centerPaneVBox;
+    public void drawDetailViews() {
+
+        LocalDate currentDate = currentSunday;
+        for (int i = 0; i < 7; i++) {
+            DayInfo currentDay = this.months[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
+            currentWeek[i] = currentDay;
+            weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
+            if (currentDate.getDayOfMonth() == currentDate.lengthOfMonth()) {
+                currentMonthIndex++;
+            }
+            currentDate = currentDate.plusDays(1);
+        }
     }
 
 }

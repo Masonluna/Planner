@@ -188,9 +188,8 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         endAmPmChoiceBox.setStyle("-fx-color: pink;");
         endAmPmChoiceBox.getItems().addAll("AM", "PM");
         endAmPmChoiceBox.setValue("AM");
-        startTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
 
-        endTimeContainer.getChildren().addAll(hoursChoiceBox, colonLbl, minChoiceBox, amPmChoiceBox);
+        endTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
 
         VBox rightMostVBox = new VBox();
         rightMostVBox.setPadding(new Insets(10));

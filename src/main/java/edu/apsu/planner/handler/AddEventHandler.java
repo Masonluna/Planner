@@ -125,8 +125,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         startColonLbl.setFont(Font.font("Arial",24));
         minChoiceBox = new ChoiceBox<>();
         minChoiceBox.setStyle("-fx-color: pink;");
-        minChoiceBox.getItems().addAll(00,05,10,15,20,25,30,35,40,45,50,55);
-        minChoiceBox.setValue(00);
+        minChoiceBox.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
+        minChoiceBox.setValue(0);
         amPmChoiceBox = new ChoiceBox<>();
         amPmChoiceBox.setStyle("-fx-color: pink;");
         amPmChoiceBox.getItems().addAll("AM", "PM");

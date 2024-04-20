@@ -1,8 +1,8 @@
 package edu.apsu.planner.handler;
 
+import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.*;
 import edu.apsu.planner.view.monthViewUI;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.time.Month;
@@ -34,10 +33,12 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     private ChoiceBox<Integer> endMinChoiceBox;
     private ChoiceBox<String> endAmPmChoiceBox;
     public Stage popupStage;
-    private final monthViewUI app;
-    public AddEventHandler(monthViewUI app) {
+    private final monthViewUI monthViewUI;
+    private final PlannerApplication app;
+    public AddEventHandler(PlannerApplication app, monthViewUI monthViewUI) {
         super();
         this.app = app;
+        this.monthViewUI = monthViewUI;
     }
     @Override
     public void handle(ActionEvent event) {
@@ -192,12 +193,13 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
                 startingAmOrPm, endingHour, endingMin, endingAmOrPm);
 
-        DayInfo dayInfo = app.getMonths()[chosenMonth.getValue() - 1].getDayOf(chosenDay);
+        DayInfo dayInfo = monthViewUI.getMonths()[chosenMonth.getValue() - 1].getDayOf(chosenDay);
         dayInfo.getEvents().add(plannerEvent);
         dayInfo.sortEvents();
 
         popupStage.close();
-        app.createGridPane(app.getMonths()[app.getCurrentMonthIndex()]);
+        app.updateUI();
+        //monthViewUI.createGridPane(monthViewUI.getMonths()[monthViewUI.getCurrentMonthIndex()]);
     }
 
     private PlannerEvent getPlannerEvent(String eventName, String eventDescription, int startingHour, int startingMinute, String startingAmOrPm,

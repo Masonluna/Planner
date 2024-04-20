@@ -19,6 +19,8 @@ public class PlannerApplication extends Application {
     public Scene welcomeScene;
     public Scene weekViewScene;
     public Scene monthViewScene;
+    private monthViewUI monthViewUI;
+    private weekViewUI weekViewUI;
 
 
     @Override
@@ -33,9 +35,11 @@ public class PlannerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = new Stage();
+        monthViewUI = new monthViewUI(this, months);
+        weekViewUI = new weekViewUI(this, months);
         welcomeScene = new Scene(new welcomepageUI(this));
-        weekViewScene = new Scene(new weekViewUI(this, months));
-        monthViewScene = new Scene(new monthViewUI(this, months));
+        weekViewScene = new Scene(weekViewUI);
+        monthViewScene = new Scene(monthViewUI);
 
         stage.setScene(monthViewScene);
         stage.show();
@@ -44,6 +48,12 @@ public class PlannerApplication extends Application {
     public void switchScene(Scene scene)
     {
         stage.setScene(scene);
+    }
+
+    public void updateUI() {
+        monthViewUI.createGridPane(monthViewUI.getMonths()[monthViewUI.getCurrentMonthIndex()]);
+        monthViewUI.setRight(monthViewUI.createRightPane());
+        weekViewUI.setCenter(weekViewUI.createCenterPane());
     }
 
     public Stage getStage() {

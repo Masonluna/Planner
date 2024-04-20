@@ -72,9 +72,9 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>edu.apsu.planner/edu.apsu.planner.HelloApplication</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
+                            <launcher>monthViewUI</launcher>
+                            <jlinkZipName>monthViewUI</jlinkZipName>
+                            <jlinkImageName>monthViewUI</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>

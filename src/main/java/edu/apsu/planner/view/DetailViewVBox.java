@@ -19,7 +19,8 @@ public class DetailViewVBox extends VBox {
         this.app = app;
         this.setAlignment(Pos.TOP_CENTER);
         this.setPadding(new Insets(5, 10, 5, 10));
-        this.setPrefHeight(620);
+        this.setSpacing(5);
+        this.setPrefHeight(600);
 
         for (PlannerEvent event : day.getEvents()) {
             Paint paint = null;
@@ -39,9 +40,9 @@ public class DetailViewVBox extends VBox {
             eventLabel.setPadding(new Insets(10, 5, 10, 5));
             eventLabel.setBorder(new Border(borderStroke));
             if (heightMultiplier > 0)
-                eventLabel.setPrefHeight(30 * heightMultiplier);
+                eventLabel.setPrefHeight(60 * heightMultiplier);
             else
-                eventLabel.setPrefHeight(50);
+                eventLabel.setPrefHeight(60);
             if (app.getTypes()[event.getTag().getValue()].isVisible())
                 this.getChildren().add(eventLabel);
         }

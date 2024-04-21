@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -439,8 +440,9 @@ public class MonthViewUI extends BorderPane {
         VBox rightPaneVBox = new VBox();
         rightPaneVBox.setPadding(new Insets(INSET_SIZE));
         rightPaneVBox.setSpacing(10);
-        rightPaneVBox.setPadding(new Insets(10));
         HBox controlHBox = new HBox();
+        controlHBox.setPrefWidth(200);
+        controlHBox.setPrefHeight(100);
         controlHBox.setAlignment(Pos.CENTER);
         controlHBox.setSpacing(10);
         Button leftArrowButton = new Button("<");
@@ -479,6 +481,9 @@ public class MonthViewUI extends BorderPane {
         dayLabel = new Label(selectedDayInfo.toString());
         dayLabel.setAlignment(Pos.CENTER);
         dayLabel.setPrefHeight(GRID_PANE_NODE_HEIGHT);
+        dayLabel.setPrefWidth(100);
+        dayLabel.setWrapText(true);
+        dayLabel.textAlignmentProperty().set(TextAlignment.CENTER);
         Font font = new Font("Arial", 12);
         dayLabel.setFont(font);
         Button rightArrowButton = new Button(">");
@@ -515,11 +520,11 @@ public class MonthViewUI extends BorderPane {
         controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
         detailView = new GridPane();
         detailView.setGridLinesVisible(true);
-        detailView.setPadding(new Insets(5, 10, 5, 10));
+        //detailView.setPadding(new Insets(5, 10, 5, 10));
         DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
         detailView.add(controlHBox, 0,0);
         detailView.add(detailViewVBox, 0, 1);
-        GridPane.setHgrow(detailViewVBox, Priority.ALWAYS);
+        GridPane.setMargin(controlHBox, new Insets(5));
 
         rightPaneVBox.getChildren().add(detailView);
 

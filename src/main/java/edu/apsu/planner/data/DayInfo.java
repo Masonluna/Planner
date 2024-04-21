@@ -55,7 +55,7 @@ public class DayInfo implements Serializable {
 
     @Override
     public String toString() {
-        return this.date.getDayOfWeek() + ", " + this.monthName + " " + dayOfMonth;
+        return this.date.getDayOfWeek() + ",\n" + this.monthName + " " + dayOfMonth;
     }
 
     // Accessors and Mutators

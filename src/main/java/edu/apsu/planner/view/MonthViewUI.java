@@ -472,6 +472,7 @@ public class MonthViewUI extends BorderPane {
             }
             selectedDayInfo = selectedDayFlowPane.getDayInfo();
             dayLabel.setText(selectedDayInfo.toString());
+            app.updateUI();
         });
 
 
@@ -508,6 +509,7 @@ public class MonthViewUI extends BorderPane {
             }
             selectedDayInfo = selectedDayFlowPane.getDayInfo();
             dayLabel.setText(selectedDayInfo.toString());
+            app.updateUI();
         });
 
         controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
@@ -517,6 +519,7 @@ public class MonthViewUI extends BorderPane {
         DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
         detailView.add(controlHBox, 0,0);
         detailView.add(detailViewVBox, 0, 1);
+        GridPane.setHgrow(detailViewVBox, Priority.ALWAYS);
 
         rightPaneVBox.getChildren().add(detailView);
 

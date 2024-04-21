@@ -4,6 +4,7 @@ import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
 import edu.apsu.planner.data.PlannerEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -16,6 +17,7 @@ public class DetailViewVBox extends VBox {
         super();
 
         this.app = app;
+        this.setAlignment(Pos.TOP_CENTER);
         this.setPadding(new Insets(5, 10, 5, 10));
         this.setPrefHeight(620);
 

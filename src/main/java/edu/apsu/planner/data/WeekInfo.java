@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class WeekInfo implements Serializable {
     // Instances
-    private ArrayList<DayInfo> days;
+    private final ArrayList<DayInfo> days;
 
     // Constructors
     public WeekInfo() {

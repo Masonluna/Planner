@@ -7,12 +7,13 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Type implements Serializable {
 
     // Instances
-    private Tag tag;
-    private Image symbol;
+    private final Tag tag;
+    private final Image symbol;
     private Rectangle defaultSymbol;
 
 
@@ -42,24 +43,8 @@ public class Type implements Serializable {
         return tag;
     }
 
-    public String getName() {
-        return tag.name();
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
-
     public Image getSymbol() {
         return symbol;
-    }
-
-    public void setSymbol(Image symbol) {
-        this.symbol = symbol;
-    }
-
-    public Rectangle getDefaultSymbol() {
-        return defaultSymbol;
     }
 
     public Rectangle copyDefaultSymbol() {
@@ -76,15 +61,10 @@ public class Type implements Serializable {
         return isVisible.get();
     }
 
-    public void setVisible(boolean visible) {
-        isVisible.set(visible);
-    }
-
 
     public static Image loadImageIntoLabel(String imagePath) {
         // Load the image
-        Image image = new Image(Type.class.getResource(imagePath).toString());
-        return image;
+        return new Image(Objects.requireNonNull(Type.class.getResource(imagePath)).toString());
     }
 
 

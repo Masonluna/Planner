@@ -39,21 +39,23 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
     private CheckBox[] dayOfWeekCheckBoxes;
     private Stage popupStage;
     private final PlannerApplication app;
+
     public AddScheduleHandler(PlannerApplication app) {
         super();
         this.app = app;
     }
+
     @Override
     public void handle(ActionEvent actionEvent) {
         BorderPane root = new BorderPane();
-        root.setPrefSize(650,300);
+        root.setPrefSize(650, 300);
         root.setStyle("-fx-background-color: #B7B7B7;");
 
         HBox popUpContainerHBox = new HBox();
         VBox leftSideVBox = new VBox();
         leftSideVBox.setPadding(new Insets(10));
         leftSideVBox.setSpacing(10);
-        leftSideVBox.setPrefSize(250,150);
+        leftSideVBox.setPrefSize(250, 150);
 
         titleOfEventTF = new TextField();
         titleOfEventTF.setStyle("-fx-control-inner-background: pink;");
@@ -78,7 +80,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         VBox rightSideVBox = new VBox();
         rightSideVBox.setPadding(new Insets(10));
         rightSideVBox.setSpacing(10);
-        rightSideVBox.setPrefSize(250,150);
+        rightSideVBox.setPrefSize(250, 150);
 
         HBox tagChoiceBoxContainer = new HBox();
         tagChoiceBoxContainer.setPadding(new Insets(10));
@@ -93,7 +95,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         dateLbl.setFont(font);
         VBox endStartContainer = new VBox();
         Label startDateLbl = new Label("Date when schedule starts:");
-        startDateLbl.setFont(Font.font("Arial",16));
+        startDateLbl.setFont(Font.font("Arial", 16));
         HBox dayContainer = new HBox();
         dayContainer.setPadding(new Insets(10));
         dayContainer.setSpacing(10);
@@ -120,7 +122,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         VBox endDayContainer1 = new VBox();
         HBox endDayContainer = new HBox();
         Label endDateLbl = new Label("Date when schedule ends:");
-        endDateLbl.setFont(Font.font("Arial",16));
+        endDateLbl.setFont(Font.font("Arial", 16));
         endDayContainer.setPadding(new Insets(10));
         endDayContainer.setSpacing(10);
         monthEndChoiceBox = new ChoiceBox<>();
@@ -151,14 +153,14 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         startTimeContainer.setSpacing(10);
         hoursChoiceBox = new ChoiceBox<>();
         hoursChoiceBox.setStyle("-fx-color: pink;");
-        hoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        hoursChoiceBox.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         hoursChoiceBox.setValue(12);
         Label colonLbl = new Label(" : ");
-        colonLbl.setFont(Font.font("Arial",24));
+        colonLbl.setFont(Font.font("Arial", 24));
         minChoiceBox = new ChoiceBox<>();
         minChoiceBox.setStyle("-fx-color: pink;");
-        minChoiceBox.getItems().addAll(00,05,10,15,20,25,30,35,40,45,50,55);
-        minChoiceBox.setValue(00);
+        minChoiceBox.getItems().addAll(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
+        minChoiceBox.setValue(0);
         amPmChoiceBox = new ChoiceBox<>();
         amPmChoiceBox.setStyle("-fx-color: pink;");
         amPmChoiceBox.getItems().addAll("AM", "PM");
@@ -174,13 +176,13 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
 
         endHoursChoiceBox = new ChoiceBox<>();
         endHoursChoiceBox.setStyle("-fx-color: pink;");
-        endHoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        endHoursChoiceBox.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         endHoursChoiceBox.setValue(12);
         Label endColonLbl = new Label(" : ");
-        endColonLbl.setFont(Font.font("Arial",24));
+        endColonLbl.setFont(Font.font("Arial", 24));
         endMinChoiceBox = new ChoiceBox<>();
         endMinChoiceBox.setStyle("-fx-color: pink;");
-        endMinChoiceBox.getItems().addAll(0, 5,10,15,20,25,30,35,40,45,50,55);
+        endMinChoiceBox.getItems().addAll(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
         endMinChoiceBox.setValue(0);
         endAmPmChoiceBox = new ChoiceBox<>();
         endAmPmChoiceBox.setStyle("-fx-color: pink;");
@@ -192,7 +194,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         VBox rightMostVBox = new VBox();
         rightMostVBox.setPadding(new Insets(10));
         rightMostVBox.setSpacing(10);
-        rightMostVBox.setPrefSize(250,200);
+        rightMostVBox.setPrefSize(250, 200);
         Label dayOFWeekLbl = new Label("Select days which Schedule occurs on:");
         dayOFWeekLbl.setFont(font);
         dayOFWeekLbl.setWrapText(true);
@@ -235,12 +237,10 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         dayOfWeekCheckBoxes[6] = saturdayCheckBox;
 
 
-
-        rightMostVBox.getChildren().addAll(dayOFWeekLbl, sundayCheckBox,mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckBox, saturdayCheckBox);
-
+        rightMostVBox.getChildren().addAll(dayOFWeekLbl, sundayCheckBox, mondayCheckBox, tuesdayCheckBox, wednesdayCheckBox, thursdayCheckBox, fridayCheckBox, saturdayCheckBox);
 
 
-        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer , endStartContainer, endDayContainer1, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
+        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer, endStartContainer, endDayContainer1, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
         popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox, rightMostVBox);
         root.setCenter(popUpContainerHBox);
@@ -284,8 +284,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
             }
 
             //If we're NOT at the end of the month
-            if (currentDayInfo.getDate().getDayOfMonth() < currentMonth.length(currentDayInfo.getDate().isLeapYear()))
-            {
+            if (currentDayInfo.getDate().getDayOfMonth() < currentMonth.length(currentDayInfo.getDate().isLeapYear())) {
                 currentDayInfo = currentMonthInfo.getDayOf(currentDayInfo.getDate().getDayOfMonth() + 1);
             } else {
                 currentMonth = currentMonth.plus(1);

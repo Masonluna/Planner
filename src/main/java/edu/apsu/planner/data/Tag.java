@@ -9,20 +9,11 @@ public enum Tag {
 
     private final int value;
 
-    Tag (int value) {
+    Tag(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return value;
-    }
-
-    public static Tag valueOf(int value) {
-        for (Tag tag : Tag.values()) {
-            if (tag.value == value)
-                return tag;
-        }
-
-        throw new IllegalArgumentException();
     }
 }

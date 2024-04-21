@@ -12,10 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.time.Month;
 import java.time.YearMonth;
 
@@ -35,25 +33,26 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     public Stage popupStage;
 
     private final PlannerApplication app;
+
     public AddEventHandler(PlannerApplication app) {
         super();
         this.app = app;
     }
+
     @Override
     public void handle(ActionEvent event) {
         Stage primaryStage = new Stage();
 
 
         BorderPane root = new BorderPane();
-        root.setPrefSize(500,300);
+        root.setPrefSize(500, 300);
         root.setStyle("-fx-background-color: #B7B7B7;");
 
         HBox popUpContainerHBox = new HBox();
         VBox leftSideVBox = new VBox();
         leftSideVBox.setPadding(new Insets(10));
         leftSideVBox.setSpacing(10);
-        leftSideVBox.setPrefSize(250,150);
-
+        leftSideVBox.setPrefSize(250, 150);
 
 
         titleOfEventTF = new TextField();
@@ -62,7 +61,6 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         Font font = new Font("Arial", 18);
         titleOfEventTF.setFont(font);
         titleOfEventTF.setPromptText("Enter title of your event");
-
 
 
         descriptionOfEventTA = new TextArea();
@@ -81,7 +79,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         VBox rightSideVBox = new VBox();
         rightSideVBox.setPadding(new Insets(10));
         rightSideVBox.setSpacing(10);
-        rightSideVBox.setPrefSize(250,150);
+        rightSideVBox.setPrefSize(250, 150);
 
         HBox tagChoiceBoxContainer = new HBox();
         tagChoiceBoxContainer.setPadding(new Insets(10));
@@ -123,13 +121,13 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         startTimeContainer.setSpacing(10);
         hoursChoiceBox = new ChoiceBox<>();
         hoursChoiceBox.setStyle("-fx-color: pink;");
-        hoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        hoursChoiceBox.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         hoursChoiceBox.setValue(12);
         Label startColonLbl = new Label(" : ");
-        startColonLbl.setFont(Font.font("Arial",24));
+        startColonLbl.setFont(Font.font("Arial", 24));
         minChoiceBox = new ChoiceBox<>();
         minChoiceBox.setStyle("-fx-color: pink;");
-        minChoiceBox.getItems().addAll(0,5,10,15,20,25,30,35,40,45,50,55);
+        minChoiceBox.getItems().addAll(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
         minChoiceBox.setValue(0);
         amPmChoiceBox = new ChoiceBox<>();
         amPmChoiceBox.setStyle("-fx-color: pink;");
@@ -145,13 +143,13 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         endHoursChoiceBox = new ChoiceBox<>();
         endHoursChoiceBox.setStyle("-fx-color: pink;");
-        endHoursChoiceBox.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        endHoursChoiceBox.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         endHoursChoiceBox.setValue(12);
         Label endColonLbl = new Label(" : ");
-        endColonLbl.setFont(Font.font("Arial",24));
+        endColonLbl.setFont(Font.font("Arial", 24));
         endMinChoiceBox = new ChoiceBox<>();
         endMinChoiceBox.setStyle("-fx-color: pink;");
-        endMinChoiceBox.getItems().addAll(0, 5,10,15,20,25,30,35,40,45,50,55);
+        endMinChoiceBox.getItems().addAll(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55);
         endMinChoiceBox.setValue(0);
         endAmPmChoiceBox = new ChoiceBox<>();
         endAmPmChoiceBox.setStyle("-fx-color: pink;");
@@ -161,12 +159,10 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         endTimeContainer.getChildren().addAll(endHoursChoiceBox, endColonLbl, endMinChoiceBox, endAmPmChoiceBox);
 
 
-
-        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer ,dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
+        rightSideVBox.getChildren().addAll(dateLbl, tagChoiceBoxContainer, dayContainer, startTimeLbl, startTimeContainer, endTimeLbl, endTimeContainer);
 
         popUpContainerHBox.getChildren().addAll(leftSideVBox, rightSideVBox);
         root.setCenter(popUpContainerHBox);
-
 
 
         primaryStage.setTitle("Add Event");

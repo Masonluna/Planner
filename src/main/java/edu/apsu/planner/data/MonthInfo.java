@@ -23,7 +23,7 @@ public class MonthInfo implements Serializable {
      * as the corresponding WeekInfo and DayInfo instances for each day in the month.
      *
      * @param month month of the year that the instance will represent
-     * @param year the year in which the given month takes place.
+     * @param year  the year in which the given month takes place.
      * @throws NullPointerException if month is null
      */
     public MonthInfo(int year, Month month) {
@@ -43,7 +43,7 @@ public class MonthInfo implements Serializable {
 
             // If the day of the week is saturday or the last day of the month, then add the days list to the
             // weeks ArrayList. Then, instantiate a new days ArrayList.
-            if(tmp.getDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
+            if (tmp.getDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
                     i == month.length(date.isLeapYear()) - 1) {
                 this.weeks.add(new WeekInfo(days));
                 days = new ArrayList<>();
@@ -80,7 +80,7 @@ public class MonthInfo implements Serializable {
     public DayInfo getDayOf(int dayOfMonth) {
         for (WeekInfo weekInfo : weeks) {
             for (DayInfo dayInfo : weekInfo.getDays()) {
-                if  (dayInfo.getDate().getDayOfMonth() == dayOfMonth) {
+                if (dayInfo.getDate().getDayOfMonth() == dayOfMonth) {
                     return dayInfo;
                 }
             }

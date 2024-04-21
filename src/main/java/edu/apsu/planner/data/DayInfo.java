@@ -3,12 +3,11 @@ package edu.apsu.planner.data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class DayInfo implements Serializable {
     // Instances
-    private ArrayList<PlannerEvent> events;
-    private LocalDate date;
+    private final ArrayList<PlannerEvent> events;
+    private final LocalDate date;
     private String monthName;
     private int dayOfMonth;
 
@@ -28,27 +27,24 @@ public class DayInfo implements Serializable {
     // Methods
 
     public void sortEvents() {
-        events.sort(new Comparator<PlannerEvent>() {
-            @Override
-            public int compare(PlannerEvent o1, PlannerEvent o2) {
-                if (!o1.getStartingAmOrPm().equals(o2.getStartingAmOrPm())) {
-                    if (o1.getStartingAmOrPm().equals("AM")) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                } else if (o1.getStartingHour() < o2.getStartingHour()) {
+        events.sort((o1, o2) -> {
+            if (!o1.getStartingAmOrPm().equals(o2.getStartingAmOrPm())) {
+                if (o1.getStartingAmOrPm().equals("AM")) {
                     return -1;
-                } else if (o2.getStartingHour() < o1.getStartingHour()) {
-                    return 1;
-                } else if (o1.getStartingMinute() < o2.getStartingMinute()) {
-                    return -1;
-                } else if (o2.getStartingMinute() < o1.getStartingMinute()) {
+                } else {
                     return 1;
                 }
-
-                return 0;
+            } else if (o1.getStartingHour() < o2.getStartingHour()) {
+                return -1;
+            } else if (o2.getStartingHour() < o1.getStartingHour()) {
+                return 1;
+            } else if (o1.getStartingMinute() < o2.getStartingMinute()) {
+                return -1;
+            } else if (o2.getStartingMinute() < o1.getStartingMinute()) {
+                return 1;
             }
+
+            return 0;
         });
     }
 
@@ -63,16 +59,8 @@ public class DayInfo implements Serializable {
         return events;
     }
 
-    public void setEvents(ArrayList<PlannerEvent> events) {
-        this.events = events;
-    }
-
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public String getWeekViewString() {

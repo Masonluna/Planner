@@ -41,33 +41,33 @@ public class PlannerApplication extends Application {
         }
 
         Rectangle defaultClassSymbol = new Rectangle(20, 20, Color.BLUE);
-        Image classSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
+        Image classSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-class-64.png");
         Type classType = new Type(Tag.CLASS, classSymbolImage, defaultClassSymbol, true);
         types[0] = classType;
 
         Rectangle defaultWorkSymbol = new Rectangle(20, 20, Color.FORESTGREEN);
-        Image workSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
+        Image workSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-work-100.png");
         Type workType = new Type(Tag.WORK, workSymbolImage, defaultWorkSymbol, true);
         types[1] = workType;
 
-        Image assignmentDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
+        Image assignmentDueSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-study-100.png");
         Rectangle defaultAssignmentSymbol = new Rectangle(20, 20, Color.PURPLE);
-        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol,true);
+        Type assignmentType = new Type(Tag.ASSIGNMENT, assignmentDueSymbolImage, defaultAssignmentSymbol, true);
         types[2] = assignmentType;
 
         Rectangle defaultBillSymbol = new Rectangle(20, 20, Color.RED);
-        Image billDueSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
-        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol,true);
+        Image billDueSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-bill-64.png");
+        Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol, true);
         types[3] = billType;
 
         Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
-        Image customSymbolImage =  Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
+        Image customSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
         Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
         types[4] = customEventType;
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         stage = new Stage();
         monthViewUI = new MonthViewUI(this);
         weekViewUI = new WeekViewUI(this);
@@ -80,8 +80,7 @@ public class PlannerApplication extends Application {
         stage.show();
     }
 
-    public void switchScene(Scene scene)
-    {
+    public void switchScene(Scene scene) {
         stage.setScene(scene);
     }
 
@@ -114,10 +113,6 @@ public class PlannerApplication extends Application {
 
     public WeekViewUI getWeekViewUI() {
         return weekViewUI;
-    }
-
-    public Scene getWeekViewScene() {
-        return weekViewScene;
     }
 
     public Scene getMonthViewScene() {

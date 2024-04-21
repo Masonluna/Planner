@@ -70,7 +70,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
                 out.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
             displayAlert("File Save Error", "File could not be saved");
         }
     }
@@ -114,9 +113,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         PdfBuilder builder = new PdfBuilder(app);
         try {
             builder.build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (BadElementException e) {
+        } catch (IOException | BadElementException e) {
             throw new RuntimeException(e);
         }
     }
@@ -126,14 +123,13 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private class PdfBuilder {
-        private PlannerApplication app;
+        private final PlannerApplication app;
 
         public PdfBuilder(PlannerApplication app) {
             this.app = app;
         }
 
         public void build() throws IOException, BadElementException {
-            System.out.println("Build called");
             Document document = new Document();
             WritableImage image;
             if (app.getStage().getScene().equals(app.getMonthViewScene())) {
@@ -141,7 +137,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
             } else {
                 image = app.getWeekViewUI().getCenter().snapshot(null, null);
             }
-            Rectangle pageSize = new Rectangle((float)image.getWidth() + 50, (float)image.getHeight() + 50);
+            Rectangle pageSize = new Rectangle((float) image.getWidth() + 50, (float) image.getHeight() + 50);
             document.setPageSize(pageSize);
 
             BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
@@ -149,8 +145,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
             ImageIO.write(bufferedImage, "png", out);
 
             com.itextpdf.text.Image pdfImage = com.itextpdf.text.Image.getInstance(bufferedImage, null);
-            System.out.println("pdfImage successfully created!!");
-
             FileChooser fileChooser = setupFileChooser("Pdf Files", "*.pdf");
             fileChooser.setTitle("Export to PDF");
             fileChooser.setInitialFileName("Untitled.pdf");
@@ -162,7 +156,6 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
                     document.open();
                     document.add(pdfImage);
                     document.close();
-                    System.out.println("done");
                 } catch (DocumentException e) {
                     displayAlert("Export Error", "File could not be created");
                 } catch (FileNotFoundException e) {

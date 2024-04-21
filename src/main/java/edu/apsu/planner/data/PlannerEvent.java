@@ -5,16 +5,15 @@ import java.io.Serializable;
 public class PlannerEvent implements Serializable {
 
     //Instances
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private int startingHour;
     private int startingMinute;
     private String startingAmOrPm;
     private int endingHour;
-    private int endingMinute;
     private String endingAmOrPm;
     private String time;
-    private Tag tag;
+    private final Tag tag;
 
     // Constructors
     public PlannerEvent() {
@@ -32,7 +31,6 @@ public class PlannerEvent implements Serializable {
         this.startingMinute = startingMinute;
         this.startingAmOrPm = startingAmOrPm;
         this.endingHour = endingHour;
-        this.endingMinute = endingMinute;
         this.endingAmOrPm = endingAmOrPm;
         this.time = String.format("%d:%02d %s - %d:%02d %s", startingHour, startingMinute, startingAmOrPm,
                 endingHour, endingMinute, endingAmOrPm);
@@ -47,11 +45,6 @@ public class PlannerEvent implements Serializable {
     }
 
     // Accessors and Mutators
-
-    public String getDescription() {
-        return description;
-    }
-
     public int getStartingHour() {
         return startingHour;
     }
@@ -68,20 +61,8 @@ public class PlannerEvent implements Serializable {
         return endingHour;
     }
 
-    public int getEndingMinute() {
-        return endingMinute;
-    }
-
     public String getEndingAmOrPm() {
         return endingAmOrPm;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getTime() {
@@ -94,9 +75,5 @@ public class PlannerEvent implements Serializable {
 
     public Tag getTag() {
         return tag;
-    }
-
-    public void setTag(Tag tag) {
-        this.tag = tag;
     }
 }

@@ -66,6 +66,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         descriptionOfEventTA.setFont(font);
         descriptionOfEventTA.setStyle("-fx-control-inner-background: pink;");
         descriptionOfEventTA.setPromptText("Enter a description of event here");
+        descriptionOfEventTA.setWrapText(true);
         Button okayButton = new Button("Add to Planner");
         okayButton.setStyle("-fx-color: pink;");
         okayButton.setFont(Font.font("Arial", 18));

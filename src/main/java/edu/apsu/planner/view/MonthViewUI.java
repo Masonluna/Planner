@@ -45,7 +45,7 @@ public class MonthViewUI extends BorderPane {
     private DayInfo selectedDayInfo;
 
     private PlannerApplication app;
-    private DetailViewTimeGridPane detailView;
+    private GridPane detailView;
 
     public MonthViewUI(PlannerApplication app) {
         // Set up MonthInfo data
@@ -251,8 +251,10 @@ public class MonthViewUI extends BorderPane {
 
         centerPaneVBox.setPadding(new Insets(INSET_SIZE));
         centerPaneVBox.setSpacing(10);
+        centerPaneVBox.setAlignment(Pos.CENTER);
         labelAndControl.setSpacing(10);
         labelAndControl.setMaxWidth(GRID_PANE_NODE_WIDTH * 7);
+        labelAndControl.setAlignment(Pos.CENTER);
 
         // Initialize Fonts
         Font font = new Font("Arial", 22);
@@ -509,8 +511,13 @@ public class MonthViewUI extends BorderPane {
         });
 
         controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
-        detailView = new DetailViewTimeGridPane(app, selectedDayInfo);
+        detailView = new GridPane();
+        detailView.setGridLinesVisible(true);
+        detailView.setPadding(new Insets(5, 10, 5, 10));
+        DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
         detailView.add(controlHBox, 0,0);
+        detailView.add(detailViewVBox, 0, 1);
+
         rightPaneVBox.getChildren().add(detailView);
 
         return rightPaneVBox;

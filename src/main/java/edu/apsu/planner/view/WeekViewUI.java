@@ -243,6 +243,7 @@ public class WeekViewUI extends BorderPane {
         weekViewGridPane.setGridLinesVisible(true);
         weekViewGridPane.setPadding(new Insets(10));
         weekViewGridPane.setPrefSize(1050,1050);
+        weekViewGridPane.setAlignment(Pos.CENTER);
 
         Label sundayLabel = new Label("Sunday");
         sundayLabel.setPrefSize(150,75);

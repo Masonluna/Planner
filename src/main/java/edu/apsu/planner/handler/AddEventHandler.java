@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -53,6 +54,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         leftSideVBox.setSpacing(10);
         leftSideVBox.setPrefSize(250,150);
 
+
+
         titleOfEventTF = new TextField();
         titleOfEventTF.setStyle("-fx-control-inner-background: pink;");
         titleOfEventTF.setPrefSize(125, 50);
@@ -60,10 +63,13 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         titleOfEventTF.setFont(font);
         titleOfEventTF.setPromptText("Enter title of your event");
 
+
+
         descriptionOfEventTA = new TextArea();
         descriptionOfEventTA.setFont(font);
         descriptionOfEventTA.setStyle("-fx-control-inner-background: pink;");
         descriptionOfEventTA.setPromptText("Enter a description of event here");
+        descriptionOfEventTA.setWrapText(true);
         Button okayButton = new Button("Add to Planner");
         okayButton.setStyle("-fx-color: pink;");
         okayButton.setFont(Font.font("Arial", 18));

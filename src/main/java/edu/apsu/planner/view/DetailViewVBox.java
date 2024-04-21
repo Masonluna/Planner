@@ -17,6 +17,7 @@ public class DetailViewVBox extends VBox {
 
         this.app = app;
         this.setPadding(new Insets(5, 10, 5, 10));
+        this.setPrefHeight(620);
 
         for (PlannerEvent event : day.getEvents()) {
             Paint paint = null;
@@ -31,11 +32,9 @@ public class DetailViewVBox extends VBox {
             BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
                     new CornerRadii(5), BorderWidths.DEFAULT);
             int heightMultiplier = getHeightMultiplier(event);
-            //BackgroundFill backgroundFill = new BackgroundFill(paint, new CornerRadii(5), null);
             Label eventLabel = new Label(event.toString());
             eventLabel.setPrefWidth(130);
-            eventLabel.setPadding(new Insets(5, 0, 5, 0));
-            //eventLabel.setBackground(new Background(backgroundFill));
+            eventLabel.setPadding(new Insets(10, 5, 10, 5));
             eventLabel.setBorder(new Border(borderStroke));
             if (heightMultiplier > 0)
                 eventLabel.setPrefHeight(30 * heightMultiplier);
@@ -59,11 +58,15 @@ public class DetailViewVBox extends VBox {
                 heightMultiplier = event.getEndingHour() - event.getStartingHour();
         } else {
             int preNoonDuration;
+            int postNoonDuration;
             if (event.getStartingHour() == 12)
                 preNoonDuration = 12;
             else
                 preNoonDuration = 12 - event.getStartingHour();
-            int postNoonDuration = event.getEndingHour();
+            if (event.getEndingHour() == 12)
+                postNoonDuration = 0;
+            else
+                postNoonDuration = event.getEndingHour();
             heightMultiplier = preNoonDuration + postNoonDuration;
         }
         return heightMultiplier;

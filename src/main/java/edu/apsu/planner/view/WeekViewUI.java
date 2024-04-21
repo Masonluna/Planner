@@ -87,15 +87,58 @@ public class WeekViewUI extends BorderPane {
         MenuItem addCustomEvent = new MenuItem("Add Event");
         addCustomEvent.setOnAction(new AddEventHandler(this.app));
         addMenu.getItems().addAll(addSchedule, separatorMenuItem2, addCustomEvent);
-        Menu insertMenu = new Menu( "Insert");
-
+        Menu insertMenu = new Menu("Insert");
         Menu insertSymbol = new Menu("Insert Symbol");
-
         MenuItem classSymbol = new MenuItem("Class symbol");
+        classSymbol.setOnAction(e->{
+            if (!app.getTypes()[0].isSymbolVisible()) {
+                app.getTypes()[0].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[0].setSymbolVisible(false);
+                app.updateUI();
+            }
+        });
         MenuItem workSymbol = new MenuItem("Work symbol");
+        workSymbol.setOnAction(e->{
+            if (!app.getTypes()[1].isSymbolVisible()) {
+                app.getTypes()[1].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[1].setSymbolVisible(false);
+                app.updateUI();
+            }
+        });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
+        assignmentSymbol.setOnAction(e->{
+            if (!app.getTypes()[2].isSymbolVisible()) {
+                app.getTypes()[2].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[2].setSymbolVisible(false);
+                app.updateUI();
+            }
+        });
         MenuItem billSymbol = new MenuItem("Bill symbol");
+        billSymbol.setOnAction(e->{
+            if (!app.getTypes()[3].isSymbolVisible()) {
+                app.getTypes()[3].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[3].setSymbolVisible(false);
+                app.updateUI();
+            }
+        });
         MenuItem customSymbol = new MenuItem("Custom symbol");
+        customSymbol.setOnAction(e->{
+            if (!app.getTypes()[4].isSymbolVisible()) {
+                app.getTypes()[4].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[4].setSymbolVisible(false);
+                app.updateUI();
+            }
+        });
         insertSymbol.getItems().addAll(classSymbol, workSymbol,assignmentSymbol,billSymbol,customSymbol);
         insertMenu.getItems().add(insertSymbol);
 

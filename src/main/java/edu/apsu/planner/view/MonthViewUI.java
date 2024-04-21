@@ -1,7 +1,5 @@
 package edu.apsu.planner.view;
 
-import com.itextpdf.text.pdf.PRStream;
-import com.itextpdf.text.pdf.parser.PdfImageObject;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
@@ -9,10 +7,7 @@ import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
-import javafx.scene.effect.ImageInput;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
@@ -20,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
@@ -126,37 +120,60 @@ public class MonthViewUI extends BorderPane {
         Menu insertSymbol = new Menu("Insert Symbol");
         MenuItem classSymbol = new MenuItem("Class symbol");
         classSymbol.setOnAction(e->{
-            app.getTypes()[0].setSymbolIsVisible(true);
-            createGridPane(app.getMonths()[currentMonthIndex]);
+            if (!app.getTypes()[0].isSymbolVisible()) {
+                app.getTypes()[0].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[0].setSymbolVisible(false);
+                app.updateUI();
+            }
         });
         MenuItem workSymbol = new MenuItem("Work symbol");
         workSymbol.setOnAction(e->{
-            app.getTypes()[1].setSymbolIsVisible(true);
-            createGridPane(app.getMonths()[currentMonthIndex]);
+            if (!app.getTypes()[1].isSymbolVisible()) {
+                app.getTypes()[1].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[1].setSymbolVisible(false);
+                app.updateUI();
+            }
         });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
         assignmentSymbol.setOnAction(e->{
-            app.getTypes()[2].setSymbolIsVisible(true);
-            createGridPane(app.getMonths()[currentMonthIndex]);
+            if (!app.getTypes()[2].isSymbolVisible()) {
+                app.getTypes()[2].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[2].setSymbolVisible(false);
+                app.updateUI();
+            }
         });
         MenuItem billSymbol = new MenuItem("Bill symbol");
         billSymbol.setOnAction(e->{
-            app.getTypes()[3].setSymbolIsVisible(true);
-            createGridPane(app.getMonths()[currentMonthIndex]);
+            if (!app.getTypes()[3].isSymbolVisible()) {
+                app.getTypes()[3].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[3].setSymbolVisible(false);
+                app.updateUI();
+            }
         });
         MenuItem customSymbol = new MenuItem("Custom symbol");
         customSymbol.setOnAction(e->{
-            app.getTypes()[4].setSymbolIsVisible(true);
-            createGridPane(app.getMonths()[currentMonthIndex]);
+            if (!app.getTypes()[4].isSymbolVisible()) {
+                app.getTypes()[4].setSymbolVisible(true);
+                app.updateUI();
+            } else {
+                app.getTypes()[4].setSymbolVisible(false);
+                app.updateUI();
+            }
         });
-       // MenuItem churchSymbol = new MenuItem("Church symbol");
         insertSymbol.getItems().addAll(
                 classSymbol,
                 workSymbol,
                 assignmentSymbol,
                 billSymbol,
                 customSymbol);
-                //churchSymbol);
         insertMenu.getItems().add(insertSymbol);
 
         Menu viewMenu = new Menu("View");
@@ -412,7 +429,7 @@ public class MonthViewUI extends BorderPane {
                 dayFlowPane.setAlignment(Pos.TOP_LEFT);
 
                 for (Type type : typesToAdd) {
-                    if (type.isSymbolIsVisible()) {
+                    if (type.isSymbolVisible()) {
                         ImageView imageView = new ImageView(type.getSymbol());
                         // Resize the image (adjust the dimensions as needed)
                         imageView.setFitWidth(40); // Set the width to 40 pixels

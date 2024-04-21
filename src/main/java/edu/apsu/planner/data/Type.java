@@ -16,7 +16,7 @@ public class Type implements Serializable {
     private Rectangle defaultSymbol;
 
 
-    private boolean symbolIsVisible;
+    private boolean symbolVisible;
     private final BooleanProperty isVisible = new SimpleBooleanProperty();
 
 
@@ -31,7 +31,7 @@ public class Type implements Serializable {
         this.symbol = symbol;
         this.defaultSymbol = defaultSymbol;
         this.isVisible.set(isVisible);
-        this.symbolIsVisible = false;
+        this.symbolVisible = false;
     }
 
 
@@ -88,12 +88,12 @@ public class Type implements Serializable {
     }
 
 
-    public boolean isSymbolIsVisible() {
-        return symbolIsVisible;
+    public boolean isSymbolVisible() {
+        return symbolVisible;
     }
 
-    public void setSymbolIsVisible(boolean symbolIsVisible) {
-        this.symbolIsVisible = symbolIsVisible;
+    public void setSymbolVisible(boolean symbolVisible) {
+        this.symbolVisible = symbolVisible;
     }
 
 }

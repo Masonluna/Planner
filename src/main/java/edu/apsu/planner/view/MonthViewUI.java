@@ -1,5 +1,7 @@
 package edu.apsu.planner.view;
 
+import com.itextpdf.text.pdf.PRStream;
+import com.itextpdf.text.pdf.parser.PdfImageObject;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.data.*;
@@ -7,13 +9,18 @@ import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
+import javafx.scene.effect.ImageInput;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
@@ -85,10 +92,10 @@ public class MonthViewUI extends BorderPane {
         MenuItem openMenuItem = new MenuItem("Open");
         openMenuItem.setOnAction(fileEventHandler);
         MenuItem savePDFMenuItem = new MenuItem("Export to PDF");
-        savePDFMenuItem.setOnAction(e->{
-            saveAsPDF();
-        });
-        //savePDFMenuItem.setOnAction(fileEventHandler);
+        //savePDFMenuItem.setOnAction(e->{
+        //    saveAsPDF();
+        //});
+        savePDFMenuItem.setOnAction(fileEventHandler);
         MenuItem exitMenuItem = new MenuItem("Exit");
         exitMenuItem.setOnAction(fileEventHandler);
         fileMenu.getItems().addAll(
@@ -563,9 +570,9 @@ public class MonthViewUI extends BorderPane {
         return monthViewGridPane;
     }
 
-    public void saveAsPDF(){//GridPane gridPane) {
+    public void saveAsPDF(GridPane gridPane) {
        // Take a snapshot of the GridPane
-     // WritableImage image = gridPane.snapshot(new SnapshotParameters(), null);
+       WritableImage image = gridPane.snapshot(null, null);
 
        String fileName = "planner.pdf";
        Document document = new Document();

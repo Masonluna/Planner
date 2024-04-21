@@ -305,4 +305,7 @@ public class WeekViewUI extends BorderPane {
 
     }
 
+    public GridPane getWeekViewGridPane() {
+        return weekViewGridPane;
+    }
 }

@@ -108,6 +108,22 @@ public class PlannerApplication extends Application {
         return this.stage;
     }
 
+    public MonthViewUI getMonthViewUI() {
+        return monthViewUI;
+    }
+
+    public WeekViewUI getWeekViewUI() {
+        return weekViewUI;
+    }
+
+    public Scene getWeekViewScene() {
+        return weekViewScene;
+    }
+
+    public Scene getMonthViewScene() {
+        return monthViewScene;
+    }
+
     public Type[] getTypes() {
         return this.types;
     }

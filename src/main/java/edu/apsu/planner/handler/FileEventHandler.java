@@ -1,15 +1,21 @@
 package edu.apsu.planner.handler;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.MonthInfo;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 
+import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 import java.time.Month;
@@ -20,6 +26,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     public FileEventHandler(PlannerApplication app) {
         this.app = app;
     }
+
     @Override
     public void handle(ActionEvent event) {
         MenuItem eventSource = (MenuItem) event.getSource();
@@ -52,7 +59,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void save() {
-        FileChooser fileChooser = setupFileChooser();
+        FileChooser fileChooser = setupFileChooser("Planner Files", "*.pln");
         fileChooser.setTitle("Save Planner");
         fileChooser.setInitialFileName("Untitled.pln");
         File selectedFile = fileChooser.showSaveDialog(app.getStage());
@@ -69,7 +76,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void loadPlanner() {
-        FileChooser fileChooser = setupFileChooser();
+        FileChooser fileChooser = setupFileChooser("Planner Files", "*.pln");
         fileChooser.setTitle("Load Planner");
         File selectedFile = fileChooser.showOpenDialog(app.getStage());
         try {
@@ -89,12 +96,13 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         }
     }
 
-    private FileChooser setupFileChooser() {
+    private FileChooser setupFileChooser(String fileType, String fileExtension) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Planner Files", "*.pln"));
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter(fileType, fileExtension));
         return fileChooser;
     }
+
     private void displayAlert(String title, String description) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -103,7 +111,14 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void export() {
-
+        PdfBuilder builder = new PdfBuilder(app);
+        try {
+            builder.build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (BadElementException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void exit() {
@@ -111,6 +126,49 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     }
 
     private class PdfBuilder {
+        private PlannerApplication app;
 
+        public PdfBuilder(PlannerApplication app) {
+            this.app = app;
+        }
+
+        public void build() throws IOException, BadElementException {
+            System.out.println("Build called");
+            Document document = new Document();
+            WritableImage image;
+            if (app.getStage().getScene().equals(app.getMonthViewScene())) {
+                image = app.getMonthViewUI().getCenter().snapshot(null, null);
+            } else {
+                image = app.getWeekViewUI().getCenter().snapshot(null, null);
+            }
+            Rectangle pageSize = new Rectangle((float)image.getWidth() + 50, (float)image.getHeight() + 50);
+            document.setPageSize(pageSize);
+
+            BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", out);
+
+            com.itextpdf.text.Image pdfImage = com.itextpdf.text.Image.getInstance(bufferedImage, null);
+            System.out.println("pdfImage successfully created!!");
+
+            FileChooser fileChooser = setupFileChooser("Pdf Files", "*.pdf");
+            fileChooser.setTitle("Export to PDF");
+            fileChooser.setInitialFileName("Untitled.pdf");
+            File selectedFile = fileChooser.showSaveDialog(app.getStage());
+
+            if (selectedFile != null) {
+                try {
+                    PdfWriter.getInstance(document, new FileOutputStream(selectedFile));
+                    document.open();
+                    document.add(pdfImage);
+                    document.close();
+                    System.out.println("done");
+                } catch (DocumentException e) {
+                    displayAlert("Export Error", "File could not be created");
+                } catch (FileNotFoundException e) {
+                    displayAlert("Export Error", "File was not found");
+                }
+            }
+        }
     }
 }

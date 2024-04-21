@@ -3,6 +3,8 @@ module edu.apsu.planner {
     requires javafx.fxml;
     requires itextpdf;
     requires org.apache.commons.text;
+    requires java.desktop;
+    requires javafx.swing;
 
 
 

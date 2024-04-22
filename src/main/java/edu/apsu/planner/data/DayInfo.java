@@ -27,7 +27,9 @@ public class DayInfo implements Serializable {
     // Methods
 
     public void sortEvents() {
+
         events.sort((o1, o2) -> {
+            System.out.println("Comparing:\n" + o1 + "\n\nand \n\n" + o2);
             if (!o1.getStartingAmOrPm().equals(o2.getStartingAmOrPm())) {
                 if (o1.getStartingAmOrPm().equals("AM")) {
                     return -1;
@@ -35,16 +37,14 @@ public class DayInfo implements Serializable {
                     return 1;
                 }
             } else if (o1.getStartingHour() < o2.getStartingHour()) {
-                return -1;
+                if (o2.getStartingHour() != 12)
+                    return -1;
             } else if (o2.getStartingHour() < o1.getStartingHour()) {
-                return 1;
-            } else if (o1.getStartingMinute() < o2.getStartingMinute()) {
-                return -1;
-            } else if (o2.getStartingMinute() < o1.getStartingMinute()) {
-                return 1;
+                if (o1.getStartingHour() != 12)
+                    return 1;
             }
+            return Integer.compare(o1.getStartingMinute(), o2.getStartingMinute());
 
-            return 0;
         });
     }
 

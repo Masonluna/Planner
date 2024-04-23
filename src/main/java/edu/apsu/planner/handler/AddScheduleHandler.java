@@ -283,7 +283,7 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         } else if (startingHour > endingHour) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
-        } else if (startingMin > endingMin) {
+        } else if (startingMin > endingMin && startingHour == endingHour) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
         }
@@ -298,9 +298,9 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
                         startingAmOrPm, endingHour, endingMin, endingAmOrPm);
                 currentDayInfo.getEvents().add(plannerEvent);
-                currentDayInfo.sortEvents();
             }
 
+            currentDayInfo.sortEvents();
             //If we're NOT at the end of the month
             if (currentDayInfo.getDate().getDayOfMonth() < currentMonth.length(currentDayInfo.getDate().isLeapYear())) {
                 currentDayInfo = currentMonthInfo.getDayOf(currentDayInfo.getDate().getDayOfMonth() + 1);
@@ -309,7 +309,6 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
                 currentDayInfo = currentMonthInfo.getDayOf(1);
             }
-
         } while (currentDayInfo.getDate().getDayOfYear() !=
                 (endDayInfo.getDate().getDayOfYear() + 1) % endDayInfo.getDate().lengthOfYear());
         popupStage.close();

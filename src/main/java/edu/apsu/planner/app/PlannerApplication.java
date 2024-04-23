@@ -79,7 +79,6 @@ public class PlannerApplication extends Application {
 
         stage.setScene(welcomeScene);
         stage.setTitle("Planner Application");
-        stage.setMaximized(true);
         stage.show();
     }
 

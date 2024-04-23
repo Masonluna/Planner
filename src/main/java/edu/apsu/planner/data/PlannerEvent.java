@@ -44,6 +44,10 @@ public class PlannerEvent implements Serializable {
         return String.format("%s\n%s\n%s", this.name, this.time, this.description);
     }
 
+    public String toStringWithDescription() {
+        return String.format("%s\n%s\n\n%s", this.name, this.time, this.description);
+    }
+
     // Accessors and Mutators
     public int getStartingHour() {
         return startingHour;

@@ -280,12 +280,15 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM")) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
-        } else if (startingHour > endingHour) {
+            return;
+        } else if (startingHour % 12 > endingHour) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
+            return;
         } else if (startingMin > endingMin && startingHour == endingHour) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
+            return;
         }
 
         DayInfo currentDayInfo = app.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);

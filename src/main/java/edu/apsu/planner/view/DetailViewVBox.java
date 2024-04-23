@@ -11,7 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class DetailViewVBox extends VBox {
-    PlannerApplication app;
+    public PlannerApplication app;
+    public double heightMultiplier;
 
     public DetailViewVBox(PlannerApplication app, DayInfo day) {
         super();
@@ -34,9 +35,14 @@ public class DetailViewVBox extends VBox {
             }
             BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
                     new CornerRadii(5), BorderWidths.DEFAULT);
-            int heightMultiplier = getHeightMultiplier(event);
-            Label eventLabel = new Label(event.toString());
+            heightMultiplier = getHeightMultiplier(event);
+            Label eventLabel;
+            if (heightMultiplier < 2)
+                eventLabel = new Label(event.toString());
+            else
+                eventLabel = new Label(event.toStringWithDescription());
             eventLabel.setPrefWidth(130);
+            eventLabel.setWrapText(true);
             eventLabel.setPadding(new Insets(10, 5, 10, 5));
             eventLabel.setBorder(new Border(borderStroke));
             if (heightMultiplier > 0)
@@ -49,7 +55,7 @@ public class DetailViewVBox extends VBox {
 
     }
 
-    private int getHeightMultiplier(PlannerEvent event) {
+    private double getHeightMultiplier(PlannerEvent event) {
         int heightMultiplier;
         if (event.getStartingAmOrPm().equals(event.getEndingAmOrPm())) {
             if (event.getStartingHour() == event.getEndingHour()) {

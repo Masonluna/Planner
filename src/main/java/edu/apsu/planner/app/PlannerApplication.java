@@ -84,6 +84,7 @@ public class PlannerApplication extends Application {
 
     public void switchScene(Scene scene) {
         stage.setScene(scene);
+        stage.setMaximized(scene.equals(weekViewScene) || scene.equals(monthViewScene));
     }
 
     public void updateUI() {

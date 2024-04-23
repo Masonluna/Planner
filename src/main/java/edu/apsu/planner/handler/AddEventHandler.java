@@ -196,12 +196,15 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
             return;
         }
 
-        if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM") ||
-                (startingHour > endingHour && startingAmOrPm.equals(endingAmOrPm)) ||
-                (startingMin > endingMin && startingAmOrPm.equals(endingAmOrPm))) {
+        if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM")) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
-            return;
+        } else if (startingHour > endingHour) {
+            displayAlert("Time format error", "Events must start " +
+                    "and end on the same day. Please try again.");
+        } else if (startingMin > endingMin && startingHour == endingHour) {
+            displayAlert("Time format error", "Events must start " +
+                    "and end on the same day. Please try again.");
         }
 
         PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,

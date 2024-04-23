@@ -3,6 +3,7 @@ package edu.apsu.planner.app;
 import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.data.Tag;
 import edu.apsu.planner.data.Type;
+import edu.apsu.planner.data.User;
 import edu.apsu.planner.view.DayFlowPane;
 import edu.apsu.planner.view.MonthViewUI;
 import edu.apsu.planner.view.WeekViewUI;
@@ -22,6 +23,7 @@ public class PlannerApplication extends Application {
     // Data Instances
     private MonthInfo[] months;
     private final Type[] types = new Type[5];
+    private User currentUser;
 
     // JavaFX Instances
     private Stage stage;
@@ -77,10 +79,15 @@ public class PlannerApplication extends Application {
 
         stage.setScene(welcomeScene);
         stage.setTitle("Planner Application");
+        stage.setMaximized(true);
         stage.show();
     }
 
     public void switchScene(Scene scene) {
+        if (scene.equals(weekViewScene) || scene.equals(monthViewScene))
+            stage.setMaximized(true);
+        else
+            stage.setMaximized(false);
         stage.setScene(scene);
     }
 
@@ -119,6 +126,10 @@ public class PlannerApplication extends Application {
         return monthViewScene;
     }
 
+    public Scene getWelcomeScene() {
+        return welcomeScene;
+    }
+
     public Type[] getTypes() {
         return this.types;
     }
@@ -129,6 +140,13 @@ public class PlannerApplication extends Application {
 
     public MonthInfo[] getMonths() {
         return months;
+    }
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
 }

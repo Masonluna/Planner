@@ -1,6 +1,7 @@
 package edu.apsu.planner.view;
 
 import edu.apsu.planner.app.PlannerApplication;
+import edu.apsu.planner.data.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -76,6 +77,7 @@ public class WelcomePageUI extends BorderPane {
         buttonContainer.setAlignment(Pos.CENTER_RIGHT);
         buttonContainer.setSpacing(10);
         Button enterButton = getEnterButton(app, font2);
+        enterButton.requestFocus();
         Button newUserButton = new Button("New User");
         newUserButton.setOnAction(event ->
                 {
@@ -103,6 +105,7 @@ public class WelcomePageUI extends BorderPane {
                     boolean foundPassword = checkForCorrectLogin(password);
 
                     if (foundUsername && foundPassword){
+                        app.setCurrentUser(new User(username, password));
                         Alert correctAlert = new Alert(Alert.AlertType.INFORMATION);
                         correctAlert.setTitle("Successful login in");
                         correctAlert.setHeaderText("Welcome");

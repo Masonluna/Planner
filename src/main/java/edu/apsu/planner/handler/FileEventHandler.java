@@ -4,11 +4,14 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.MonthInfo;
+import edu.apsu.planner.data.User;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 
 import javafx.scene.image.WritableImage;
@@ -66,11 +69,13 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         try {
             if (selectedFile != null) {
                 ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(selectedFile));
+                out.writeObject(app.getCurrentUser());
                 out.writeObject(app.getMonths());
                 out.close();
             }
         } catch (IOException e) {
-            displayAlert("File Save Error", "File could not be saved");
+            displayAlert("File Save Error", "File could not be saved",
+                    "Could not write Planner to file");
         }
     }
 
@@ -81,15 +86,32 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         try {
             if (selectedFile != null) {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(selectedFile));
+                User tempUser = (User) in.readObject();
+                if (!app.getCurrentUser().equals(tempUser)) {
+                    Alert openAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    openAlert.setTitle("Open Error");
+                    openAlert.setHeaderText("Invalid User");
+                    openAlert.setContentText("User credentials do not match. Would you like to change users?");
+                    openAlert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                    ButtonType result = openAlert.showAndWait().orElse(ButtonType.NO);
+                    if (result.equals(ButtonType.YES)) {
+                        newPlanner();
+                        app.switchScene(app.getWelcomeScene());
+                    }
+                    in.close();
+                    return;
+                }
+
                 MonthInfo[] months = (MonthInfo[]) in.readObject();
+
                 app.setMonths(months);
                 app.updateUI();
                 in.close();
             }
         } catch (FileNotFoundException e) {
-            displayAlert("Open Error", "The File was not found");
+            displayAlert("Open Error", "The File was not found", "");
         } catch (IOException e) {
-            displayAlert("Open Error", "File could not be opened");
+            displayAlert("Open Error", "Planner could not be opened", "Failed to read from file");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -102,10 +124,12 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
         return fileChooser;
     }
 
-    private void displayAlert(String title, String description) {
+    private void displayAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
-        alert.setHeaderText(description);
+        alert.setHeaderText(header);
+        if (!content.isBlank())
+            alert.setContentText(content);
         alert.showAndWait();
     }
 
@@ -157,9 +181,9 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
                     document.add(pdfImage);
                     document.close();
                 } catch (DocumentException e) {
-                    displayAlert("Export Error", "File could not be created");
+                    displayAlert("Export Error", "File could not be created", "Failed to upload image");
                 } catch (FileNotFoundException e) {
-                    displayAlert("Export Error", "File was not found");
+                    displayAlert("Export Error", "File was not found", "");
                 }
             }
         }

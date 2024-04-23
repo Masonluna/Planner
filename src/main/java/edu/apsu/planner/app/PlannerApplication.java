@@ -83,10 +83,6 @@ public class PlannerApplication extends Application {
     }
 
     public void switchScene(Scene scene) {
-        if (scene.equals(weekViewScene) || scene.equals(monthViewScene))
-            stage.setMaximized(true);
-        else
-            stage.setMaximized(false);
         stage.setScene(scene);
     }
 

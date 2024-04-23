@@ -11,6 +11,7 @@ public class PlannerEvent implements Serializable {
     private int startingMinute;
     private String startingAmOrPm;
     private int endingHour;
+    private int endingMinute;
     private String endingAmOrPm;
     private String time;
     private final Tag tag;
@@ -31,6 +32,7 @@ public class PlannerEvent implements Serializable {
         this.startingMinute = startingMinute;
         this.startingAmOrPm = startingAmOrPm;
         this.endingHour = endingHour;
+        this.endingMinute = endingMinute;
         this.endingAmOrPm = endingAmOrPm;
         this.time = String.format("%d:%02d %s - %d:%02d %s", startingHour, startingMinute, startingAmOrPm,
                 endingHour, endingMinute, endingAmOrPm);
@@ -63,6 +65,9 @@ public class PlannerEvent implements Serializable {
 
     public int getEndingHour() {
         return endingHour;
+    }
+    public int getEndingMinute() {
+        return endingMinute;
     }
 
     public String getEndingAmOrPm() {

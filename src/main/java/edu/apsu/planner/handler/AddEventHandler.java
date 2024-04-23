@@ -199,7 +199,7 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM")) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
-        } else if (startingHour % 12> endingHour) {
+        } else if (startingHour % 12 > endingHour) {
             displayAlert("Time format error", "Events must start " +
                     "and end on the same day. Please try again.");
         } else if (startingMin > endingMin && startingHour == endingHour) {

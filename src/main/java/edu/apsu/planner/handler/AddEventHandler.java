@@ -177,8 +177,8 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     }
 
     private void addPlannerEvent() {
-
         String eventName = titleOfEventTF.getText().trim();
+
         String eventDescription = descriptionOfEventTA.getText().trim();
         int startingHour = hoursChoiceBox.getValue();
         int startingMin = minChoiceBox.getValue();
@@ -190,6 +190,20 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
         Month chosenMonth = monthChoiceBox.getSelectionModel().getSelectedItem();
         int chosenDay = dayChoiceBox.getSelectionModel().getSelectedItem();
 
+        if (eventName.isEmpty()) {
+            displayAlert("Empty title error", "All events must have" +
+                    " a title. Please try again.");
+            return;
+        }
+
+        if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM") ||
+                (startingHour > endingHour && startingAmOrPm.equals(endingAmOrPm)) ||
+                (startingMin > endingMin && startingAmOrPm.equals(endingAmOrPm))) {
+            displayAlert("Time format error", "Events must start " +
+                    "and end on the same day. Please try again.");
+            return;
+        }
+
         PlannerEvent plannerEvent = getPlannerEvent(eventName, eventDescription, startingHour, startingMin,
                 startingAmOrPm, endingHour, endingMin, endingAmOrPm);
 
@@ -199,7 +213,6 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
 
         popupStage.close();
         app.updateUI();
-        //MonthViewUI.createGridPane(MonthViewUI.getMonths()[MonthViewUI.getCurrentMonthIndex()]);
     }
 
     private PlannerEvent getPlannerEvent(String eventName, String eventDescription, int startingHour, int startingMinute, String startingAmOrPm,
@@ -216,4 +229,11 @@ public class AddEventHandler implements EventHandler<ActionEvent> {
     }
 
 
+    private void displayAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Could not add event");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

@@ -270,6 +270,21 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
         int startDay = dayChoiceBox.getSelectionModel().getSelectedItem();
         Month endMonth = monthEndChoiceBox.getSelectionModel().getSelectedItem();
         int endDay = dayEndChoiceBox.getSelectionModel().getSelectedItem();
+
+        if (eventName.isEmpty()) {
+            displayAlert("Empty title error", "All events must have" +
+                    " a title. Please try again.");
+            return;
+        }
+
+        if (startingAmOrPm.equals("PM") && endingAmOrPm.equals("AM") ||
+                (startingHour > endingHour && startingAmOrPm.equals(endingAmOrPm)) ||
+                (startingMin > endingMin && startingAmOrPm.equals(endingAmOrPm))) {
+            displayAlert("Time format error", "Events must start " +
+                    "and end on the same day. Please try again.");
+            return;
+        }
+
         DayInfo currentDayInfo = app.getMonths()[startMonth.getValue() - 1].getDayOf(startDay);
         Month currentMonth = startMonth;
         MonthInfo currentMonthInfo = app.getMonths()[currentMonth.getValue() - 1];
@@ -312,4 +327,13 @@ public class AddScheduleHandler implements EventHandler<ActionEvent> {
                 endingHour, endingMinute, endingAmOrPm, tag);
     }
 
+
+
+    private void displayAlert(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Could not add event");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

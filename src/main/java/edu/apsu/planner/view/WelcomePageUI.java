@@ -11,13 +11,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.io.*;
+import java.util.Objects;
 
-public class welcomepageUI extends BorderPane {
+public class WelcomePageUI extends BorderPane {
     TextField usernameTextField;
     PasswordField passwordField;
     private final String LOGIN_FILE_PATH = "loginCredentials.txt";
 
-    public welcomepageUI(PlannerApplication app) {
+    public WelcomePageUI(PlannerApplication app) {
         super();
 
         this.setStyle("-fx-background-color: #B7B7B7;");
@@ -34,7 +35,7 @@ public class welcomepageUI extends BorderPane {
         this.setTop(welcomeLabel);
 
         //leftPane
-        String imageResource = getClass().getResource("/edu/apsu/planner/logoImage.png").toString();
+        String imageResource = Objects.requireNonNull(getClass().getResource("/edu/apsu/planner/logoImage.png")).toString();
         ImageView displayImage = new ImageView(imageResource);
         Label imageView = new Label();
         BorderPane.setMargin(imageView, new Insets(10));
@@ -74,6 +75,26 @@ public class welcomepageUI extends BorderPane {
         HBox buttonContainer = new HBox();
         buttonContainer.setAlignment(Pos.CENTER_RIGHT);
         buttonContainer.setSpacing(10);
+        Button enterButton = getEnterButton(app, font2);
+        Button newUserButton = new Button("New User");
+        newUserButton.setOnAction(event ->
+                {
+                    saveLoginCredentials();
+                    usernameTextField.clear();
+                    passwordField.clear();
+
+                }
+        );
+        newUserButton.setFont(font2);
+        buttonContainer.getChildren().addAll(newUserButton, enterButton);
+
+
+        centerPane.getChildren().addAll(usernameContainer, passwordContainer, buttonContainer);
+        this.setCenter(centerPane);
+
+    }
+
+    private Button getEnterButton(PlannerApplication app, Font font2) {
         Button enterButton = new Button("Enter");
         enterButton.setOnAction(event->{
             String username = usernameTextField.getText() ;
@@ -98,22 +119,7 @@ public class welcomepageUI extends BorderPane {
                 }
                 );
         enterButton.setFont(font2);
-        Button newUserButton = new Button("New User");
-        newUserButton.setOnAction(event ->
-                {
-                    saveLoginCredentials();
-                    usernameTextField.clear();
-                    passwordField.clear();
-
-                }
-        );
-        newUserButton.setFont(font2);
-        buttonContainer.getChildren().addAll(newUserButton, enterButton);
-
-
-        centerPane.getChildren().addAll(usernameContainer, passwordContainer, buttonContainer);
-        this.setCenter(centerPane);
-
+        return enterButton;
     }
 
     public void saveLoginCredentials() {
@@ -142,7 +148,11 @@ public class welcomepageUI extends BorderPane {
             saveAlert.showAndWait();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save User Error");
+            alert.setHeaderText("Could not save User");
+            alert.setContentText("Failed to write credentials to the file");
+            alert.showAndWait();
         }
     }
 
@@ -173,7 +183,11 @@ public class welcomepageUI extends BorderPane {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Check User Error");
+            alert.setHeaderText("Could not verify User");
+            alert.setContentText("Failed to read credentials from the file");
+            alert.showAndWait();
         }
         return false;
 

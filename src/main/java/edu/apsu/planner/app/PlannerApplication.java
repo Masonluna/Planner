@@ -6,7 +6,7 @@ import edu.apsu.planner.data.Type;
 import edu.apsu.planner.view.DayFlowPane;
 import edu.apsu.planner.view.MonthViewUI;
 import edu.apsu.planner.view.WeekViewUI;
-import edu.apsu.planner.view.welcomepageUI;
+import edu.apsu.planner.view.WelcomePageUI;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -71,7 +71,7 @@ public class PlannerApplication extends Application {
         stage = new Stage();
         monthViewUI = new MonthViewUI(this);
         weekViewUI = new WeekViewUI(this);
-        welcomeScene = new Scene(new welcomepageUI(this));
+        welcomeScene = new Scene(new WelcomePageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);
 

@@ -29,7 +29,6 @@ public class DayInfo implements Serializable {
     public void sortEvents() {
 
         events.sort((o1, o2) -> {
-            System.out.println("Comparing:\n" + o1 + "\n\nand \n\n" + o2);
             if (!o1.getStartingAmOrPm().equals(o2.getStartingAmOrPm())) {
                 if (o1.getStartingAmOrPm().equals("AM")) {
                     return -1;

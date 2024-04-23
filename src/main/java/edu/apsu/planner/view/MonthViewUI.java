@@ -210,18 +210,14 @@ public class MonthViewUI extends BorderPane {
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
         classFilter.selectedProperty().bindBidirectional(app.getTypes()[0].isVisibleProperty());
-        classFilter.setOnMouseClicked(
-                e -> app.updateUI()
-        );
+        classFilter.setOnMouseClicked(e -> app.updateUI());
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
         workFilter.setFont(font2);
         workFilter.setSelected(true);
         workFilter.selectedProperty().bindBidirectional(app.getTypes()[1].isVisibleProperty());
-        workFilter.setOnMouseClicked(
-                e -> app.updateUI()
-        );
+        workFilter.setOnMouseClicked(e -> app.updateUI());
 
 
         CheckBox assignmentFilter = new CheckBox("Assignments Due");
@@ -229,9 +225,7 @@ public class MonthViewUI extends BorderPane {
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
         assignmentFilter.selectedProperty().bindBidirectional(app.getTypes()[2].isVisibleProperty());
-        assignmentFilter.setOnMouseClicked(
-                e -> app.updateUI()
-        );
+        assignmentFilter.setOnMouseClicked(e -> app.updateUI());
 
 
         CheckBox billFilter = new CheckBox("Bill Due");
@@ -239,9 +233,7 @@ public class MonthViewUI extends BorderPane {
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
         billFilter.selectedProperty().bindBidirectional(app.getTypes()[3].isVisibleProperty());
-        billFilter.setOnMouseClicked(
-                e -> app.updateUI()
-        );
+        billFilter.setOnMouseClicked(e -> app.updateUI());
 
 
         CheckBox customEventFilter = new CheckBox("Custom Events");
@@ -249,9 +241,7 @@ public class MonthViewUI extends BorderPane {
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
         customEventFilter.selectedProperty().bindBidirectional(app.getTypes()[4].isVisibleProperty());
-        customEventFilter.setOnMouseClicked(
-                e -> app.updateUI()
-        );
+        customEventFilter.setOnMouseClicked(e -> app.updateUI());
 
 
 
@@ -587,27 +577,6 @@ public class MonthViewUI extends BorderPane {
         return monthViewGridPane;
     }
 
-    public void saveAsPDF(GridPane gridPane) {
-       // Take a snapshot of the GridPane
-       WritableImage image = gridPane.snapshot(null, null);
-
-       String fileName = "planner.pdf";
-       Document document = new Document();
-       try {
-           PdfWriter.getInstance(document, new FileOutputStream(fileName));
-           document.open();
-           Paragraph content = new Paragraph("test");
-           document.add(content);
-           document.close();
-           System.out.println("done");
-       } catch (DocumentException e) {
-           throw new RuntimeException(e);
-       } catch (FileNotFoundException e) {
-           throw new RuntimeException(e);
-       }
-
-
-   }
 
 
 

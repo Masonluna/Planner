@@ -25,7 +25,6 @@ public class WeekViewUI extends BorderPane {
     LocalDate currentSunday;
 
     private PlannerApplication app;
-    private int currentMonthIndex;
     private final DayInfo[] currentWeek = new DayInfo[7];
     private GridPane weekViewGridPane;
     private Label weekLabel;
@@ -39,7 +38,6 @@ public class WeekViewUI extends BorderPane {
         while (currentSunday.getDayOfWeek() != DayOfWeek.SUNDAY) {
             currentSunday = currentSunday.minusDays(1);
         }
-        currentMonthIndex = currentSunday.getMonthValue() - 1;
 
 
 
@@ -252,7 +250,6 @@ public class WeekViewUI extends BorderPane {
         leftArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.minusDays(7);
             currentSunday = LocalDate.of(2024, currentSunday.getMonth(), currentSunday.getDayOfMonth());
-            currentMonthIndex = currentSunday.getMonthValue() - 1;
             this.setCenter(createCenterPane());
         });
 
@@ -268,7 +265,6 @@ public class WeekViewUI extends BorderPane {
         rightArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.plusDays(7);
             currentSunday = LocalDate.of(2024, currentSunday.getMonth(), currentSunday.getDayOfMonth());
-            currentMonthIndex = currentSunday.getMonthValue() - 1;
             this.setCenter(createCenterPane());
         });
 
@@ -329,13 +325,11 @@ public class WeekViewUI extends BorderPane {
     }
 
     public void drawDetailViews() {
-        LocalDate currentDate = currentSunday;
+        LocalDate currentDate = LocalDate.of(currentSunday.getYear(), currentSunday.getMonth(), currentSunday.getDayOfMonth());
         for (int i = 0; i < 7; i++) {
-            DayInfo currentDay = app.getMonths()[currentMonthIndex].getDayOf(currentDate.getDayOfMonth());
+            DayInfo currentDay = app.getMonths()[currentDate.getMonthValue() - 1].getDayOf(currentDate.getDayOfMonth());
             currentWeek[i] = currentDay;
-            if (currentDate.getDayOfMonth() == currentDate.lengthOfMonth()) {
-                currentMonthIndex = (currentMonthIndex + 1) % 12;
-            }
+
             weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
             if (currentDate.plusDays(1).getYear() > currentDate.getYear()) {
                 currentDate = LocalDate.of(2024, Month.JANUARY, 1);

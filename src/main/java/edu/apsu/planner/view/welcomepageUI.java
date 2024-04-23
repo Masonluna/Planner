@@ -127,7 +127,6 @@ public class welcomepageUI extends BorderPane {
             if (!username.isBlank() && !password.isBlank() && !userExists) {
                 writer.write("U:" + username + "\n");
                 writer.write("P:" + password + "\n\n");
-                System.out.println("Successfully wrote to the file.");
                 saveAlert.setAlertType(Alert.AlertType.INFORMATION);
                 saveAlert.setTitle("Saved");
                 saveAlert.setHeaderText("Your login credentials have been saved.");
@@ -143,7 +142,6 @@ public class welcomepageUI extends BorderPane {
             saveAlert.showAndWait();
 
         } catch (IOException e) {
-            System.out.println("An error occurred while writing to the file: " + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -9,21 +9,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
 
 public class MonthViewUI extends BorderPane {
 
@@ -57,23 +50,16 @@ public class MonthViewUI extends BorderPane {
         this.setPrefSize(1375, 720);
 
 
-        this.setTop(creatMenuBar());
+        this.setTop(createMenuBar());
         this.setLeft(createLeftPane());
         this.setCenter(createCenterPane());
-        selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
-        selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
-        selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
-        while (selectedDayFlowPane == null) {
-            selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
-                    monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
-            selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
-            selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
-        }
-        selectedDayInfo = selectedDayFlowPane.getDayInfo();
+        initSelectedDayFlowPane();
+
         this.setRight(createRightPane());
     }
 
-    public MenuBar creatMenuBar() {
+
+    public MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
@@ -119,7 +105,7 @@ public class MonthViewUI extends BorderPane {
         Menu insertMenu = new Menu("Insert");
         Menu insertSymbol = new Menu("Insert Symbol");
         MenuItem classSymbol = new MenuItem("Class symbol");
-        classSymbol.setOnAction(e->{
+        classSymbol.setOnAction(e -> {
             if (!app.getTypes()[0].isSymbolVisible()) {
                 app.getTypes()[0].setSymbolVisible(true);
                 app.updateUI();
@@ -129,7 +115,7 @@ public class MonthViewUI extends BorderPane {
             }
         });
         MenuItem workSymbol = new MenuItem("Work symbol");
-        workSymbol.setOnAction(e->{
+        workSymbol.setOnAction(e -> {
             if (!app.getTypes()[1].isSymbolVisible()) {
                 app.getTypes()[1].setSymbolVisible(true);
                 app.updateUI();
@@ -139,7 +125,7 @@ public class MonthViewUI extends BorderPane {
             }
         });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
-        assignmentSymbol.setOnAction(e->{
+        assignmentSymbol.setOnAction(e -> {
             if (!app.getTypes()[2].isSymbolVisible()) {
                 app.getTypes()[2].setSymbolVisible(true);
                 app.updateUI();
@@ -149,7 +135,7 @@ public class MonthViewUI extends BorderPane {
             }
         });
         MenuItem billSymbol = new MenuItem("Bill symbol");
-        billSymbol.setOnAction(e->{
+        billSymbol.setOnAction(e -> {
             if (!app.getTypes()[3].isSymbolVisible()) {
                 app.getTypes()[3].setSymbolVisible(true);
                 app.updateUI();
@@ -159,7 +145,7 @@ public class MonthViewUI extends BorderPane {
             }
         });
         MenuItem customSymbol = new MenuItem("Custom symbol");
-        customSymbol.setOnAction(e->{
+        customSymbol.setOnAction(e -> {
             if (!app.getTypes()[4].isSymbolVisible()) {
                 app.getTypes()[4].setSymbolVisible(true);
                 app.updateUI();
@@ -178,7 +164,7 @@ public class MonthViewUI extends BorderPane {
 
         Menu viewMenu = new Menu("View");
         MenuItem weekViewMenu = new MenuItem("Week View");
-        weekViewMenu.setOnAction(e-> app.switchScene(app.weekViewScene));
+        weekViewMenu.setOnAction(e -> app.switchScene(app.weekViewScene));
         MenuItem monthViewMenu = new MenuItem("Month View");
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
@@ -202,7 +188,6 @@ public class MonthViewUI extends BorderPane {
         filterLabel.setFont(filterFont);
 
         Font font2 = new Font("Arial", 14);
-
 
 
         CheckBox classFilter = new CheckBox("Class Schedule");
@@ -244,8 +229,6 @@ public class MonthViewUI extends BorderPane {
         customEventFilter.setOnMouseClicked(e -> app.updateUI());
 
 
-
-
         leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, assignmentFilter, billFilter, customEventFilter);
 
         return leftPaneVBox;
@@ -285,7 +268,6 @@ public class MonthViewUI extends BorderPane {
         monthLabel.setFont(font2);
 
 
-
         // Instantiate Arrow Buttons
         Button leftArrowButton = new Button("<");
         leftArrowButton.setFont(font3);
@@ -301,6 +283,8 @@ public class MonthViewUI extends BorderPane {
                         monthLabel.setText(app.getMonths()[--currentMonthIndex].toString());
                     }
                     createGridPane(app.getMonths()[currentMonthIndex]);
+                    initSelectedDayFlowPane();
+                    this.setRight(createRightPane());
                 }
         );
 
@@ -318,6 +302,8 @@ public class MonthViewUI extends BorderPane {
                         monthLabel.setText(app.getMonths()[++currentMonthIndex].toString());
                     }
                     createGridPane(app.getMonths()[currentMonthIndex]);
+                    initSelectedDayFlowPane();
+                    this.setRight(createRightPane());
                 }
         );
 
@@ -399,20 +385,18 @@ public class MonthViewUI extends BorderPane {
                 tmp.setUserData(day);
 
                 dayFlowPane.setOnMouseClicked(event -> {
-                        selectedDayFlowPane = (DayFlowPane) event.getSource();
-                        selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
-                        selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
-                        selectedDayInfo = selectedDayFlowPane.getDayInfo();
-                        dayLabel.setText(selectedDayInfo.toString());
-                        this.setRight(createRightPane());
+                    selectedDayFlowPane = (DayFlowPane) event.getSource();
+                    selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
+                    selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
+                    selectedDayInfo = selectedDayFlowPane.getDayInfo();
+                    dayLabel.setText(selectedDayInfo.toString());
+                    this.setRight(createRightPane());
                 });
                 dayFlowPane.getChildren().add(tmp);
                 HashSet<Tag> tagsToAdd = findTagsToAdd(day);
                 ArrayList<Type> typesToAdd = new ArrayList<>();
-                for (Type type : app.getTypes())
-                {
-                    if (tagsToAdd.contains(type.getTag()) && type.isVisible())
-                    {
+                for (Type type : app.getTypes()) {
+                    if (tagsToAdd.contains(type.getTag()) && type.isVisible()) {
                         typesToAdd.add(type);
                     }
                 }
@@ -438,6 +422,7 @@ public class MonthViewUI extends BorderPane {
 
     /**
      * Takes a day and returns a set of Types whose symbols/default rectangles should be drawn on the given day
+     *
      * @param day a given DayInfo instance representing a day of the month
      * @return A HashSet of Tags that have a corresponding event in day and are visible.
      */
@@ -464,9 +449,8 @@ public class MonthViewUI extends BorderPane {
         leftArrowButton.setPrefSize(30, 60);
         Font font2 = new Font("Arial", 20);
         leftArrowButton.setFont(font2);
-        leftArrowButton.setOnAction( e -> {
-            if (selectedDayInfo.getDate().getDayOfMonth() == 1)
-            {
+        leftArrowButton.setOnAction(e -> {
+            if (selectedDayInfo.getDate().getDayOfMonth() == 1) {
                 createGridPane(app.getMonths()[--currentMonthIndex]);
                 monthLabel.setText(app.getMonths()[currentMonthIndex].toString());
                 selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
@@ -504,22 +488,13 @@ public class MonthViewUI extends BorderPane {
         rightArrowButton.setStyle("-fx-background-color: pink;");
         rightArrowButton.setFont(font2);
         rightArrowButton.setPrefSize(30, 60);
-        rightArrowButton.setOnAction( e -> {
-            if (selectedDayInfo.getDate().getDayOfMonth() == selectedDayInfo.getDate().lengthOfMonth())
-            {
+        rightArrowButton.setOnAction(e -> {
+            if (selectedDayInfo.getDate().getDayOfMonth() == selectedDayInfo.getDate().lengthOfMonth()) {
                 createGridPane(app.getMonths()[++currentMonthIndex]);
                 monthLabel.setText(app.getMonths()[currentMonthIndex].toString());
                 // 8 is the first child node that could possibly be a DayFlowPane
 
-                selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
-                selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
-                selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
-                while (selectedDayFlowPane == null) {
-                    selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
-                            monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
-                    selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
-                    selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
-                }
+                initSelectedDayFlowPane();
             } else {
                 selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
                         monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
@@ -536,7 +511,7 @@ public class MonthViewUI extends BorderPane {
         detailView.setGridLinesVisible(true);
         //detailView.setPadding(new Insets(5, 10, 5, 10));
         DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
-        detailView.add(controlHBox, 0,0);
+        detailView.add(controlHBox, 0, 0);
         detailView.add(detailViewVBox, 0, 1);
         GridPane.setMargin(controlHBox, new Insets(5));
 
@@ -546,6 +521,18 @@ public class MonthViewUI extends BorderPane {
     }
 
 
+    private void initSelectedDayFlowPane() {
+        selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(8);
+        selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
+        selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
+        while (selectedDayFlowPane == null) {
+            selectedDayFlowPane = (DayFlowPane) monthViewGridPane.getChildren().get(
+                    monthViewGridPane.getChildren().indexOf(selectedDayFlowPane) + 1);
+            selectedDayFlowPaneRI = GridPane.getRowIndex(selectedDayFlowPane);
+            selectedDayFlowPaneCI = GridPane.getColumnIndex(selectedDayFlowPane);
+        }
+        selectedDayInfo = selectedDayFlowPane.getDayInfo();
+    }
 
     public int getCurrentMonthIndex() {
         return currentMonthIndex;
@@ -576,11 +563,6 @@ public class MonthViewUI extends BorderPane {
     public GridPane getMonthViewGridPane() {
         return monthViewGridPane;
     }
-
-
-
-
-
 
 
 }

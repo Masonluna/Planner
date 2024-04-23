@@ -41,7 +41,7 @@ public class PlannerEvent implements Serializable {
     // Methods
     @Override
     public String toString() {
-        return String.format("%s\n%s", this.name, this.time);
+        return String.format("%s\n%s\n%s", this.name, this.time, this.description);
     }
 
     // Accessors and Mutators

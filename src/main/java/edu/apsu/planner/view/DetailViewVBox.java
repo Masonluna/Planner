@@ -30,7 +30,7 @@ public class DetailViewVBox extends VBox {
                 case WORK -> paint = Color.FORESTGREEN;
                 case ASSIGNMENT -> paint = Color.PURPLE;
                 case BILL -> paint = Color.RED;
-                case CUSTOM -> paint = Color.AQUA;
+                case CUSTOM -> paint = Color.ORANGE;
             }
             BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
                     new CornerRadii(5), BorderWidths.DEFAULT);

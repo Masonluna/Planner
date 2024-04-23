@@ -62,7 +62,7 @@ public class PlannerApplication extends Application {
         Type billType = new Type(Tag.BILL, billDueSymbolImage, defaultBillSymbol, true);
         types[3] = billType;
 
-        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.AQUA);
+        Rectangle defaultCustomEventSymbol = new Rectangle(20, 20, Color.ORANGE);
         Image customSymbolImage = Type.loadImageIntoLabel("/edu/apsu/planner/symbolPNGResource/icons8-important-100.png");
         Type customEventType = new Type(Tag.CUSTOM, customSymbolImage, defaultCustomEventSymbol, true);
         types[4] = customEventType;

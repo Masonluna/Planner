@@ -32,7 +32,6 @@ public class PlannerApplication extends Application {
     public Scene monthViewScene;
     private MonthViewUI monthViewUI;
     private WeekViewUI weekViewUI;
-    private WelcomePageUI welcomePageUI;
 
 
     @Override
@@ -74,7 +73,6 @@ public class PlannerApplication extends Application {
         stage = new Stage();
         monthViewUI = new MonthViewUI(this);
         weekViewUI = new WeekViewUI(this);
-        welcomePageUI = new WelcomePageUI(this);
         welcomeScene = new Scene(new WelcomePageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);

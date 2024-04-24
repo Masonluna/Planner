@@ -119,6 +119,7 @@ public class FileEventHandler implements EventHandler<ActionEvent> {
     private FileChooser setupFileChooser(String fileType, String fileExtension) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(fileType, fileExtension));
         fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter(fileType, fileExtension));
         return fileChooser;
     }

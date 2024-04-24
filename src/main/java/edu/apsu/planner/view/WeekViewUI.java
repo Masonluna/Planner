@@ -2,7 +2,6 @@ package edu.apsu.planner.view;
 
 import edu.apsu.planner.app.PlannerApplication;
 import edu.apsu.planner.data.DayInfo;
-import edu.apsu.planner.data.MonthInfo;
 import edu.apsu.planner.handler.AddEventHandler;
 import edu.apsu.planner.handler.AddScheduleHandler;
 import edu.apsu.planner.handler.FileEventHandler;
@@ -20,11 +19,9 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class WeekViewUI extends BorderPane {
-    private final int INSET_SIZE = 15;
-    private LocalDate date = LocalDate.now();
     LocalDate currentSunday;
 
-    private PlannerApplication app;
+    private final PlannerApplication app;
     private final DayInfo[] currentWeek = new DayInfo[7];
     private GridPane weekViewGridPane;
     private Label weekLabel;
@@ -34,11 +31,10 @@ public class WeekViewUI extends BorderPane {
         super();
         this.app = app;
 
-        currentSunday = date;
+        currentSunday = LocalDate.now();
         while (currentSunday.getDayOfWeek() != DayOfWeek.SUNDAY) {
             currentSunday = currentSunday.minusDays(1);
         }
-
 
 
         this.setStyle("-fx-background-color: #B7B7B7;");
@@ -51,7 +47,7 @@ public class WeekViewUI extends BorderPane {
     }
 
 
-    public MenuBar createMenuBar(){
+    public MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: #B7B7B7;");
 
@@ -88,7 +84,7 @@ public class WeekViewUI extends BorderPane {
         Menu insertMenu = new Menu("Insert");
         Menu insertSymbol = new Menu("Insert Symbol");
         MenuItem classSymbol = new MenuItem("Class symbol");
-        classSymbol.setOnAction(e->{
+        classSymbol.setOnAction(e -> {
             if (!app.getTypes()[0].isSymbolVisible()) {
                 app.getTypes()[0].setSymbolVisible(true);
                 app.updateUI();
@@ -98,7 +94,7 @@ public class WeekViewUI extends BorderPane {
             }
         });
         MenuItem workSymbol = new MenuItem("Work symbol");
-        workSymbol.setOnAction(e->{
+        workSymbol.setOnAction(e -> {
             if (!app.getTypes()[1].isSymbolVisible()) {
                 app.getTypes()[1].setSymbolVisible(true);
                 app.updateUI();
@@ -108,7 +104,7 @@ public class WeekViewUI extends BorderPane {
             }
         });
         MenuItem assignmentSymbol = new MenuItem("Assignment symbol");
-        assignmentSymbol.setOnAction(e->{
+        assignmentSymbol.setOnAction(e -> {
             if (!app.getTypes()[2].isSymbolVisible()) {
                 app.getTypes()[2].setSymbolVisible(true);
                 app.updateUI();
@@ -118,7 +114,7 @@ public class WeekViewUI extends BorderPane {
             }
         });
         MenuItem billSymbol = new MenuItem("Bill symbol");
-        billSymbol.setOnAction(e->{
+        billSymbol.setOnAction(e -> {
             if (!app.getTypes()[3].isSymbolVisible()) {
                 app.getTypes()[3].setSymbolVisible(true);
                 app.updateUI();
@@ -128,7 +124,7 @@ public class WeekViewUI extends BorderPane {
             }
         });
         MenuItem customSymbol = new MenuItem("Custom symbol");
-        customSymbol.setOnAction(e->{
+        customSymbol.setOnAction(e -> {
             if (!app.getTypes()[4].isSymbolVisible()) {
                 app.getTypes()[4].setSymbolVisible(true);
                 app.updateUI();
@@ -137,19 +133,17 @@ public class WeekViewUI extends BorderPane {
                 app.updateUI();
             }
         });
-        insertSymbol.getItems().addAll(classSymbol, workSymbol,assignmentSymbol,billSymbol,customSymbol);
+        insertSymbol.getItems().addAll(classSymbol, workSymbol, assignmentSymbol, billSymbol, customSymbol);
         insertMenu.getItems().add(insertSymbol);
 
         Menu viewMenu = new Menu("View");
         MenuItem weekViewMenu = new MenuItem("Week View");
 
         MenuItem monthViewMenu = new MenuItem("Month View");
-        monthViewMenu.setOnAction(e -> {
-            app.switchScene(app.monthViewScene);
-        });
+        monthViewMenu.setOnAction(e -> app.switchScene(app.monthViewScene));
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
-        menuBar.getMenus().addAll(fileMenu,addMenu, insertMenu, viewMenu);
+        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu);
 
         return menuBar;
     }
@@ -157,6 +151,7 @@ public class WeekViewUI extends BorderPane {
     public VBox createLeftPane() {
 
         VBox leftPaneVBox = new VBox();
+        int INSET_SIZE = 15;
         leftPaneVBox.setPadding(new Insets(INSET_SIZE));
         leftPaneVBox.setSpacing(10);
         leftPaneVBox.setPadding(new Insets(15));
@@ -164,15 +159,13 @@ public class WeekViewUI extends BorderPane {
         Label filterLabel = new Label("Filter");
         Font filterFont = new Font("Arial", 40);
 
-        Font font = new Font("Arial", 24);
         filterLabel.setFont(filterFont);
 
-        Font font2 = new Font("Arial", 14);
-
+        Font font = new Font("Arial", 14);
 
 
         CheckBox classFilter = new CheckBox("Class Schedule");
-        classFilter.setFont(font2);
+        classFilter.setFont(font);
         classFilter.setStyle("-fx-color: pink;");
         classFilter.setSelected(true);
         classFilter.selectedProperty().bindBidirectional(app.getTypes()[0].isVisibleProperty());
@@ -182,7 +175,7 @@ public class WeekViewUI extends BorderPane {
 
         CheckBox workFilter = new CheckBox("Work Schedule");
         workFilter.setStyle("-fx-color: pink;");
-        workFilter.setFont(font2);
+        workFilter.setFont(font);
         workFilter.setSelected(true);
         workFilter.selectedProperty().bindBidirectional(app.getTypes()[1].isVisibleProperty());
         workFilter.setOnMouseClicked(
@@ -191,7 +184,7 @@ public class WeekViewUI extends BorderPane {
 
 
         CheckBox assignmentFilter = new CheckBox("Assignments Due");
-        assignmentFilter.setFont(font2);
+        assignmentFilter.setFont(font);
         assignmentFilter.setStyle("-fx-color: pink;");
         assignmentFilter.setSelected(true);
         assignmentFilter.selectedProperty().bindBidirectional(app.getTypes()[2].isVisibleProperty());
@@ -201,7 +194,7 @@ public class WeekViewUI extends BorderPane {
 
 
         CheckBox billFilter = new CheckBox("Bill Due");
-        billFilter.setFont(font2);
+        billFilter.setFont(font);
         billFilter.setStyle("-fx-color: pink;");
         billFilter.setSelected(true);
         billFilter.selectedProperty().bindBidirectional(app.getTypes()[3].isVisibleProperty());
@@ -211,7 +204,7 @@ public class WeekViewUI extends BorderPane {
 
 
         CheckBox customEventFilter = new CheckBox("Custom Events");
-        customEventFilter.setFont(font2);
+        customEventFilter.setFont(font);
         customEventFilter.setStyle("-fx-color: pink;");
         customEventFilter.setSelected(true);
         customEventFilter.selectedProperty().bindBidirectional(app.getTypes()[4].isVisibleProperty());
@@ -220,15 +213,13 @@ public class WeekViewUI extends BorderPane {
         );
 
 
-
-
         leftPaneVBox.getChildren().addAll(filterLabel, classFilter, workFilter, assignmentFilter, billFilter, customEventFilter);
 
         return leftPaneVBox;
 
     }
 
-    public VBox createCenterPane(){
+    public VBox createCenterPane() {
 
         VBox centerPaneVBox = new VBox();
         centerPaneVBox.setSpacing(10);
@@ -238,14 +229,13 @@ public class WeekViewUI extends BorderPane {
         labelAndControl.setSpacing(10);
         labelAndControl.setAlignment(Pos.CENTER);
 
-        Font font = new Font("Arial", 22);
-        Font font2 = new Font("Arial", 40);
-        Font font3 = new Font("Arial", 45);
+        Font font1 = new Font("Arial", 40);
+        Font font2 = new Font("Arial", 45);
 
 
         Button leftArrowButton = new Button("<");
-        leftArrowButton.setFont(font3);
-        leftArrowButton.setPrefSize(150,200);
+        leftArrowButton.setFont(font2);
+        leftArrowButton.setPrefSize(150, 200);
         leftArrowButton.setStyle("-fx-background-color: pink;");
         leftArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.minusDays(7);
@@ -254,21 +244,21 @@ public class WeekViewUI extends BorderPane {
         });
 
         weekLabel = new Label();
-        weekLabel.setPrefSize(700,100);
+        weekLabel.setPrefSize(700, 100);
         weekLabel.setAlignment(Pos.CENTER);
-        weekLabel.setFont(font2);
+        weekLabel.setFont(font1);
         Button rightArrowButton = new Button(">");
         rightArrowButton.setStyle("-fx-background-color: pink;");
 
-        rightArrowButton.setFont(font3);
-        rightArrowButton.setPrefSize(150,180);
+        rightArrowButton.setFont(font2);
+        rightArrowButton.setPrefSize(150, 180);
         rightArrowButton.setOnAction(e -> {
             currentSunday = currentSunday.plusDays(7);
             currentSunday = LocalDate.of(2024, currentSunday.getMonth(), currentSunday.getDayOfMonth());
             this.setCenter(createCenterPane());
         });
 
-        labelAndControl.getChildren().addAll(leftArrowButton,weekLabel,rightArrowButton);
+        labelAndControl.getChildren().addAll(leftArrowButton, weekLabel, rightArrowButton);
         createGridPane();
         centerPaneVBox.getChildren().addAll(labelAndControl, weekViewGridPane);
 
@@ -281,39 +271,39 @@ public class WeekViewUI extends BorderPane {
         weekViewGridPane.setGridLinesVisible(false);
         weekViewGridPane.setGridLinesVisible(true);
         weekViewGridPane.setPadding(new Insets(10));
-        weekViewGridPane.setPrefSize(1050,1050);
+        weekViewGridPane.setPrefSize(1050, 1050);
         weekViewGridPane.setAlignment(Pos.CENTER);
 
         Label sundayLabel = new Label("Sunday");
-        sundayLabel.setPrefSize(150,75);
+        sundayLabel.setPrefSize(150, 75);
         sundayLabel.setAlignment(Pos.CENTER);
         sundayLabel.setFont(font);
         Label mondayLabel = new Label("Monday");
-        mondayLabel.setPrefSize(150,75);
+        mondayLabel.setPrefSize(150, 75);
         mondayLabel.setAlignment(Pos.CENTER);
         mondayLabel.setFont(font);
         Label tuesdayLabel = new Label("Tuesday");
-        tuesdayLabel.setPrefSize(150,75);
+        tuesdayLabel.setPrefSize(150, 75);
         tuesdayLabel.setAlignment(Pos.CENTER);
         tuesdayLabel.setFont(font);
         Label wednesdayLabel = new Label("Wednesday");
-        wednesdayLabel.setPrefSize(150,75);
+        wednesdayLabel.setPrefSize(150, 75);
         wednesdayLabel.setAlignment(Pos.CENTER);
         wednesdayLabel.setFont(font);
         Label thursdayLabel = new Label("Thursday");
-        thursdayLabel.setPrefSize(150,75);
+        thursdayLabel.setPrefSize(150, 75);
         thursdayLabel.setAlignment(Pos.CENTER);
         thursdayLabel.setFont(font);
         Label fridayLabel = new Label("Friday");
-        fridayLabel.setPrefSize(150,75);
+        fridayLabel.setPrefSize(150, 75);
         fridayLabel.setAlignment(Pos.CENTER);
         fridayLabel.setFont(font);
         Label saturdayLabel = new Label("Saturday");
-        saturdayLabel.setPrefSize(150,75);
+        saturdayLabel.setPrefSize(150, 75);
         saturdayLabel.setAlignment(Pos.CENTER);
         saturdayLabel.setFont(font);
 
-        weekViewGridPane.add(sundayLabel,0, 0);
+        weekViewGridPane.add(sundayLabel, 0, 0);
         weekViewGridPane.add(mondayLabel, 1, 0);
         weekViewGridPane.add(tuesdayLabel, 2, 0);
         weekViewGridPane.add(wednesdayLabel, 3, 0);
@@ -333,16 +323,11 @@ public class WeekViewUI extends BorderPane {
             weekViewGridPane.add(new DetailViewVBox(app, currentDay), i, 1);
             if (currentDate.plusDays(1).getYear() > currentDate.getYear()) {
                 currentDate = LocalDate.of(2024, Month.JANUARY, 1);
-            }
-            else {
+            } else {
                 currentDate = currentDate.plusDays(1);
             }
         }
         weekLabel.setText(currentWeek[0].getWeekViewString() + " - " + currentWeek[6].getWeekViewString());
 
-    }
-
-    public GridPane getWeekViewGridPane() {
-        return weekViewGridPane;
     }
 }

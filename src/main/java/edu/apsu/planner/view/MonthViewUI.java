@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,8 +38,7 @@ public class MonthViewUI extends BorderPane {
     private Integer selectedDayFlowPaneCI;
     private DayInfo selectedDayInfo;
 
-    private PlannerApplication app;
-    private GridPane detailView;
+    private final PlannerApplication app;
 
     public MonthViewUI(PlannerApplication app) {
         // Set up MonthInfo data
@@ -184,7 +182,7 @@ public class MonthViewUI extends BorderPane {
         Label filterLabel = new Label("Filter");
         Font filterFont = new Font("Arial", 40);
 
-        Font font = new Font("Arial", 24);
+
         filterLabel.setFont(filterFont);
 
         Font font2 = new Font("Arial", 14);
@@ -255,7 +253,6 @@ public class MonthViewUI extends BorderPane {
         labelAndControl.setAlignment(Pos.CENTER);
 
         // Initialize Fonts
-        Font font = new Font("Arial", 22);
         Font font2 = new Font("Arial", 40);
         Font font3 = new Font("Arial", 45);
 
@@ -269,6 +266,43 @@ public class MonthViewUI extends BorderPane {
 
 
         // Instantiate Arrow Buttons
+        Button leftArrowButton = getLeftArrowButton(font3);
+
+
+        Button rightArrowButton = getRightArrowButton(font3);
+
+
+        // Add nodes and data to layouts
+        labelAndControl.getChildren().addAll(leftArrowButton, monthLabel, rightArrowButton);
+        createGridPane(app.getMonths()[currentMonthIndex]);
+        centerPaneVBox.getChildren().addAll(labelAndControl, monthViewGridPane);
+
+
+        return centerPaneVBox;
+    }
+
+    private Button getRightArrowButton(Font font3) {
+        Button rightArrowButton = new Button(">");
+        rightArrowButton.setStyle("-fx-background-color: pink;");
+        rightArrowButton.setFont(font3);
+        rightArrowButton.setPrefSize(150, 100);
+        rightArrowButton.setOnAction(
+                e -> {
+                    if (currentMonthIndex == app.getMonths().length - 1) {
+                        monthLabel.setText(app.getMonths()[0].toString());
+                        currentMonthIndex = 0;
+                    } else {
+                        monthLabel.setText(app.getMonths()[++currentMonthIndex].toString());
+                    }
+                    createGridPane(app.getMonths()[currentMonthIndex]);
+                    initSelectedDayFlowPane();
+                    this.setRight(createRightPane());
+                }
+        );
+        return rightArrowButton;
+    }
+
+    private Button getLeftArrowButton(Font font3) {
         Button leftArrowButton = new Button("<");
         leftArrowButton.setFont(font3);
         leftArrowButton.setPrefSize(150, 100);
@@ -287,34 +321,7 @@ public class MonthViewUI extends BorderPane {
                     this.setRight(createRightPane());
                 }
         );
-
-
-        Button rightArrowButton = new Button(">");
-        rightArrowButton.setStyle("-fx-background-color: pink;");
-        rightArrowButton.setFont(font3);
-        rightArrowButton.setPrefSize(150, 100);
-        rightArrowButton.setOnAction(
-                e -> {
-                    if (currentMonthIndex == app.getMonths().length - 1) {
-                        monthLabel.setText(app.getMonths()[0].toString());
-                        currentMonthIndex = 0;
-                    } else {
-                        monthLabel.setText(app.getMonths()[++currentMonthIndex].toString());
-                    }
-                    createGridPane(app.getMonths()[currentMonthIndex]);
-                    initSelectedDayFlowPane();
-                    this.setRight(createRightPane());
-                }
-        );
-
-
-        // Add nodes and data to layouts
-        labelAndControl.getChildren().addAll(leftArrowButton, monthLabel, rightArrowButton);
-        createGridPane(app.getMonths()[currentMonthIndex]);
-        centerPaneVBox.getChildren().addAll(labelAndControl, monthViewGridPane);
-
-
-        return centerPaneVBox;
+        return leftArrowButton;
     }
 
     public void createGridPane(MonthInfo month) {
@@ -484,6 +491,23 @@ public class MonthViewUI extends BorderPane {
         dayLabel.textAlignmentProperty().set(TextAlignment.CENTER);
         Font font = new Font("Arial", 12);
         dayLabel.setFont(font);
+        Button rightArrowButton = getDetailRightArrowButton(font2);
+
+        controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
+        GridPane detailView = new GridPane();
+        detailView.setGridLinesVisible(true);
+        //detailView.setPadding(new Insets(5, 10, 5, 10));
+        DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
+        detailView.add(controlHBox, 0, 0);
+        detailView.add(detailViewVBox, 0, 1);
+        GridPane.setMargin(controlHBox, new Insets(5));
+
+        rightPaneVBox.getChildren().add(detailView);
+
+        return rightPaneVBox;
+    }
+
+    private Button getDetailRightArrowButton(Font font2) {
         Button rightArrowButton = new Button(">");
         rightArrowButton.setStyle("-fx-background-color: pink;");
         rightArrowButton.setFont(font2);
@@ -505,19 +529,7 @@ public class MonthViewUI extends BorderPane {
             dayLabel.setText(selectedDayInfo.toString());
             app.updateUI();
         });
-
-        controlHBox.getChildren().addAll(leftArrowButton, dayLabel, rightArrowButton);
-        detailView = new GridPane();
-        detailView.setGridLinesVisible(true);
-        //detailView.setPadding(new Insets(5, 10, 5, 10));
-        DetailViewVBox detailViewVBox = new DetailViewVBox(app, selectedDayInfo);
-        detailView.add(controlHBox, 0, 0);
-        detailView.add(detailViewVBox, 0, 1);
-        GridPane.setMargin(controlHBox, new Insets(5));
-
-        rightPaneVBox.getChildren().add(detailView);
-
-        return rightPaneVBox;
+        return rightArrowButton;
     }
 
 
@@ -538,13 +550,6 @@ public class MonthViewUI extends BorderPane {
         return currentMonthIndex;
     }
 
-    public Stage getStage() {
-        return app.getStage();
-    }
-
-    public DayFlowPane getSelectedDayFlowPane() {
-        return selectedDayFlowPane;
-    }
 
     public void setSelectedDayFlowPane(DayFlowPane selectedDayFlowPane) {
         this.selectedDayFlowPane = selectedDayFlowPane;

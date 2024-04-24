@@ -24,17 +24,7 @@ public class DetailViewVBox extends VBox {
         this.setPrefHeight(600);
 
         for (PlannerEvent event : day.getEvents()) {
-            Paint paint = null;
-            switch(event.getTag())
-            {
-                case CLASS -> paint = Color.BLUE;
-                case WORK -> paint = Color.FORESTGREEN;
-                case ASSIGNMENT -> paint = Color.PURPLE;
-                case BILL -> paint = Color.RED;
-                case CUSTOM -> paint = Color.DARKORANGE;
-            }
-            BorderStroke borderStroke = new BorderStroke(paint, BorderStrokeStyle.SOLID,
-                    new CornerRadii(5), BorderWidths.DEFAULT);
+            BorderStroke borderStroke = getBorderStroke(event);
             heightMultiplier = getHeightMultiplier(event);
             Label eventLabel;
             if (heightMultiplier < 2)
@@ -43,7 +33,7 @@ public class DetailViewVBox extends VBox {
                 eventLabel = new Label(event.toStringWithDescription());
             eventLabel.setPrefWidth(130);
             eventLabel.setWrapText(true);
-            eventLabel.setPadding(new Insets(10, 5, 10, 5));
+            eventLabel.setPadding(new Insets(2));
             eventLabel.setBorder(new Border(borderStroke));
             if (heightMultiplier > 0)
                 eventLabel.setPrefHeight(60 * heightMultiplier);
@@ -55,26 +45,41 @@ public class DetailViewVBox extends VBox {
 
     }
 
+    private BorderStroke getBorderStroke(PlannerEvent event) {
+        Paint paint = null;
+        switch(event.getTag())
+        {
+            case CLASS -> paint = Color.BLUE;
+            case WORK -> paint = Color.FORESTGREEN;
+            case ASSIGNMENT -> paint = Color.PURPLE;
+            case BILL -> paint = Color.RED;
+            case CUSTOM -> paint = Color.DARKORANGE;
+        }
+        return new BorderStroke(paint, BorderStrokeStyle.SOLID,
+                new CornerRadii(5), BorderWidths.DEFAULT);
+    }
+
     private double getHeightMultiplier(PlannerEvent event) {
         double heightMultiplier;
         int endingMinute = event.getEndingMinute();
-        System.out.println("Ending Minute: " + endingMinute);
         if (event.getEndingMinute() == 0) {
             endingMinute = 60;
         }
         double minutePercentage = (endingMinute - event.getStartingMinute()) / 60.0;
-        System.out.println(minutePercentage);
         if (minutePercentage == 1)
             minutePercentage = 0;
         if (event.getStartingAmOrPm().equals(event.getEndingAmOrPm())) {
-            System.out.println("First if statement");
             if (event.getStartingHour() == event.getEndingHour()) {
                 heightMultiplier = 0;
             }
             else if (event.getStartingHour() == 12) {
                 heightMultiplier = event.getEndingHour();
             } else
-                heightMultiplier = event.getEndingHour() - event.getStartingHour() + minutePercentage;
+                if (event.getStartingMinute() > event.getEndingMinute()) {
+                    heightMultiplier = event.getEndingHour() - event.getStartingHour() + minutePercentage - 1;
+                } else {
+                    heightMultiplier = event.getEndingHour() - event.getStartingHour() + minutePercentage;
+                }
         } else {
             int preNoonDuration;
             int postNoonDuration;
@@ -86,10 +91,7 @@ public class DetailViewVBox extends VBox {
                 postNoonDuration = 0;
             else
                 postNoonDuration = event.getEndingHour();
-            if (minutePercentage != 1.0) {
-                heightMultiplier = preNoonDuration + postNoonDuration + minutePercentage;
-            } else
-                heightMultiplier = preNoonDuration + postNoonDuration + minutePercentage;
+            heightMultiplier = preNoonDuration + postNoonDuration + minutePercentage;
         }
         return heightMultiplier;
     }

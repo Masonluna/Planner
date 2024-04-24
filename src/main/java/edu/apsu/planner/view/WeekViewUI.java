@@ -143,7 +143,16 @@ public class WeekViewUI extends BorderPane {
         monthViewMenu.setOnAction(e -> app.switchScene(app.monthViewScene));
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
-        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu);
+        Menu userMenu = new Menu("User");
+        MenuItem switchUserMenuItem = new MenuItem("Switch User");
+        switchUserMenuItem.setOnAction(e -> {
+            fileEventHandler.newPlanner();
+            app.switchScene(app.getWelcomeScene());
+        });
+        userMenu.getItems().add(switchUserMenuItem);
+
+
+        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu, userMenu);
 
         return menuBar;
     }

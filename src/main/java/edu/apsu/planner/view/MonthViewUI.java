@@ -166,8 +166,15 @@ public class MonthViewUI extends BorderPane {
         MenuItem monthViewMenu = new MenuItem("Month View");
         viewMenu.getItems().addAll(weekViewMenu, monthViewMenu);
 
+        Menu userMenu = new Menu("User");
+        MenuItem switchUserMenuItem = new MenuItem("Switch User");
+        switchUserMenuItem.setOnAction(e -> {
+            fileEventHandler.newPlanner();
+            app.switchScene(app.getWelcomeScene());
+        });
+        userMenu.getItems().add(switchUserMenuItem);
 
-        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu);
+        menuBar.getMenus().addAll(fileMenu, addMenu, insertMenu, viewMenu, userMenu);
 
         return menuBar;
     }

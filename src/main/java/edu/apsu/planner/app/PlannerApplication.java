@@ -32,6 +32,7 @@ public class PlannerApplication extends Application {
     public Scene monthViewScene;
     private MonthViewUI monthViewUI;
     private WeekViewUI weekViewUI;
+    private WelcomePageUI welcomePageUI;
 
 
     @Override
@@ -73,6 +74,7 @@ public class PlannerApplication extends Application {
         stage = new Stage();
         monthViewUI = new MonthViewUI(this);
         weekViewUI = new WeekViewUI(this);
+        welcomePageUI = new WelcomePageUI(this);
         welcomeScene = new Scene(new WelcomePageUI(this));
         weekViewScene = new Scene(weekViewUI);
         monthViewScene = new Scene(monthViewUI);
@@ -83,6 +85,13 @@ public class PlannerApplication extends Application {
     }
 
     public void switchScene(Scene scene) {
+        if (scene.equals(welcomeScene)) {
+            stage.setMaxWidth(1000);
+            stage.setMaxHeight(600);
+        } else {
+            stage.setMaxHeight(Integer.MAX_VALUE);
+            stage.setMaxWidth(Integer.MAX_VALUE);
+        }
         stage.setScene(scene);
         stage.setMaximized(false);
         stage.setMaximized(scene.equals(weekViewScene) || scene.equals(monthViewScene));
